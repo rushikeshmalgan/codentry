@@ -1,0 +1,22 @@
+# Render Blueprint for services/ai-review.
+# Apply via Render's "New Blueprint Instance" flow pointed at this repo, or
+# configure the equivalent settings manually in the Render dashboard — see
+# docs/deployment.md for the manual steps and required environment variables.
+
+services:
+  - type: web
+    name: codentry-ai-review
+    runtime: python
+    rootDir: services/ai-review
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      # Secrets (GITHUB_APP_*, INTERNAL_HANDOFF_SECRET, SUPABASE_*,
+      # CLAUDE_API_KEY) are set manually in the Render dashboard, never
+      # committed here. Not needed until Phase 2/4/9.

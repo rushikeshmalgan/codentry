@@ -1,0 +1,16 @@
+{
+  "name": "codentry",
+  "private": true,
+  "description": "Codentry — an AI-powered GitHub code review assistant. Monorepo root.",
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "web:dev": "npm run dev --workspace apps/web",
+    "web:build": "npm run build --workspace apps/web",
+    "web:start": "npm run start --workspace apps/web",
+    "web:lint": "npm run lint --workspace apps/web",
+    "web:typecheck": "npm run typecheck --workspace apps/web",
+    "web:test": "npm run test --workspace apps/web"
+  }
+}

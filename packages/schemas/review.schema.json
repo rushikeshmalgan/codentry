@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codentry.dev/schemas/finding.schema.json",
+  "title": "Codentry Finding",
+  "description": "The normalized shape every static-analysis or AI finding must conform to before being stored or posted to a PR. Source of truth for both the Python (services/ai-review) and TypeScript (apps/web) sides. Introduced in Phase 1 as a documented contract only; first consumed by code in Phase 3 (static findings) and Phase 4 (AI findings).",
+  "type": "object",
+  "required": ["source", "category", "severity", "title", "description", "file", "start_line", "end_line"],
+  "additionalProperties": false,
+  "properties": {
+    "source": {
+      "type": "string",
+      "enum": ["ESLINT", "SEMGREP", "AI"],
+      "description": "Which layer produced this finding. Required so every finding is independently attributable (PRD FR-4)."
+    },
+    "category": {
+      "type": "string",
+      "enum": ["correctness", "security", "logic", "cross_file", "architecture", "performance", "style"]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low", "info"]
+    },
+    "confidence": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Required for AI findings (PRD FR-5). Always null for ESLINT/SEMGREP findings, which have no notion of confidence."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "file": {
+      "type": "string",
+      "minLength": 1
+    },
+    "start_line": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "end_line": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "suggestion": {
+      "type": ["string", "null"],
+      "description": "Prose only, never a diff/patch — Codentry never auto-applies a fix."
+    },
+    "reasoning": {
+      "type": ["string", "null"],
+      "description": "AI findings only. Short explanation of why the model flagged this."
+    },
+    "evidence_span": {
+      "type": ["string", "null"],
+      "description": "AI findings only. The exact code text the finding refers to, cross-checked against the real file content at start_line-end_line as a hallucination guard (Phase 4)."
+    }
+  }
+}
