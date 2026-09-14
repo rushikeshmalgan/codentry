@@ -18,7 +18,9 @@ INTERNAL_SECRET_HEADER = "x-codentry-internal-secret"
 
 
 def require_internal_secret(
-    x_codentry_internal_secret: str | None = Header(default=None, alias="X-Codentry-Internal-Secret"),
+    x_codentry_internal_secret: str | None = Header(
+        default=None, alias="X-Codentry-Internal-Secret"
+    ),
 ) -> None:
     settings = get_settings()
     configured = settings.codentry_internal_webhook_secret
@@ -34,8 +36,12 @@ def require_internal_secret(
 
     if not x_codentry_internal_secret:
         logger.warning("internal_auth_rejected reason=missing_header")
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="missing_internal_secret")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="missing_internal_secret"
+        )
 
     if not hmac.compare_digest(x_codentry_internal_secret, configured):
         logger.warning("internal_auth_rejected reason=invalid_secret")
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="invalid_internal_secret")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="invalid_internal_secret"
+        )

@@ -310,18 +310,24 @@ Completed:
 * Vercel → Render network path
 * Environment variable configuration
 
-### Phase 2 — GitHub Integration 🚧
+### Phase 2 — GitHub Integration ✅ (code) / ⚠️ (App registration pending)
 
-Planned/under development:
+Completed:
 
-* GitHub App
-* GitHub webhook verification
-* Installation management
-* Repository management
-* Pull Request tracking
-* Review-run tracking
-* Async Vercel → Render handoff
-* GitHub PR event handling
+* Public webhook receiver with raw-body HMAC-SHA256 verification (constant-time compare)
+* Durable, DB-backed replay protection (`webhook_deliveries`, unique on `delivery_id`)
+* Authenticated Vercel → Render internal handoff (`X-Codentry-Internal-Secret`, distinct from the GitHub webhook secret)
+* Installation / repository / pull-request bookkeeping, with repository activation (`is_active`)
+* Async placeholder pipeline: `review_runs` goes `pending → running → completed` with 0 findings, latency measured
+* GitHub App JWT + installation-token authentication module (implemented, unit-tested — not yet called by the pipeline; nothing to fetch/post until Phase 3/5)
+* Internal review-run status endpoint, internal installations debug view, public setup/info page
+* 39 backend tests + 26 frontend tests, all green; verified end-to-end locally with real HMAC signatures against both services actually running
+
+Not yet done — **USER ACTION REQUIRED**: no real GitHub App has been
+registered (needs an account with GitHub admin access). See
+`docs/github-app-setup.md` for the exact configuration and
+`docs/staging-test-phase2.md` for the staging verification procedure once
+it exists.
 
 ### Phase 3 — Static Analysis
 

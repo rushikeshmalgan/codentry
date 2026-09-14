@@ -1,8 +1,9 @@
 """Codentry ai-review service entrypoint.
 
-Phase 1 scope only: a health endpoint and logging/config wiring. Static
-analysis (Phase 3), the Claude review engine (Phase 4), and the GitHub
-webhook receiver (Phase 2) are deliberately not implemented here yet.
+Phase 2 scope: GitHub App webhook bookkeeping and the async placeholder
+pipeline (pending -> running -> completed, 0 findings). Static analysis
+(Phase 3), the Claude review engine (Phase 4), and actually posting to
+GitHub (Phase 5) are deliberately not implemented here yet.
 """
 
 import logging
@@ -12,6 +13,7 @@ from fastapi import FastAPI
 
 from app.config import get_settings
 from app.logging import configure_logging
+from app.routes_internal import router as internal_router
 
 settings = get_settings()
 configure_logging(settings.log_level)
@@ -34,6 +36,8 @@ app = FastAPI(
     version=settings.service_version,
     lifespan=lifespan,
 )
+
+app.include_router(internal_router)
 
 
 @app.get("/health")

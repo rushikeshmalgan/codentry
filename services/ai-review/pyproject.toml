@@ -7,3 +7,8 @@ target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+# Test fixture calls with long keyword-argument chains read better on one
+# line than wrapped; production code still holds to the 100-char limit.
+"tests/*" = ["E501"]

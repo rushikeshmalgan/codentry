@@ -589,7 +589,9 @@ def get_store() -> ReviewStore:
         settings = get_settings()
         if settings.supabase_url and settings.supabase_service_role_key:
             logger.info("store_backend=supabase")
-            _singleton = SupabaseReviewStore(settings.supabase_url, settings.supabase_service_role_key)
+            _singleton = SupabaseReviewStore(
+                settings.supabase_url, settings.supabase_service_role_key
+            )
         else:
             logger.warning(
                 "store_backend=in_memory reason=supabase_not_configured "

@@ -10,10 +10,15 @@ rather than something automated here.
 2. Set **Root Directory** to `apps/web` (required — this is a monorepo).
 3. Framework preset: Next.js (auto-detected once the root directory is set).
 4. Environment variables (Project Settings → Environment Variables):
-   - `AI_REVIEW_SERVICE_URL` = the deployed Render service URL (e.g.
+   - `NEXT_PUBLIC_API_BASE_URL` = the deployed Render service URL (e.g.
      `https://codentry-ai-review.onrender.com`).
+   - `GITHUB_WEBHOOK_SECRET` — see `docs/github-app-setup.md`.
+   - `CODENTRY_INTERNAL_WEBHOOK_SECRET` — a value you generate yourself;
+     must exactly match the same variable on Render.
 5. Deploy. `/` should render the status page; `/api/status` should report
-   `backend: "ok"` once Render is also deployed.
+   `backend: "ok"` once Render is also deployed. `/api/github/webhook`
+   should return 503 until `GITHUB_WEBHOOK_SECRET` is set, then 401 for any
+   unsigned request — never 501 (that was the Phase 1 stub).
 
 ## Render — services/ai-review
 
@@ -32,8 +37,14 @@ so they're never committed):
 
 - `ENVIRONMENT=production`
 - `LOG_LEVEL=INFO`
-- Everything else in `.env.example` under "Not used until Phase N" — leave
-  unset until the corresponding phase actually reads it.
+- `CODENTRY_INTERNAL_WEBHOOK_SECRET` — must exactly match the value set on Vercel.
+- `GITHUB_APP_ID`, `GITHUB_PRIVATE_KEY` — see `docs/github-app-setup.md`.
+- `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` — see `supabase/README.md`.
+  **If these are left unset, the service falls back to an in-memory store**
+  (logged loudly at startup as a warning) — every review run and
+  installation record is lost on every restart/deploy. Fine for a first
+  smoke test, not acceptable for anything real.
+- `CLAUDE_API_KEY` — leave unset until Phase 4.
 
 Note: Render's free tier spins down an idle service. The first request after
 idling will be slow (cold start). This is measured properly in Phase 7, not
@@ -42,4 +53,12 @@ worked around here.
 ## Supabase
 
 See `supabase/README.md` — project creation and migration application are
-manual steps, not part of this deployment doc.
+manual steps, not part of this deployment doc. Two migrations exist so far:
+`0001_enable_pgvector.sql` and `0002_github_app_bookkeeping.sql`; apply both,
+in order.
+
+## GitHub App
+
+See `docs/github-app-setup.md` (marked USER ACTION REQUIRED — not created in
+this environment) and `docs/staging-test-phase2.md` for the manual
+verification procedure once everything above is deployed.

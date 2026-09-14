@@ -13,7 +13,7 @@ const DEFAULT_BACKEND_URL = "http://localhost:8000";
 const REQUEST_TIMEOUT_MS = 3000;
 
 function getBackendBaseUrl(): string {
-  return process.env.AI_REVIEW_SERVICE_URL ?? DEFAULT_BACKEND_URL;
+  return process.env.NEXT_PUBLIC_API_BASE_URL ?? DEFAULT_BACKEND_URL;
 }
 
 export async function getBackendHealth(): Promise<BackendHealth> {
