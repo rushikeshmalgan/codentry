@@ -1,18 +1,17 @@
 import { NextResponse } from "next/server";
 import { getBackendHealth } from "@/lib/backend";
 
-// Phase 1 scaffold endpoint proving the apps/web -> services/ai-review
-// network path is real. Not part of the GitHub review pipeline — that
-// arrives in Phase 2 onward.
+// Public liveness endpoint proving the apps/web -> services/ai-review network
+// path is real. It is unauthenticated, so it reports ONLY "ok" or
+// "unreachable": never the backend's URL, an error message, a status code, or
+// any field of the backend's own response. Diagnostic detail goes to the
+// server log (lib/backend.ts), not to the caller.
 export async function GET() {
   const backend = await getBackendHealth();
 
   if (!backend.ok) {
-    return NextResponse.json(
-      { web: "ok", backend: "unreachable", detail: backend.error },
-      { status: 503 },
-    );
+    return NextResponse.json({ web: "ok", backend: "unreachable" }, { status: 503 });
   }
 
-  return NextResponse.json({ web: "ok", backend: "ok", backendHealth: backend.data });
+  return NextResponse.json({ web: "ok", backend: "ok" });
 }

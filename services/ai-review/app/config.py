@@ -13,7 +13,13 @@ one obvious place to look for "what does this env var actually feed."
 
 from functools import lru_cache
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# The only environments where volatile in-memory state and interactive API
+# docs are acceptable. Anything else (production, staging, or a typo) is
+# treated as production-like: it must have a durable store and stays closed.
+_LOOSE_ENVIRONMENTS = frozenset({"development", "test"})
 
 
 class Settings(BaseSettings):
@@ -45,8 +51,50 @@ class Settings(BaseSettings):
     # Backend-only. Must never reach apps/web's client bundle.
     supabase_service_role_key: str | None = None
 
-    # --- Not read until Phase 4 (Claude AI review engine) ---
+    # --- Durable review worker (Phase 0) ---
+    # A single in-process thread polls review_runs for due jobs. Disabled in
+    # tests (which drive it directly); enable/disable explicitly elsewhere.
+    worker_enabled: bool = True
+    worker_poll_seconds: float = 2.0
+    # How long a claimed job is owned before another worker may reclaim it.
+    # Must exceed the worst-case analysis time; the worker also extends it.
+    job_lease_seconds: int = 600
+    job_max_attempts: int = 3
+
+    # --- Not read until a later phase (AI review is NOT part of Phase 0) ---
     claude_api_key: str | None = None
+
+    @field_validator("environment")
+    @classmethod
+    def _normalize_environment(cls, value: str) -> str:
+        return value.strip().lower()
+
+    @property
+    def is_loose_environment(self) -> bool:
+        return self.environment in _LOOSE_ENVIRONMENTS
+
+    @property
+    def in_memory_store_allowed(self) -> bool:
+        return self.is_loose_environment
+
+    @property
+    def api_docs_enabled(self) -> bool:
+        return self.is_loose_environment
+
+    @property
+    def supabase_configured(self) -> bool:
+        return bool(self.supabase_url and self.supabase_service_role_key)
+
+    def startup_problems(self) -> list[str]:
+        """Misconfigurations that must stop a production-like service from
+        starting rather than let it run degraded and look healthy."""
+        problems: list[str] = []
+        if not self.is_loose_environment:
+            if not self.supabase_configured:
+                problems.append("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required")
+            if not self.codentry_internal_webhook_secret:
+                problems.append("CODENTRY_INTERNAL_WEBHOOK_SECRET is required")
+        return problems
 
 
 @lru_cache

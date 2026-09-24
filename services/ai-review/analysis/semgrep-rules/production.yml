@@ -1,0 +1,80 @@
+# Codentry production ruleset — a SMALL, HAND-WRITTEN baseline.
+#
+# These are the rules the "Semgrep" evaluation arm actually runs. They are
+# not Semgrep's registry packs and must never be reported as "Semgrep's
+# performance" — see README.md in this directory. Every rule here must have a
+# true-positive AND a false-positive-guard test in
+# tests/test_semgrep_ruleset.py. Toy/experimental rules do not belong in this
+# file; test-only rules live under tests/.
+rules:
+  - id: hardcoded-secret
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "Credential-like string literal assigned to a variable named like a secret, password, or API key."
+    metadata:
+      category: security
+      ruleset: codentry-baseline
+    patterns:
+      - pattern: $VAR = "$VAL"
+      - metavariable-regex:
+          metavariable: $VAR
+          regex: (?i)^.*(secret|passw(or)?d|passwd|api[_-]?key|access[_-]?key|private[_-]?key|auth[_-]?token|(^|_)token)$
+      - metavariable-regex:
+          metavariable: $VAL
+          regex: ^[A-Za-z0-9_\-+/=.]{12,}$
+
+  - id: eval-usage
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "eval() executes a string as code and can lead to remote code execution if the input is not fully trusted."
+    metadata:
+      category: security
+      ruleset: codentry-baseline
+    pattern: eval(...)
+
+  - id: new-function-usage
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "new Function(...) compiles a string into code and carries the same injection risk as eval()."
+    metadata:
+      category: security
+      ruleset: codentry-baseline
+    pattern: new Function(...)
+
+  - id: child-process-exec-non-literal
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "child_process.exec() runs its argument through a shell; a non-literal command can lead to command injection. Prefer execFile/spawn with an argument array."
+    metadata:
+      category: security
+      ruleset: codentry-baseline
+    patterns:
+      - pattern: $CP.exec($CMD, ...)
+      - pattern-not: $CP.exec("...", ...)
+      - metavariable-regex:
+          metavariable: $CP
+          regex: ^(child_process|cp|childProcess)$
+
+  - id: sql-string-concatenation
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "A SQL statement is being built by string concatenation, which risks SQL injection; use parameterized queries instead."
+    metadata:
+      category: security
+      ruleset: codentry-baseline
+    patterns:
+      - pattern: '"$SQL" + $X'
+      - metavariable-regex:
+          metavariable: $SQL
+          regex: (?is)^\s*(select|insert\s+into|update|delete\s+from)\b.*
+
+  - id: innerhtml-assignment
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: "Assigning a non-literal value to innerHTML can lead to cross-site scripting; use textContent or a sanitizer."
+    metadata:
+      category: security
+      ruleset: codentry-baseline
+    patterns:
+      - pattern: $EL.innerHTML = $VALUE
+      - pattern-not: $EL.innerHTML = "..."

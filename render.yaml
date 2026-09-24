@@ -23,6 +23,10 @@ services:
         value: production
       - key: LOG_LEVEL
         value: INFO
-      # Secrets (GITHUB_APP_*, INTERNAL_HANDOFF_SECRET, SUPABASE_*,
-      # CLAUDE_API_KEY) are set manually in the Render dashboard, never
-      # committed here. Not needed until Phase 2/4/9.
+      # Secrets (GITHUB_APP_ID, GITHUB_PRIVATE_KEY, CODENTRY_INTERNAL_WEBHOOK_SECRET,
+      # SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY) are set manually in the Render
+      # dashboard, never committed here.
+      # Phase 0: with ENVIRONMENT=production the service REFUSES TO START unless
+      # SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY and CODENTRY_INTERNAL_WEBHOOK_SECRET
+      # are set (no in-memory fallback). Apply supabase/migrations/0001-0004 first.
+      # There is no AI review, so no CLAUDE_API_KEY is needed.

@@ -1,51 +1,13 @@
-from analysis.finding import Finding, compute_dedup_hash
+"""Finding model contract. Identity behavior lives in tests/test_identity.py."""
+
+import pytest
+from pydantic import ValidationError
+
+from analysis.finding import Finding
 
 
-def test_dedup_hash_is_deterministic():
-    h1 = compute_dedup_hash("ESLINT", "src/a.js", 3, 3, "no-unused-vars")
-    h2 = compute_dedup_hash("ESLINT", "src/a.js", 3, 3, "no-unused-vars")
-    assert h1 == h2
-
-
-def test_dedup_hash_differs_on_any_stable_field_change():
-    base = compute_dedup_hash("ESLINT", "src/a.js", 3, 3, "no-unused-vars")
-    assert compute_dedup_hash("SEMGREP", "src/a.js", 3, 3, "no-unused-vars") != base
-    assert compute_dedup_hash("ESLINT", "src/b.js", 3, 3, "no-unused-vars") != base
-    assert compute_dedup_hash("ESLINT", "src/a.js", 4, 4, "no-unused-vars") != base
-    assert compute_dedup_hash("ESLINT", "src/a.js", 3, 3, "no-undef") != base
-
-
-def test_dedup_hash_excludes_message_text_and_timestamps():
-    """The hash is computed only from (source, file_path, start_line, end_line,
-    rule_id) — nothing time-based or message-text-based feeds it, so the
-    same underlying issue hashes identically even if the tool's wording
-    changes between versions."""
-    h1 = compute_dedup_hash("ESLINT", "src/a.js", 3, 3, "no-unused-vars")
-    h2 = compute_dedup_hash("ESLINT", "src/a.js", 3, 3, "no-unused-vars")
-    assert h1 == h2
-    assert len(h1) == 64  # sha256 hexdigest length, sanity check it's a real hash
-
-
-def test_finding_rejects_invalid_category():
-    import pytest
-    from pydantic import ValidationError
-
-    with pytest.raises(ValidationError):
-        Finding(
-            source="ESLINT",
-            category="not-a-real-category",
-            severity="high",
-            title="x",
-            description="x",
-            file_path="a.js",
-            start_line=1,
-            end_line=1,
-            dedup_hash="x",
-        )
-
-
-def test_finding_static_source_has_null_confidence_reasoning_evidence():
-    f = Finding(
+def _finding(**overrides):
+    base = dict(
         source="ESLINT",
         category="correctness",
         severity="high",
@@ -54,9 +16,34 @@ def test_finding_static_source_has_null_confidence_reasoning_evidence():
         file_path="a.js",
         start_line=1,
         end_line=1,
-        dedup_hash=compute_dedup_hash("ESLINT", "a.js", 1, 1, "no-undef"),
     )
+    base.update(overrides)
+    return Finding(**base)
+
+
+def test_finding_rejects_invalid_category():
+    with pytest.raises(ValidationError):
+        _finding(category="not-a-real-category")
+
+
+def test_finding_static_source_has_null_confidence_reasoning_evidence():
+    f = _finding()
     assert f.confidence is None
     assert f.reasoning is None
     assert f.evidence_span is None
     assert f.suggestion is None
+
+
+def test_finding_differential_fields_default_to_unclassified():
+    """A finding not produced by the differential step must not claim to be new."""
+    f = _finding()
+    assert f.change_status is None
+    assert f.moved is False
+    assert f.in_diff is False
+    assert f.base_start_line is None
+    assert f.identity_key is None
+
+
+def test_finding_rejects_invalid_change_status():
+    with pytest.raises(ValidationError):
+        _finding(change_status="brand-new")

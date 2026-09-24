@@ -23,23 +23,24 @@ export default async function SetupPage({ searchParams }: SetupPageProps) {
         </p>
       ) : (
         <p>
-          Codentry is a GitHub App that automatically reviews pull requests by combining
-          deterministic static analysis (ESLint, Semgrep) with AI judgment (Claude) — and posts
-          findings directly as comments on the pull request itself. There is no separate
-          dashboard you need to check.
+          Codentry is a GitHub App that analyzes pull requests with deterministic static analysis
+          (ESLint and a small hand-written Semgrep ruleset) and works out which findings a change
+          actually introduces, as opposed to problems that were already in the code. It is an
+          early, measurement-focused project: an AI reviewer is planned only after there is a way to
+          measure whether it helps.
         </p>
       )}
 
       <h2>What installing Codentry does</h2>
       <ul>
-        <li>Every pull request opened, updated, or reopened on a selected repository is reviewed automatically.</li>
-        <li>Findings are posted as comments on the pull request — nothing to install locally, nothing else to configure.</li>
+        <li>Every pull request opened, updated, or reopened on a selected repository is analyzed automatically.</li>
+        <li>Results are recorded for the Codentry team. Posting findings as comments on the pull request is not implemented yet.</li>
         <li>Codentry never approves, merges, or modifies code. A human always makes that decision.</li>
       </ul>
 
       <h2>Permissions Codentry requests</h2>
       <ul>
-        <li><strong>Pull requests:</strong> Read &amp; write — to read PR content and post review comments.</li>
+        <li><strong>Pull requests:</strong> Read &amp; write — read access is used today; write access is requested for the planned comment feature and is not used yet.</li>
         <li><strong>Contents:</strong> Read-only — to fetch the files changed in a PR.</li>
         <li><strong>Metadata:</strong> Read-only — required by GitHub for every App.</li>
       </ul>

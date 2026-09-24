@@ -8,7 +8,11 @@ export default async function HomePage() {
   return (
     <main>
       <h1>Codentry</h1>
-      <p>AI-powered GitHub code review assistant — Phase 1 foundation.</p>
+      <p>
+        Evidence-first GitHub pull-request analysis: differential static analysis (ESLint and a
+        small Semgrep ruleset) that reports what a change introduces. Foundation-hardening phase —
+        there is no AI reviewer yet.
+      </p>
 
       <h2>Service status</h2>
       <div className="status-row">
@@ -17,13 +21,12 @@ export default async function HomePage() {
       </div>
       <div className="status-row">
         <span className={`dot ${backend.ok ? "ok" : "down"}`} />
-        services/ai-review: {backend.ok ? "ok" : `unreachable (${backend.error})`}
+        services/ai-review: {backend.ok ? "ok" : "unreachable"}
       </div>
 
       <p>
-        No GitHub review functionality exists yet — this page only proves the
-        frontend can reach the backend. See <code>docs/</code> for the full
-        roadmap.
+        This page only proves the frontend can reach the backend. Comments are not posted to pull
+        requests yet. See <code>docs/architecture.md</code> for what exists and what does not.
       </p>
     </main>
   );

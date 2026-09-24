@@ -40,7 +40,7 @@ either a Dockerfile installing both runtimes, or Render's Node runtime
 shelling out to `python3` instead. Semgrep alone (pure pip install) works
 regardless — a repo without Node available would still get Semgrep findings,
 just no ESLint ones, which `analysis/static_analysis.py` already handles as
-a `partial_failure`, not a crash.
+a `partial` review run (tool failed), not a crash.
 
 Environment variables to set in the Render dashboard (not in `render.yaml`,
 so they're never committed):
@@ -50,11 +50,29 @@ so they're never committed):
 - `CODENTRY_INTERNAL_WEBHOOK_SECRET` — must exactly match the value set on Vercel.
 - `GITHUB_APP_ID`, `GITHUB_PRIVATE_KEY` — see `docs/github-app-setup.md`.
 - `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` — see `supabase/README.md`.
-  **If these are left unset, the service falls back to an in-memory store**
-  (logged loudly at startup as a warning) — every review run and
-  installation record is lost on every restart/deploy. Fine for a first
-  smoke test, not acceptable for anything real.
-- `CLAUDE_API_KEY` — leave unset until Phase 4.
+  **Required.** With `ENVIRONMENT=production` (or anything other than
+  `development`/`test`, including a typo) the service **refuses to start**
+  without these and without `CODENTRY_INTERNAL_WEBHOOK_SECRET`. The in-memory
+  store exists only for local development and tests (Phase 0 changed this from
+  a warn-and-continue fallback that silently lost every event and job on
+  restart).
+- Optional worker tuning: `WORKER_ENABLED` (default `true`),
+  `WORKER_POLL_SECONDS` (`2.0`), `JOB_LEASE_SECONDS` (`600`),
+  `JOB_MAX_ATTEMPTS` (`3`).
+- `CLAUDE_API_KEY` — leave unset. There is no AI review in this codebase.
+
+The review worker is a single thread inside this web process. Render's free
+tier spins the process down when idle, so a job enqueued just before sleep waits
+for the next wake-up (the job is a database row and survives), and
+GitHub events that arrive while the service is asleep are the "Vercel-side inbox
+gap" described in `docs/architecture.md` (known gap #1).
+
+Also set on **Vercel** (`apps/web`) only if you want the internal debug page:
+
+- `INTERNAL_PAGES_ENABLED=true`, `INTERNAL_PAGES_USER`, `INTERNAL_PAGES_PASSWORD`.
+  Without `INTERNAL_PAGES_ENABLED=true` the page is a 404. With it enabled but
+  the credentials unset it is a 503 (fails closed). Use a long random password;
+  this is HTTP Basic auth, adequate for a team-only debug view and nothing more.
 
 Note: Render's free tier spins down an idle service. The first request after
 idling will be slow (cold start). This is measured properly in Phase 7, not
@@ -63,9 +81,12 @@ worked around here.
 ## Supabase
 
 See `supabase/README.md` — project creation and migration application are
-manual steps, not part of this deployment doc. Three migrations exist so
-far: `0001_enable_pgvector.sql`, `0002_github_app_bookkeeping.sql`, and
-`0003_findings.sql`; apply all three, in order.
+manual steps, not part of this deployment doc. Four migrations exist so
+far: `0001_enable_pgvector.sql`, `0002_github_app_bookkeeping.sql`,
+`0003_findings.sql`, and `0004_durable_events_and_jobs.sql`; apply all four, in
+order. **`0004` is required by the Phase 0 code** — without it the durable
+delivery/job columns do not exist and the store will error. It has not been
+run against a live database here.
 
 ## GitHub App
 

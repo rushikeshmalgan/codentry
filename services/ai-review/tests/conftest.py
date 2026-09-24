@@ -4,6 +4,8 @@ import os
 # cached via lru_cache at import time.
 os.environ.setdefault("CODENTRY_INTERNAL_WEBHOOK_SECRET", "test-internal-secret-do-not-use-in-prod")
 os.environ.setdefault("ENVIRONMENT", "test")
+# Tests drive the worker explicitly; a background poller would race them.
+os.environ.setdefault("WORKER_ENABLED", "false")
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402

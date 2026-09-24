@@ -161,3 +161,25 @@ def test_pull_request_upsert_updates_existing_pr_not_duplicate(store):
     ]
     assert len(pr_rows) == 1
     assert pr_rows[0]["title"] == "v2"
+
+
+def test_pull_request_event_pins_the_job_to_head_and_base_shas(store):
+    result = handle_pull_request_event(
+        store, pull_request_payload(head_sha="H1", base_sha="B1"), delivery_id="d-9"
+    )
+    run = store.get_review_run(result["review_run_id"])
+    assert (run["head_sha"], run["base_sha"], run["delivery_id"]) == ("H1", "B1", "d-9")
+
+
+def test_pull_request_payload_without_a_head_sha_is_rejected_not_reviewed(store):
+    payload = pull_request_payload()
+    payload["pull_request"]["head"] = {}
+    with pytest.raises(EventPayloadError):
+        handle_pull_request_event(store, payload)
+
+
+def test_same_head_sha_is_not_reviewed_twice(store):
+    first = handle_pull_request_event(store, pull_request_payload(action="opened", head_sha="H"))
+    again = handle_pull_request_event(store, pull_request_payload(action="reopened", head_sha="H"))
+    assert first["review_run_id"] == again["review_run_id"]
+    assert again["reason"] == "already_enqueued"

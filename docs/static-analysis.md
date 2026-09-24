@@ -1,10 +1,13 @@
-# Static analysis (Phase 3)
+# Static analysis (Phase 3, hardened in Phase 0)
 
 `services/ai-review/analysis/` is a standalone, deterministic static-analysis
 pipeline: ESLint + Semgrep, normalized into the shared `Finding` shape
 (`packages/schemas/review.schema.json`). It has zero AI, GitHub, or Supabase
-dependency — see "Zero-AI verification" below for how that's actually
-checked, not just asserted.
+dependency (except `analysis/changed_files.py`, see below) — "Zero-AI
+verification" below shows how that is checked, not just asserted.
+
+For the system around it (jobs, events, differential flow) see
+[`architecture.md`](architecture.md).
 
 ## Standalone usage
 
@@ -13,147 +16,132 @@ cd services/ai-review
 python -m analysis.run <repo_path> <file1> [file2 ...]
 ```
 
-Example, using the fixtures checked into this repo:
-
 ```bash
 python -m analysis.run analysis/fixtures eslint_sample.js semgrep_sample.js
 ```
 
-Prints a JSON report to stdout and exits `0` (analysis ran; findings may or
-may not be present — a partial tool failure with the other tool still
-succeeding is still exit `0`, visible as `"overall_status": "partial_failure"`)
-or `2` (both tools failed/were unavailable — nothing was analyzed).
+Prints a JSON report and exits `0` (analysis ran; a one-tool failure is still
+`0`, visible as `"overall_status": "partial_failure"`) or `2` (both tools failed).
+The CLI is **not** differential: it analyzes the files as given, so its findings
+carry `change_status = null` ("not classified against a base").
 
 ## Required tools
 
-- **Node.js** (`node` must be on `PATH`) + the pinned ESLint install at
-  `analysis/eslint-baseline/` (run `npm install` there once — it has its own
-  `package.json`, separate from `apps/web`'s).
-- **Semgrep** — `pip install semgrep` (already in `requirements.txt`).
-  Confirmed to install and run correctly on Windows as well as Linux/macOS.
+- **Node.js** on `PATH` + the pinned ESLint install at `analysis/eslint-baseline/`
+  (`npm install` there once; separate `package.json` from `apps/web`).
+- **Semgrep** — `pip install semgrep` (in `requirements.txt`). The runner looks in
+  the interpreter's own scripts directory first, so a service started as
+  `venv/bin/uvicorn` finds its Semgrep even when the venv is not on `PATH`.
 
-Neither is required to *import* `analysis.run` or `analysis.static_analysis`
-— only to actually get findings back instead of an `"error"` tool status.
-
-## Architecture
+## Pipeline
 
 ```
-changed files (local disk, or GitHub content via analysis/changed_files.py)
-        |
-        v
-  ephemeral workspace (analysis/workspace.py) — fresh temp dir per run,
-  always deleted, even on failure
-        |
-        +-------------------+
-        |                   |
-        v                   v
-      ESLint              Semgrep
-  (eslint_runner.py)   (semgrep_runner.py)
-        |                   |
-        +-------------------+
-                |
-                v
-        normalize.py -> Finding[]
-        (packages/schemas/review.schema.json's Python mirror,
-         analysis/finding.py)
+files (local disk, or a pinned GitHub snapshot)
+   |  prepare_files: drop unsafe paths / control files / non-analyzable types /
+   |                 oversize files / duplicates — each with a recorded reason
+   v
+ephemeral workspace + tool sandbox (temp HOME/TEMP/config, outside the workspace)
+   |
+   +--> ESLint  (baseline [+ sanitized base overlay], no inline config, no ignore files)
+   +--> Semgrep (local production ruleset, --disable-nosem, resource ceilings)
+   v
+normalize (secrets redacted) -> Finding[]  -> identity v2 (line-independent)
 ```
 
-`analysis/static_analysis.py::run_static_analysis(repo_path, changed_files)`
-is the FR-2 entry point. It never imports `app.*`, `supabase`, `jwt`,
-`anthropic`, `openai`, or `httpx` — the one deliberate exception is
-`analysis/changed_files.py`, which fetches PR content from GitHub via
-Phase 2's `app.github_auth` (reusing that auth rather than inventing a
-second one) and is imported only by `app/review_runner.py`, never by
-`analysis/run.py`.
+## Security model (verified by `tests/test_security_poc.py`)
 
-## Security model
+Repository content is hostile. Every claim below has an executable test; the
+"before" column is what the unmodified Phase 3 code did when those same tests
+were run against it.
 
-- Source code is **data**, never executed. It's written to a temp file and
-  handed to ESLint/Semgrep as a path to read text from.
-- **Ephemeral workspace**: a fresh `tempfile.mkdtemp()` per run, containing
-  only the files actually being analyzed, deleted on every exit path
-  (success, exception, or timeout) via a context manager.
-- **Timeouts**: 30s per tool (`ESLINT_TIMEOUT_SECONDS`, `SEMGREP_TIMEOUT_SECONDS`),
-  enforced via `subprocess.run(..., timeout=...)`. A timeout is recorded as
-  a tool status, not raised as an unhandled exception — the other tool's
-  results (if it succeeded) are still kept.
-- **File limits**: max 200 files, max 500 KB per file
-  (`analysis/workspace.py::MAX_FILES` / `MAX_FILE_SIZE_BYTES`) — exceeding
-  either raises `WorkspaceLimitError` before anything is written to disk.
-- **No `shell=True` anywhere**: every subprocess call passes an explicit
-  argument list. ESLint is invoked as `node <eslint.js> ...args` rather than
-  through the `node_modules/.bin/eslint` shim, specifically because that shim
-  is a `.cmd` file on Windows and executing `.cmd` files via `subprocess`
-  without a shell is unreliable — calling `node` directly with the script
-  path as a plain argument sidesteps that entirely, on every OS.
-- **No network required**: Semgrep uses only the local ruleset file
-  (`analysis/semgrep-rules/baseline.yml`) — deliberately not a Semgrep
-  Registry pack (`--config p/security-audit`), which fetches rules over the
-  network on first use. ESLint needs no network at all. Both were run in
-  this environment with no special network configuration and produced
-  identical results run to run (see determinism note below).
-- **Repository-provided config never triggers untrusted installs**: a
-  repo's own `.eslintrc.*` is honored only if it *loads* successfully
-  against Codentry's pinned baseline plugin set
-  (`--resolve-plugins-relative-to analysis/eslint-baseline`). A config
-  referencing a plugin outside that set fails to load and falls back to the
-  baseline config — Codentry never runs `npm install` against repository
-  content, which would mean executing arbitrary, untrusted install scripts.
+| Threat | Phase 3 behavior (verified by running the PoC against it) | Now |
+|---|---|---|
+| PR ships `.eslintrc.js` | **Executed** by ESLint | Never written or loaded |
+| PR ships `.eslintrc.json` with `parser`/`extends` pointing at its own JS | **`require()`d** | Never written or loaded |
+| Server secrets in the subprocess environment | ESLint got `os.environ` wholesale; Semgrep inherited it | Allowlisted env only; secrets absent (a real `node` child is checked) |
+| File named `--bogus.js` | Parsed as a CLI option; the tool errored and the file's findings **vanished** | `--` terminator + `./` prefix |
+| Drive-absolute path (`C:/…`) | `materialize()` **wrote outside the workspace** (a file appeared in `C:\Windows\Temp`) | Rejected |
+| `..`, backslashes, UNC, NUL, `C:x` | Already rejected by exception, except `C:x` (accepted, but stayed inside the workspace) | All rejected; the pipeline skips and records them instead of failing the whole run |
+| `.eslintignore` / `/* eslint-disable */` / `// nosemgrep` | Hid findings (`.semgrepignore` did not hide explicit files) | Ignored (`--no-ignore`, `--no-inline-config`, `--disable-nosem`) |
+| PR turns rules off via its own config | Honored | Baseline decides |
+| Symlink in a checkout (CLI) | Followed | Skipped (`symlink_or_special`) |
+| Secret echoed in a tool message / error snippet | Stored verbatim | Redacted (`analysis/redact.py`) |
+
+Additional controls: no `shell=True` anywhere; ESLint invoked as
+`node eslint.js` (not the `.cmd` shim); process tree killed on timeout; output
+size cap; `--max-memory`, `--timeout`, `--max-target-bytes` for Semgrep and
+`--max-old-space-size` for Node; files written as raw bytes so line numbers match
+git; no network required (local ruleset only).
+
+**Not a sandbox.** See `architecture.md` → known gaps #2.
+
+Verified by source inspection vs. by running (be precise about which):
+- ESLint executes `.eslintrc.js` / loads `parser` from a repo config —
+  *source inspection* of ESLint's loader **and** *executed PoC* (the PoC
+  tests failed against the Phase 3 code and pass now).
+- The `--parser=./evil.js` option-smuggling path — *source inspection only* on
+  this Windows machine (the PoC needs a POSIX directory name); it runs in CI.
+
+## Configuration policy
+
+**Nothing from the PR under review configures the analysis.**
+
+- ESLint: `analysis/eslint-baseline/.eslintrc.baseline.json` (`eslint:recommended`
+  plus `@typescript-eslint/recommended` for TS), optionally overlaid by a
+  **sanitized** `.eslintrc.json` read from the trusted **base commit**
+  (`analysis/trusted_config.py`). The overlay may add `rules`, `env`, `globals`
+  only, each validated (plugin rules, unknown envs, bad severities are dropped
+  and recorded). Never `parser`, `plugins`, `extends`, `processor`, `overrides`,
+  `.js`, or YAML. Written to a temp file **outside** the workspace.
+  **This removes a Phase 3 feature** (honoring a repo's own config) on security
+  grounds.
+- Semgrep: `analysis/semgrep-rules/production.yml` — six hand-written rules
+  (`hardcoded-secret`, `eval-usage`, `new-function-usage`,
+  `child-process-exec-non-literal`, `sql-string-concatenation`,
+  `innerhtml-assignment`). Toy rules do not live there; see
+  `analysis/semgrep-rules/README.md`. The SQL rule now requires a SQL-looking
+  literal (the Phase 3 one matched any `"..." + x`).
 
 ## Failure behavior
 
-`StaticAnalysisResult.overall_status` (`analysis/static_analysis.py`) is one
-of:
+`StaticAnalysisResult.overall_status`: `completed` (both tools ran or were
+correctly skipped), `partial_failure` (one failed), `failed` (both failed).
+`analysis_complete` is stricter: it also requires that nothing that should have
+been analyzed was skipped (`too_large`, `unsafe_path`, `tool_error`,
+`fetch_failed`, `base_unavailable`, …). Skipping a README, lockfile, or control
+file is *not* incompleteness.
 
-- **`completed`** — both tools ran (or were correctly skipped, e.g. no
-  analyzable files).
-- **`partial_failure`** — exactly one tool failed/timed out/was unavailable;
-  findings from the tool that *did* run are still returned and persisted.
-  Maps to `review_runs.status = 'completed'` in the database, with the
-  failure surfaced via `error_message` rather than hidden — a partial
-  result is not silently reported as a full success, but it's also not
-  discarded.
-- **`failed`** — both tools failed. Maps to `review_runs.status = 'failed'`.
-  No findings are persisted (there are none).
+In the review pipeline (`app/review_runner.py`) these map to
+`review_runs.status`: `completed` only when complete; **`partial`** when a tool
+failed, a file was skipped, or the differential could not cover everything;
+`failed` when the head analysis failed outright or the snapshot could not be
+built (`too_many_files`, `not_found`, `auth`, …). Phase 3 reported a one-tool
+failure as `completed`; that hid data loss.
 
-The same three-way distinction applies to the changed-files fetch itself: if
-GitHub can't be reached or the App isn't configured, the review run is
-marked `failed` with a specific `error_message`
-(`github_app_not_configured` or `changed_files_fetch_failed: ...`) rather
-than hanging or silently reporting zero findings as if nothing were wrong.
+## Finding identity and differential analysis
 
-## Configuration
-
-- **ESLint priority**: (1) a repository-provided `.eslintrc.json` /
-  `.eslintrc.js` / `.eslintrc.yml` / `.eslintrc.yaml` / `.eslintrc` at the
-  workspace root, if it loads successfully; (2) Codentry's baseline
-  (`analysis/eslint-baseline/.eslintrc.baseline.json` — `eslint:recommended`
-  plus `@typescript-eslint/recommended` for `.ts`/`.tsx` files).
-- **Semgrep ruleset**: `analysis/semgrep-rules/baseline.yml` — three rules
-  (`hardcoded-secret`, `eval-usage`, `sql-string-concatenation`), all
-  `category: security`. Extending this file is how Phase 6+ would add more
-  patterns; no code changes needed for a new rule.
+See `architecture.md`. In short: `identity_key` is content-anchored and does not
+depend on line numbers; `dedup_hash` adds an occurrence index; the review
+pipeline classifies head findings against the merge base as `new` / `existing`
+(`moved`) / `fixed`.
 
 ## Zero-AI verification
 
 `tests/test_analysis_cli.py::test_cli_makes_zero_ai_github_supabase_calls`
-runs the actual CLI as a subprocess with a Python meta-path import blocker
-that raises `ImportError` the instant anything tries to import `supabase`,
-`jwt`, `anthropic`, `openai`, `httpx`, `postgrest`, `gotrue`, or `app` — and
-asserts the CLI still completes successfully with real findings. This is a
-structural, executed proof, re-checked on every test run, not a comment
-asserting it once and hoping it stays true.
+runs the real CLI in a subprocess with an import blocker that raises
+`ImportError` for `supabase`, `jwt`, `anthropic`, `openai`, `httpx`,
+`postgrest`, `gotrue`, and `app`. `tests/test_scope_guards.py` additionally
+scans all production code for AI SDK imports, LLM endpoints, and prompt
+machinery.
 
 ## Known limitations
 
-- `analysis/changed_files.py` is tested only against a mocked HTTP
-  transport (respx) — no live GitHub App exists in this environment to
-  verify it against real PR data. See `docs/github-app-setup.md` and
-  `docs/staging-test-phase2.md`.
-- The Semgrep baseline ruleset covers three patterns, chosen to match the
-  Phase 3 spec's minimum fixture requirements. It is not a comprehensive
-  security ruleset — expanding it is expected in a later phase, not
-  something this phase claims to have done.
+- `analysis/changed_files.py` is tested only against mocked HTTP (respx +
+  `tests/fake_github.py`); no live GitHub App exists here.
+- The Semgrep ruleset is small and hand-written. It does not detect
+  template-literal SQL, cross-function taint, or framework-specific sinks.
+- ESLint parse errors surface as `eslint-fatal-error` findings (a real signal,
+  but a different kind of signal from a rule violation; evaluation should
+  separate them).
 - Performance numbers in `tests/test_analysis_performance.py` are a dev-box
-  baseline (one machine, cold subprocess starts each time), not a
-  production latency claim — Phase 7 measures that for real.
+  baseline, not a production latency claim.

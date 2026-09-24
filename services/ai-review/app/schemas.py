@@ -29,7 +29,9 @@ class InternalWebhookEnvelope(BaseModel):
 
 
 class WebhookAcceptedResponse(BaseModel):
-    status: Literal["accepted", "duplicate_ignored", "ignored"]
+    # duplicate_ignored: already SUCCEEDED (safe to ignore)
+    # in_progress:       another handler holds it right now
+    status: Literal["accepted", "duplicate_ignored", "ignored", "in_progress"]
     review_run_id: str | None = None
     reason: str | None = None
 
@@ -38,11 +40,18 @@ class ReviewRunStatusResponse(BaseModel):
     id: str
     pull_request_id: str
     trigger_event: str
+    # pending | running | completed | partial | failed | superseded
     status: str
+    head_sha: str | None = None
+    base_sha: str | None = None
+    merge_base_sha: str | None = None
+    attempts: int = 0
     started_at: str | None = None
     completed_at: str | None = None
     latency_ms: int | None = None
+    error_code: str | None = None
     error_message: str | None = None
+    analysis_meta: dict[str, Any] | None = None
 
 
 class InstallationSummary(BaseModel):

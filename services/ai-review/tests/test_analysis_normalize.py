@@ -41,7 +41,7 @@ def test_normalize_eslint_result_golden():
     assert f.suggestion is None
     assert f.reasoning is None
     assert f.evidence_span is None
-    assert len(f.dedup_hash) == 64
+    assert f.dedup_hash == ""  # identity is assigned later, by analysis.identity
 
 
 def test_normalize_eslint_warning_severity_maps_to_medium():
@@ -82,7 +82,7 @@ def test_normalize_eslint_multiple_messages_in_one_file():
     }
     findings = normalize_eslint_result(raw, WORKSPACE)
     assert len(findings) == 2
-    assert findings[0].dedup_hash != findings[1].dedup_hash
+    assert findings[0].title != findings[1].title
 
 
 def test_normalize_semgrep_result_golden():
@@ -109,7 +109,7 @@ def test_normalize_semgrep_result_golden():
     assert f.file_path == "src/run.js"
     assert f.start_line == 4
     assert f.end_line == 4
-    assert len(f.dedup_hash) == 64
+    assert f.dedup_hash == ""
 
 
 def test_normalize_semgrep_severity_mapping():
@@ -147,3 +147,20 @@ def test_normalize_semgrep_rule_id_strips_config_path_prefix():
         "extra": {"message": "m", "severity": "ERROR", "metadata": {}},
     }
     assert normalize_semgrep_result(raw, WORKSPACE).title == "hardcoded-secret"
+
+
+def test_normalize_redacts_credentials_echoed_in_tool_messages():
+    raw = {
+        "filePath": "/workspace/a.js",
+        "messages": [
+            {
+                "ruleId": "no-unused-vars",
+                "severity": 2,
+                "message": "'ghp_abcdefghijklmnopqrstuvwxyz0123456789' is defined but never used.",
+                "line": 1,
+            }
+        ],
+    }
+    (finding,) = normalize_eslint_result(raw, WORKSPACE)
+    assert "ghp_" not in finding.description
+    assert "[REDACTED]" in finding.description

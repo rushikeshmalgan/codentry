@@ -27,8 +27,16 @@ def test_review_run_status_does_not_expose_secrets(client, internal_headers):
         "pull_request_id",
         "trigger_event",
         "status",
+        "head_sha",
+        "base_sha",
+        "merge_base_sha",
+        "attempts",
         "started_at",
         "completed_at",
         "latency_ms",
+        "error_code",
         "error_message",
+        "analysis_meta",
     }
+    # Nothing that could carry a credential or repository content.
+    assert not any("secret" in key or "token" in key or "key" == key for key in body)

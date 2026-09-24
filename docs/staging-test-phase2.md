@@ -29,10 +29,13 @@ environment.
 4. In Render's logs for `codentry-ai-review`, confirm a
    `pull_request_event_accepted` log line with a `review_run_id`.
 5. Query `GET /internal/review-runs/{id}` (with the internal secret header)
-   and confirm `status` reaches `completed` (or `failed`, with a specific
-   `error_message` — see `docs/static-analysis.md`'s failure-behavior
-   section — if the App's Node/Semgrep setup on Render isn't working yet),
-   with `latency_ms` populated.
+   and confirm `status` leaves `pending` (the worker picks it up within a few
+   seconds) and reaches `completed` (or `partial`/`failed`, with a specific
+   `error_code`/`error_message` — see `docs/static-analysis.md`'s
+   failure-behavior section — if the App's Node/Semgrep setup on Render isn't
+   working yet), with `latency_ms`, `head_sha`, `merge_base_sha`, and
+   `analysis_meta` populated. (Phase 0: the webhook no longer runs the review
+   inline; a durable worker does.)
 6. Confirm in the Supabase table editor that `installations`,
    `repositories`, `pull_requests`, `review_runs`, **and `findings`** rows
    exist and match what GitHub sent — if the test PR has any real ESLint or
@@ -50,7 +53,10 @@ environment.
    delivery id, and the response is still 202 (not an error — a duplicate
    is a successfully handled outcome, not a failure).
 3. Confirm no second row was added to `review_runs` for that PR.
-4. Record the result here (date, who ran it, pass/fail) once done.
+4. Also confirm the `webhook_deliveries` row for that delivery has
+   `status = succeeded`. (Phase 0: only a *succeeded* delivery is a duplicate;
+   a delivery that failed earlier is reprocessed on redelivery, not ignored.)
+5. Record the result here (date, who ran it, pass/fail) once done.
 
 ## C. Uninstall test
 

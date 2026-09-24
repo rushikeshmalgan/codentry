@@ -61,7 +61,28 @@
     "dedup_hash": {
       "type": "string",
       "minLength": 1,
-      "description": "Deterministic hash of (source, file_path, start_line, end_line, rule_id) — see services/ai-review/analysis/finding.py:compute_dedup_hash. Never derived from a timestamp or random value."
+      "description": "Identity v2: sha256(identity_key | occurrence index). Content-anchored, NOT derived from line numbers, timestamps, or random values — see services/ai-review/analysis/identity.py."
+    },
+    "identity_key": {
+      "type": ["string", "null"],
+      "description": "sha256(scope | source | head-path | rule | normalized message | normalized anchor text). Stable when unrelated code above the finding shifts its line number."
+    },
+    "change_status": {
+      "enum": ["new", "existing", "fixed", null],
+      "description": "Relative to the merge base. new = introduced by the PR; existing = already present; fixed = removed by the PR; null = not classified against a base (standalone CLI, or the base could not be analyzed). Only `new` findings are candidates for reporting on a PR."
+    },
+    "moved": {
+      "type": "boolean",
+      "description": "An existing finding whose flagged code sits on a line the PR added (cut and pasted). Line-number drift alone is NOT 'moved'."
+    },
+    "in_diff": {
+      "type": "boolean",
+      "description": "The finding's line range intersects lines the PR added or changed."
+    },
+    "base_start_line": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "description": "For existing/moved findings, the finding's start line at the merge base."
     }
   }
 }

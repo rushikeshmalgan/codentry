@@ -3,6 +3,9 @@
 // both the /api/status route and the landing page share exactly one code
 // path instead of the page calling its own API route over HTTP.
 
+// `error` is for server-side logs and tests ONLY. Public surfaces (the home
+// page, /api/status) must render just "ok"/"unreachable" and never echo it:
+// it can contain the backend URL, hostnames, and network error text.
 export type BackendHealth = {
   ok: boolean;
   data?: unknown;
@@ -27,14 +30,18 @@ export async function getBackendHealth(): Promise<BackendHealth> {
     });
 
     if (!response.ok) {
-      return { ok: false, error: `backend responded with status ${response.status}` };
+      const error = `backend responded with status ${response.status}`;
+      console.error(JSON.stringify({ logger: "codentry.web.backend", error }));
+      return { ok: false, error };
     }
 
     const data = await response.json();
     return { ok: true, data };
   } catch (err) {
     const message = err instanceof Error ? err.message : "unknown error";
-    return { ok: false, error: `could not reach backend: ${message}` };
+    const error = `could not reach backend: ${message}`;
+    console.error(JSON.stringify({ logger: "codentry.web.backend", error }));
+    return { ok: false, error };
   } finally {
     clearTimeout(timeout);
   }

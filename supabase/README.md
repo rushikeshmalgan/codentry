@@ -24,6 +24,16 @@ step with no credentials this repository can assume exist.
   Phase 1 onward (even though nothing uses it until Phase 9) specifically so
   turning it on later isn't a surprise migration.
 
+- `0002_github_app_bookkeeping.sql` — installations, repositories,
+  pull_requests, review_runs, webhook_deliveries.
+- `0003_findings.sql` — the findings table.
+- `0004_durable_events_and_jobs.sql` — Phase 0: the webhook-delivery state
+  machine (status/attempts/payload), the review-run job columns (base/head/
+  merge-base SHA, attempts, lease/not-before `available_at`, `analysis_meta`,
+  `error_code`, `partial`/`superseded` statuses, unique `(pull_request_id,
+  head_sha)`), `pull_requests.github_updated_at`, and the finding identity /
+  differential columns. **Not yet run against a live Supabase project.**
+
 ## What's intentionally not here yet
 
 Product tables (`installations`, `repositories`, `pull_requests`,

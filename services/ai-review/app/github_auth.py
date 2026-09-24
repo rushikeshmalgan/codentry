@@ -35,8 +35,14 @@ class GitHubAuthError(RuntimeError):
     """Raised on any failure to obtain a JWT or installation token.
 
     The message intentionally never includes the private key, JWT, or any
-    token — only the HTTP status / a short reason.
+    token — only the HTTP status / a short reason. `status_code` (None for
+    network-level failures) lets callers tell a transient outage (retry)
+    from a revoked/misconfigured App (don't).
     """
+
+    def __init__(self, message: str, status_code: int | None = None) -> None:
+        super().__init__(message)
+        self.status_code = status_code
 
 
 def normalize_private_key(raw_key: str) -> str:
@@ -92,7 +98,10 @@ async def get_installation_access_token(
         # Deliberately do not include response body/headers in the error —
         # GitHub error responses for this endpoint don't echo secrets back,
         # but there's no upside to logging the full body either.
-        raise GitHubAuthError(f"GitHub returned {response.status_code} minting installation token")
+        raise GitHubAuthError(
+            f"GitHub returned {response.status_code} minting installation token",
+            status_code=response.status_code,
+        )
 
     body = response.json()
     return body["token"], body["expires_at"]

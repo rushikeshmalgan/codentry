@@ -21,11 +21,14 @@ Total cost: $0 — every service used has a free tier sufficient for this.
 3. In Project Settings → API, copy:
    - **Project URL** → this is `SUPABASE_URL`
    - **service_role key** (not the `anon` key) → this is `SUPABASE_SERVICE_ROLE_KEY`
-4. Apply the three migrations, in order, via the SQL Editor (paste each
+4. Apply the four migrations, in order, via the SQL Editor (paste each
    file's contents and run it):
    - `supabase/migrations/0001_enable_pgvector.sql`
    - `supabase/migrations/0002_github_app_bookkeeping.sql`
    - `supabase/migrations/0003_findings.sql`
+   - `supabase/migrations/0004_durable_events_and_jobs.sql` (Phase 0: durable
+     webhook events + job queue; **not yet run against a live database** —
+     report any SQL error verbatim)
 5. Confirm in Table Editor that `installations`, `repositories`,
    `pull_requests`, `review_runs`, `webhook_deliveries`, and `findings` all
    exist (empty is fine — they just need to exist).
@@ -48,6 +51,8 @@ Full detail: `supabase/README.md`.
    Environment tab and add:
    - `SUPABASE_URL` = from Step 1
    - `SUPABASE_SERVICE_ROLE_KEY` = from Step 1
+     (**required**: with `ENVIRONMENT=production` the service refuses to start
+     without both of these and the internal secret below)
    - `CODENTRY_INTERNAL_WEBHOOK_SECRET` = generate one yourself right now
      (e.g. `openssl rand -hex 32`, or any long random string) — **save this
      value**, you'll enter the identical string into Vercel in Step 3.
@@ -127,7 +132,9 @@ request on the test repository you installed the App on, then work through
 | 30s timeout behavior | Only observable if a file is large/slow enough to trigger it — not expected on a normal PR; safe to skip unless you want to construct a pathological test file |
 | Real PR reaches the backend | GitHub App → Advanced → Recent Deliveries shows a 202 |
 | Changed files fetched via installation token | Render logs show `review_run_started` followed by `review_run_completed`/`failed` with a specific reason if auth failed |
-| Findings persisted to Supabase | Table Editor → `findings` table has rows with `review_run_id` matching the one from Recent Deliveries |
+| Findings persisted to Supabase | Table Editor → `findings` table has rows with `review_run_id` matching the one from Recent Deliveries; `change_status` is `new` / `existing` / `fixed` |
+| Job lifecycle | `review_runs` row goes `pending` → `running` → `completed`/`partial`/`failed`; `head_sha`, `merge_base_sha`, and `analysis_meta` are populated |
+| Webhook durability | `webhook_deliveries` row for that delivery is `succeeded` (not `processing`); Redeliver from GitHub shows `duplicate_ignored` |
 | Full flow | All of the above lining up for one PR |
 
 **Report back what you actually see at each checkpoint** (paste error

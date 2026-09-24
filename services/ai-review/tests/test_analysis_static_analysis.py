@@ -93,8 +93,8 @@ def test_partial_failure_when_only_one_tool_fails(monkeypatch):
     """
     real_which = semgrep_runner.shutil.which
 
-    def selective_which(name: str) -> str | None:
-        return None if name == "semgrep" else real_which(name)
+    def selective_which(name: str, *args, **kwargs) -> str | None:
+        return None if name == "semgrep" else real_which(name, *args, **kwargs)
 
     monkeypatch.setattr(semgrep_runner.shutil, "which", selective_which)
 
@@ -109,10 +109,58 @@ def test_partial_failure_when_only_one_tool_fails(monkeypatch):
 
 
 def test_full_failure_when_both_tools_unavailable(monkeypatch):
-    monkeypatch.setattr(eslint_runner.shutil, "which", lambda _name: None)
-    monkeypatch.setattr(semgrep_runner.shutil, "which", lambda _name: None)
+    monkeypatch.setattr(eslint_runner.shutil, "which", lambda *a, **k: None)
+    monkeypatch.setattr(semgrep_runner.shutil, "which", lambda *a, **k: None)
 
     result = run_static_analysis(str(FIXTURES), ["eslint_sample.js"])
 
     assert result.overall_status == "failed"
     assert result.findings == []
+
+
+def test_finding_volume_is_capped_and_marked_incomplete_never_silently_truncated(monkeypatch):
+    from analysis import static_analysis
+    from analysis.workspace import SourceFile
+
+    monkeypatch.setattr(static_analysis, "MAX_FINDINGS", 2)
+    content = "var a = 1;\nvar b = 2;\nvar c = 3;\nvar d = 4;\n"
+
+    result = static_analysis.analyze_source_files([SourceFile("many.js", content)])
+
+    assert len(result.findings) == 2
+    assert {"path": "*", "reason": "findings_truncated"} in result.skipped_files
+    assert result.analysis_complete is False
+    assert "findings_truncated" in result.incomplete_reasons
+
+
+def test_semgrep_reported_file_errors_make_the_analysis_incomplete(monkeypatch):
+    from analysis import static_analysis
+    from analysis.semgrep_runner import SemgrepRunResult
+    from analysis.workspace import SourceFile
+
+    monkeypatch.setattr(
+        static_analysis,
+        "run_semgrep",
+        lambda *a, **k: SemgrepRunResult(status="ok", results=[], tool_error_paths=["a.js"]),
+    )
+
+    result = static_analysis.analyze_source_files([SourceFile("a.js", "const x = 1;\nmodule.exports = { x };\n")])
+
+    assert result.overall_status == "completed"  # both tools "ran"...
+    assert result.analysis_complete is False  # ...but Semgrep could not fully process a.js
+    assert {"path": "a.js", "reason": "tool_error"} in result.skipped_files
+
+
+def test_a_complete_clean_run_reports_analysis_complete_with_reproducibility_metadata():
+    from analysis.static_analysis import analyze_source_files
+    from analysis.workspace import SourceFile
+
+    clean = "function add(a, b) {\n  return a + b;\n}\nmodule.exports = { add };\n"
+    result = analyze_source_files([SourceFile("clean.js", clean), SourceFile("README.md", "# hi")])
+
+    assert result.analysis_complete is True  # a skipped README is not incompleteness
+    meta = result.meta()
+    assert meta["ruleset_sha256"] and len(meta["ruleset_sha256"]) == 64
+    assert meta["baseline_config_sha256"] and meta["eslint_version"] and meta["semgrep_version"]
+    assert meta["config_source"] == "baseline" and meta["identity_version"] == 2
+    assert meta["skipped_by_reason"] == {"not_analyzable_type": 1}

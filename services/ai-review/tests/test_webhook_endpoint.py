@@ -1,13 +1,13 @@
-"""Full-stack tests through TestClient: auth, dedup, event routing, and the
-pending -> running -> completed async lifecycle.
+"""Full-stack tests through TestClient: auth, durable dedup, event routing,
+and job enqueueing.
 
-TestClient runs FastAPI BackgroundTasks synchronously as part of the
-request/response cycle, so by the time client.post(...) returns, the
-review has already completed (or failed) — no polling needed.
+The webhook no longer runs a review: it durably records the event, does
+idempotent bookkeeping, and enqueues a `pending` job row. Execution is the
+worker's job (tests/test_review_runner.py, tests/test_worker.py,
+tests/test_e2e_local_mocked.py).
 """
 
-from analysis.workspace import SourceFile
-from app.config import get_settings
+import app.routes_internal as routes
 from tests.github_payloads import (
     installation_payload,
     installation_repositories_payload,
@@ -51,39 +51,24 @@ def test_valid_internal_secret_is_accepted(client, internal_headers):
 # --- Event routing ---
 
 
-def test_pull_request_event_accepted_and_completes(client, internal_headers, monkeypatch):
-    """Exercises the real Phase 3 pipeline end-to-end: GitHub content fetch
-    is mocked (no live GitHub App exists in this environment — see
-    docs/github-app-setup.md) but ESLint/Semgrep genuinely run against the
-    returned content, and the finding they produce is genuinely persisted.
-    """
-    monkeypatch.setenv("GITHUB_APP_ID", "12345")
-    monkeypatch.setenv("GITHUB_PRIVATE_KEY", "test-key-not-a-real-pem")
-    get_settings.cache_clear()
+def test_pull_request_event_is_accepted_and_enqueues_a_pinned_pending_job(
+    client, internal_headers, store
+):
+    resp = _post(
+        client, internal_headers, "pr-1", "pull_request",
+        pull_request_payload(action="opened", head_sha="headsha1", base_sha="basesha1"),
+    )
 
-    async def fake_fetch_changed_files(**kwargs):
-        return [SourceFile(path="bad.js", content="function f() {\n  const unused = 1;\n}\n")]
+    assert resp.status_code == 202
+    body = resp.json()
+    assert body["status"] == "accepted"
+    review_run_id = body["review_run_id"]
 
-    monkeypatch.setattr("app.review_runner.fetch_changed_files", fake_fetch_changed_files)
-
-    try:
-        resp = _post(client, internal_headers, "pr-1", "pull_request", pull_request_payload(action="opened"))
-
-        assert resp.status_code == 202
-        body = resp.json()
-        assert body["status"] == "accepted"
-        review_run_id = body["review_run_id"]
-        assert review_run_id
-
-        status_resp = client.get(f"/internal/review-runs/{review_run_id}", headers=internal_headers)
-        status_body = status_resp.json()
-        assert status_body["status"] == "completed"
-        assert status_body["latency_ms"] is not None
-        assert status_body["started_at"] is not None
-        assert status_body["completed_at"] is not None
-        assert status_body["error_message"] is None
-    finally:
-        get_settings.cache_clear()
+    status_body = client.get(f"/internal/review-runs/{review_run_id}", headers=internal_headers).json()
+    assert status_body["status"] == "pending"  # not run inline; the worker owns execution
+    assert status_body["head_sha"] == "headsha1" and status_body["base_sha"] == "basesha1"
+    assert status_body["attempts"] == 0 and status_body["started_at"] is None
+    assert store.get_delivery("pr-1")["status"] == "succeeded"
 
 
 def test_installation_event_accepted(client, internal_headers):
@@ -172,3 +157,126 @@ def test_duplicate_delivery_id_is_ignored(client, internal_headers):
 def test_first_delivery_of_a_new_id_is_always_accepted(client, internal_headers):
     resp = _post(client, internal_headers, "fresh-id-123", "pull_request", pull_request_payload())
     assert resp.json()["status"] == "accepted"
+
+
+# --- Reliability: an event is never lost because a previous attempt failed ---
+
+
+def test_failure_after_claiming_leaves_the_delivery_retryable_and_a_redelivery_succeeds(
+    client, internal_headers, store, monkeypatch
+):
+    payload = pull_request_payload(repo_id=901, head_sha="h-retry")
+    calls = {"n": 0}
+    real_process_event = routes.process_event
+
+    def flaky(*args, **kwargs):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise ConnectionError("database blip with secret-ish detail")
+        return real_process_event(*args, **kwargs)
+
+    monkeypatch.setattr(routes, "process_event", flaky)
+
+    first = _post(client, internal_headers, "retry-1", "pull_request", payload)
+    assert first.status_code == 500
+    assert first.json() == {"detail": "processing_failed"}  # never echoes the exception text
+    assert store.get_delivery("retry-1")["status"] == "retryable"
+
+    second = _post(client, internal_headers, "retry-1", "pull_request", payload)  # same delivery id
+    assert second.status_code == 202
+    assert second.json()["status"] == "accepted"  # NOT "duplicate_ignored"
+    assert second.json()["review_run_id"] is not None
+    assert store.get_delivery("retry-1")["status"] == "succeeded"
+    assert store.get_delivery("retry-1")["attempts"] == 2
+
+
+def test_delivery_is_not_marked_succeeded_when_processing_raised(
+    client, internal_headers, store, monkeypatch
+):
+    def boom(*args, **kwargs):
+        raise RuntimeError("x")
+
+    monkeypatch.setattr(routes, "process_event", boom)
+    _post(client, internal_headers, "never-ok", "pull_request", pull_request_payload(repo_id=902))
+    assert store.get_delivery("never-ok")["status"] != "succeeded"
+
+
+def test_bad_payload_is_recorded_failed_not_retryable_and_returns_400(client, internal_headers, store):
+    resp = _post(client, internal_headers, "bad-1", "pull_request", {"action": "opened"})
+    assert resp.status_code == 400
+    assert store.get_delivery("bad-1")["status"] == "failed"
+
+
+def test_concurrent_in_flight_delivery_is_reported_in_progress_not_reprocessed(
+    client, internal_headers, store
+):
+    store.claim_delivery("busy-1", "pull_request", pull_request_payload(repo_id=903))  # someone owns it
+    resp = _post(client, internal_headers, "busy-1", "pull_request", pull_request_payload(repo_id=903))
+    assert resp.status_code == 202 and resp.json()["status"] == "in_progress"
+    assert store.get_delivery("busy-1")["attempts"] == 1
+
+
+def test_a_failure_recording_success_reports_500_so_the_sender_retries(
+    client, internal_headers, store, monkeypatch
+):
+    real_mark = store.mark_delivery
+
+    def failing_mark(delivery_id, outcome, error=None):
+        if outcome == "succeeded":
+            raise ConnectionError("db down")
+        return real_mark(delivery_id, outcome, error)
+
+    monkeypatch.setattr(store, "mark_delivery", failing_mark)
+    resp = _post(client, internal_headers, "mark-fail", "pull_request", pull_request_payload(repo_id=904))
+    assert resp.status_code == 500
+    monkeypatch.setattr(store, "mark_delivery", real_mark)
+    # Row is still `processing` (never `succeeded`), so a redelivery/sweeper reclaims it.
+    assert store.get_delivery("mark-fail")["status"] == "processing"
+
+
+def test_redelivery_of_the_same_commit_does_not_create_a_second_job(client, internal_headers, store):
+    payload = pull_request_payload(repo_id=905, head_sha="same-head")
+    r1 = _post(client, internal_headers, "rd-1", "pull_request", payload)
+    r2 = _post(client, internal_headers, "rd-2", "pull_request", payload)  # different delivery, same code
+    assert r1.json()["review_run_id"] == r2.json()["review_run_id"]
+
+
+def test_new_commit_supersedes_the_pending_review_of_the_old_one(client, internal_headers, store):
+    old = _post(
+        client, internal_headers, "c-1", "pull_request",
+        pull_request_payload(repo_id=906, head_sha="old-head", action="opened"),
+    ).json()["review_run_id"]
+    new = _post(
+        client, internal_headers, "c-2", "pull_request",
+        pull_request_payload(repo_id=906, head_sha="new-head", action="synchronize"),
+    ).json()["review_run_id"]
+
+    assert old != new
+    assert store.get_review_run(old)["status"] == "superseded"
+    assert store.get_review_run(new)["status"] == "pending"
+
+
+# --- manual retry endpoint ---
+
+
+def test_retry_endpoint_requeues_only_failed_runs(client, internal_headers, store):
+    run_id = _post(
+        client, internal_headers, "rt-1", "pull_request", pull_request_payload(repo_id=907)
+    ).json()["review_run_id"]
+
+    conflict = client.post(f"/internal/review-runs/{run_id}/retry", headers=internal_headers)
+    assert conflict.status_code == 409  # pending, not failed
+
+    claimed = store.claim_next_review_run(60)
+    store.finalize_review_run(
+        run_id, claimed["attempts"], status="failed", findings=[], analysis_meta=None,
+        error_code="not_found", error_message="x", latency_ms=1,
+    )
+    ok = client.post(f"/internal/review-runs/{run_id}/retry", headers=internal_headers)
+    assert ok.status_code == 200 and ok.json()["status"] == "pending"
+
+    assert client.post("/internal/review-runs/nope/retry", headers=internal_headers).status_code == 404
+
+
+def test_retry_endpoint_requires_the_internal_secret(client):
+    assert client.post("/internal/review-runs/x/retry").status_code == 401

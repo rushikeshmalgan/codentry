@@ -2,11 +2,11 @@
 baseline ruleset (no registry/network config), plus mocked-subprocess tests
 for failure paths."""
 
-import subprocess
 from pathlib import Path
 
 from analysis import semgrep_runner
-from analysis.semgrep_runner import run_semgrep
+from analysis.semgrep_runner import build_command, run_semgrep
+from analysis.subprocess_env import ToolProcessResult, ToolTimeoutError
 from analysis.workspace import SourceFile, materialize
 
 FIXTURES = Path(__file__).parent.parent / "analysis" / "fixtures"
@@ -48,7 +48,7 @@ def test_semgrep_skips_when_no_files():
 
 
 def test_semgrep_unavailable_when_not_on_path(monkeypatch):
-    monkeypatch.setattr(semgrep_runner.shutil, "which", lambda _name: None)
+    monkeypatch.setattr(semgrep_runner.shutil, "which", lambda *a, **k: None)
     with materialize([SourceFile(path="a.js", content="eval(x);")]) as workspace:
         result = run_semgrep(workspace, ["a.js"])
     assert result.status == "error"
@@ -57,9 +57,9 @@ def test_semgrep_unavailable_when_not_on_path(monkeypatch):
 
 def test_semgrep_timeout_is_handled_without_raising(monkeypatch):
     def fake_run(*args, **kwargs):
-        raise subprocess.TimeoutExpired(cmd="semgrep", timeout=30)
+        raise ToolTimeoutError("exceeded 30s")
 
-    monkeypatch.setattr(semgrep_runner.subprocess, "run", fake_run)
+    monkeypatch.setattr(semgrep_runner, "run_tool", fake_run)
     with materialize([SourceFile(path="a.js", content="eval(x);")]) as workspace:
         result = run_semgrep(workspace, ["a.js"])
 
@@ -68,14 +68,60 @@ def test_semgrep_timeout_is_handled_without_raising(monkeypatch):
 
 
 def test_semgrep_malformed_json_output_is_handled(monkeypatch):
-    class FakeProc:
-        returncode = 2
-        stdout = "not json {{{"
-        stderr = "fatal"
-
-    monkeypatch.setattr(semgrep_runner.subprocess, "run", lambda *a, **k: FakeProc())
+    monkeypatch.setattr(
+        semgrep_runner, "run_tool", lambda *a, **k: ToolProcessResult(2, "not json {{{", "fatal")
+    )
     with materialize([SourceFile(path="a.js", content="eval(x);")]) as workspace:
         result = run_semgrep(workspace, ["a.js"])
 
     assert result.status == "error"
     assert "non-JSON" in result.error_message
+
+
+def test_semgrep_command_is_hardened_and_paths_are_never_options():
+    cmd = build_command("semgrep", ["--evil.js", "src/a.ts"])
+
+    for flag in (
+        "--disable-nosem",
+        "--no-git-ignore",
+        "--max-memory",
+        "--timeout",
+        "--max-target-bytes",
+        "--disable-version-check",
+    ):
+        assert flag in cmd
+    assert cmd[cmd.index("--metrics") + 1] == "off"
+    terminator = cmd.index("--")
+    paths = cmd[terminator + 1 :]
+    assert paths == ["./--evil.js", "./src/a.ts"]
+    # Only the local production ruleset; never a registry pack (network fetch).
+    configs = [cmd[i + 1] for i, a in enumerate(cmd) if a == "--config"]
+    assert len(configs) == 1 and configs[0].endswith("production.yml")
+
+
+def test_semgrep_env_passed_to_the_tool_is_scrubbed(monkeypatch):
+    monkeypatch.setenv("GITHUB_PRIVATE_KEY", "canary-should-not-leak")
+    captured = {}
+
+    def fake_run(cmd, *, cwd, env, timeout, **kwargs):
+        captured["env"] = dict(env)
+        return ToolProcessResult(0, '{"results": [], "errors": []}', "")
+
+    monkeypatch.setattr(semgrep_runner, "run_tool", fake_run)
+    with materialize([SourceFile(path="a.js", content="eval(x);")]) as workspace:
+        result = run_semgrep(workspace, ["a.js"])
+
+    assert result.status == "ok"
+    assert "GITHUB_PRIVATE_KEY" not in captured["env"]
+    assert not any("canary-should-not-leak" in v for v in captured["env"].values())
+
+
+def test_semgrep_reported_file_errors_are_surfaced_not_swallowed(monkeypatch):
+    payload = '{"results": [], "errors": [{"path": "./a.js", "type": "PartialParsing"}]}'
+    monkeypatch.setattr(
+        semgrep_runner, "run_tool", lambda *a, **k: ToolProcessResult(2, payload, "")
+    )
+    with materialize([SourceFile(path="a.js", content="eval(x);")]) as workspace:
+        result = run_semgrep(workspace, ["a.js"])
+    assert result.status == "ok"
+    assert result.tool_error_paths == ["a.js"]

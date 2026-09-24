@@ -10,6 +10,15 @@ what a "finding" looks like.
   `Finding` object. This is the single source of truth for the shape every
   ESLint, Semgrep, and AI finding must conform to.
 
+## Phase 0 changes
+
+Additive fields for finding identity and differential analysis: `identity_key`,
+`change_status` (`new`/`existing`/`fixed`/`null`), `moved`, `in_diff`,
+`base_start_line`. `dedup_hash` keeps its name but changed meaning: it is now
+content-anchored (identity v2) and no longer depends on line numbers. Nothing
+consumed the old definition outside `analysis/finding.py`, so this is a
+one-repository migration, not a breaking change for external consumers.
+
 ## Status (Phase 3)
 
 Consumed since Phase 3 by `services/ai-review/analysis/finding.py`'s

@@ -23,12 +23,14 @@ async function fetchInstallations(): Promise<
       cache: "no-store",
     });
     if (!response.ok) {
-      return { ok: false, error: `backend responded with ${response.status}` };
+      console.error(JSON.stringify({ logger: "codentry.web.installations", status: response.status }));
+      return { ok: false, error: "the backend rejected the request" };
     }
     return { ok: true, data: await response.json() };
   } catch (err) {
     const message = err instanceof Error ? err.message : "unknown error";
-    return { ok: false, error: `could not reach backend: ${message}` };
+    console.error(JSON.stringify({ logger: "codentry.web.installations", error: message }));
+    return { ok: false, error: "the backend could not be reached" };
   }
 }
 
@@ -36,9 +38,9 @@ export const dynamic = "force-dynamic";
 
 // Internal debugging view for the project team only — NOT the product's
 // future user dashboard (see PRD FR-8: any real dashboard is optional and
-// secondary). Deliberately has no access control beyond the URL being
-// unlisted; see docs/deployment.md for the known limitation before this is
-// ever deployed somewhere with real installations on it.
+// secondary). Access is enforced by middleware.ts: the route 404s unless
+// INTERNAL_PAGES_ENABLED=true and then requires HTTP Basic auth
+// (INTERNAL_PAGES_USER / INTERNAL_PAGES_PASSWORD). See lib/internal-access.ts.
 export default async function InternalInstallationsPage() {
   const result = await fetchInstallations();
 
@@ -46,12 +48,12 @@ export default async function InternalInstallationsPage() {
     <main>
       <h1>Installations (internal debug view)</h1>
       <p>
-        For the Codentry team only. Not a product surface — see PRD FR-8. Has no access control
-        of its own; do not link to this page publicly.
+        For the Codentry team only. Not a product surface — see PRD FR-8. Protected by HTTP Basic
+        auth (see middleware.ts); do not link to this page publicly.
       </p>
 
       {!result.ok ? (
-        <p>Could not load installations: {result.error}</p>
+        <p>Could not load installations: {result.error}. Details are in the server log.</p>
       ) : result.data.length === 0 ? (
         <p>No installations recorded yet.</p>
       ) : (

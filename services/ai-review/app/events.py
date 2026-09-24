@@ -90,7 +90,15 @@ def handle_installation_repositories_event(
     return {"action": action, "added": len(added), "removed": removed_count}
 
 
-def handle_pull_request_event(store: ReviewStore, payload: dict[str, Any]) -> dict[str, Any]:
+def handle_pull_request_event(
+    store: ReviewStore, payload: dict[str, Any], delivery_id: str | None = None
+) -> dict[str, Any]:
+    """Bookkeeping plus, for a reviewable event, an IDEMPOTENT job enqueue.
+
+    Every step is an upsert or an idempotent enqueue keyed on
+    (pull_request, head_sha), so re-running this for a redelivered or
+    reclaimed event cannot create a second review of the same commit.
+    """
     action = payload.get("action")
     repository = payload.get("repository") or {}
     pr = payload.get("pull_request") or {}
@@ -130,11 +138,9 @@ def handle_pull_request_event(store: ReviewStore, payload: dict[str, Any]) -> di
         head_sha=head.get("sha"),
         base_sha=base.get("sha"),
         state=pr.get("state"),
+        github_updated_at=pr.get("updated_at"),
     )
 
-    # Included in every branch (not just the success path) so the caller can
-    # schedule static analysis directly off this dict without a second
-    # lookup by id — see app/routes_internal.py.
     common = {
         "action": action,
         "pull_request_id": pr_row["id"],
@@ -143,11 +149,31 @@ def handle_pull_request_event(store: ReviewStore, payload: dict[str, Any]) -> di
         "github_pr_number": pr_number,
     }
 
+    # An event older than what is already stored must not rewind the PR's head
+    # (webhooks can arrive out of order). The worker additionally verifies the
+    # head against GitHub itself before analyzing.
+    if pr_row.get("stale_event"):
+        return {**common, "review_run_id": None, "reason": "stale_event"}
+
     if action not in ALLOWED_PULL_REQUEST_ACTIONS:
         return {**common, "review_run_id": None, "reason": "unsupported_action"}
 
     if not repo_row["is_active"]:
         return {**common, "review_run_id": None, "reason": "repository_inactive"}
 
-    review_run = store.create_review_run(pull_request_id=pr_row["id"], trigger_event=action)
-    return {**common, "review_run_id": review_run["id"], "reason": None}
+    head_sha = head.get("sha")
+    if not head_sha:
+        raise EventPayloadError("pull_request.head.sha missing from pull_request event")
+
+    review_run, created = store.enqueue_review_run(
+        pull_request_id=pr_row["id"],
+        trigger_event=action,
+        head_sha=head_sha,
+        base_sha=base.get("sha"),
+        delivery_id=delivery_id,
+    )
+    return {
+        **common,
+        "review_run_id": review_run["id"],
+        "reason": None if created else "already_enqueued",
+    }

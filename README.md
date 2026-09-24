@@ -8,6 +8,26 @@ The project combines **deterministic static analysis** with **AI-based semantic 
 
 > **Current MVP focus:** JavaScript / TypeScript repositories.
 
+> **Current state (read this first).** The repository implements **deterministic,
+> differential static analysis** of GitHub pull requests (ESLint + a small
+> hand-written Semgrep ruleset), a durable webhook/job pipeline, and security
+> hardening of that pipeline. **There is no AI reviewer yet** — no Claude/LLM
+> code exists in this repository — and Codentry does **not** post comments to
+> pull requests yet. The AI layer described below is the *planned* direction,
+> deliberately gated on an evaluation harness that can measure whether it helps.
+> Where this README's vision and the code disagree, trust
+> [`docs/architecture.md`](docs/architecture.md), which describes what exists,
+> and [`docs/research-design.md`](docs/research-design.md) for the
+> evidence-first framing (an *optional* AI signal, evaluated for accuracy,
+> overlap, and noise — not a claim that AI review is the product).
+>
+> **Start here:** [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) (what exists today) ·
+> [docs/WHAT_CHANGED.md](docs/WHAT_CHANGED.md) ·
+> [docs/FINAL_PRODUCT_AND_PRICING.md](docs/FINAL_PRODUCT_AND_PRICING.md) ·
+> [docs/NO_COST_ALTERNATIVES.md](docs/NO_COST_ALTERNATIVES.md) ·
+> [docs/8_DAY_IMPLEMENTATION_PLAN.md](docs/8_DAY_IMPLEMENTATION_PLAN.md) ·
+> [updated literature survey](docs/literature-survey-updated-2026-09-24.pdf).
+
 ---
 
 ## 🚀 Why Codentry?
@@ -291,6 +311,21 @@ Static analysis such as Semgrep can also help identify suspicious prompt-injecti
 
 # 📁 Project Status
 
+### Phase 0 — Foundation hardening ✅ (code, locally verified) / ⚠️ (not verified against real GitHub, Supabase, or a deployment)
+
+Completed (details and honest limits in [`docs/architecture.md`](docs/architecture.md)):
+
+* Repository-controlled config no longer executes: a PR's `.eslintrc.*` / parser / extends are never loaded; analysis uses Codentry's baseline plus an optional *sanitized* overlay from the trusted **base** commit (this removes the Phase 3 "honor the repo's own config" behavior on security grounds)
+* Subprocesses get a scrubbed environment (no server secrets), `./`-prefixed paths after `--`, path/symlink/control-file protections, resource ceilings, and process-tree kill on timeout
+* Durable webhook events (`processing → succeeded | failed | retryable`, payload stored, idempotent, swept) and a durable DB-backed job queue with leases, fencing, backoff, and a single polling worker — no new infrastructure
+* Reviews pinned to exact head/base/merge-base SHAs, paginated file listing (never a silent partial result), deterministic superseding of stale runs
+* **Differential analysis** (merge base → head): findings are `new` / `existing` (`moved`) / `fixed`, with line-number-independent finding identity
+* Production fails closed (no in-memory fallback, no FastAPI docs, internal pages gated), secret redaction, and honest `partial` run status
+* Evaluation scaffold + research design recorded (`evaluation/`, `docs/research-design.md`) — **no experiment has been run**
+
+Not done / known gaps: no Vercel-side webhook inbox (an event that never reaches the backend is lost until manually redelivered), not a real sandbox, `SupabaseReviewStore` and migration `0004` never run against a live Postgres, and **no real GitHub end-to-end run** (USER ACTION REQUIRED — see `docs/first-deployment-runbook.md`).
+
+
 ### Phase 1 — Foundation ✅
 
 Completed:
@@ -318,7 +353,7 @@ Completed:
 * Durable, DB-backed replay protection (`webhook_deliveries`, unique on `delivery_id`)
 * Authenticated Vercel → Render internal handoff (`X-Codentry-Internal-Secret`, distinct from the GitHub webhook secret)
 * Installation / repository / pull-request bookkeeping, with repository activation (`is_active`)
-* Async pipeline: `review_runs` goes `pending → running → completed`/`failed` — the original 0-findings placeholder was replaced in Phase 3 by the real static-analysis pipeline below
+* Async pipeline: originally FastAPI `BackgroundTasks` with a 0-findings placeholder; replaced in Phase 3 by static analysis and in Phase 0 by a durable, DB-backed job queue (see Phase 0)
 * GitHub App JWT + installation-token authentication module (implemented, unit-tested; used since Phase 3 to fetch PR file content)
 * Internal review-run status endpoint, internal installations debug view, public setup/info page
 * 39 backend tests + 26 frontend tests, all green; verified end-to-end locally with real HMAC signatures against both services actually running
@@ -334,9 +369,9 @@ it exists.
 Completed:
 
 * Standalone pipeline (`services/ai-review/analysis/`) — zero AI/GitHub/Supabase calls, structurally verified by a subprocess test that blocks those imports and asserts the CLI still works
-* Real ESLint (pinned baseline install + repo-config fallback) and Semgrep (local ruleset, no network) execution
+* Real ESLint (pinned baseline install; a repository's own config is **not** honored — changed in Phase 0 for security) and Semgrep (local ruleset, no network) execution
 * Finding normalization into the shared `Finding` schema (`packages/schemas/review.schema.json`, fixed the `file`→`file_path` naming mismatch left over from Phase 1)
-* `findings` table (Phase 3 migration), wired into the real review-run lifecycle (`app/review_runner.py::run_static_review`)
+* `findings` table (Phase 3 migration), wired into the review-run lifecycle (`app/review_runner.py::execute_review_run`, worker-driven since Phase 0)
 * Standalone CLI: `python -m analysis.run <repo> <files>` — see `docs/static-analysis.md`
 * 90+ backend tests total, including golden-output, timeout, partial-failure, and performance-baseline tests
 
