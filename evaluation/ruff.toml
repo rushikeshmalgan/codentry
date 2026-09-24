@@ -1,0 +1,17 @@
+# Lint config for the evaluation harness (run from the repository root:
+# `ruff check evaluation`). Mirrors services/ai-review/pyproject.toml so the two
+# code bases read alike; `src` lets the import sorter see `evaluation` (repo
+# root) and `analysis` (services/ai-review) as first-party.
+line-length = 100
+target-version = "py313"
+src = [".."]
+
+[lint]
+select = ["E", "F", "I"]
+
+[lint.isort]
+known-first-party = ["analysis", "evaluation"]
+
+[lint.per-file-ignores]
+# Test tables read better on one line than wrapped.
+"tests/*" = ["E501"]

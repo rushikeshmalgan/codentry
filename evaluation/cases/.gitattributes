@@ -1,0 +1,5 @@
+# Case files are data whose exact bytes are hashed into the run manifest
+# (evaluation/run.py). Never let git convert line endings: a Windows checkout
+# with core.autocrlf=true would otherwise change the manifest hash (and, for
+# files that deliberately contain CRLF, the analyzed content itself).
+* -text

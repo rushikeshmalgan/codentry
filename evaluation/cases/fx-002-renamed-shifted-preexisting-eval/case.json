@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "fx-002-renamed-shifted-preexisting-eval",
+  "stratum": "fixture:clean-change",
+  "language": "javascript",
+  "license": "LicenseRef-project-authored",
+  "source": { "kind": "handmade", "author": "codentry-team" },
+  "files": [
+    {
+      "path": "lib/reporting.js",
+      "status": "renamed",
+      "previous_path": "lib/report.js",
+      "base": "base/lib/report.js",
+      "head": "head/lib/reporting.js"
+    }
+  ],
+  "ground_truth": []
+}

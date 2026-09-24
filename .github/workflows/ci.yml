@@ -45,3 +45,14 @@ jobs:
       - run: pip install -r requirements-dev.txt
       - run: ruff check .
       - run: python -m pytest -v
+      # Evaluation harness: lives outside the service and imports only `analysis`
+      # (test_scope_guards.py pins that direction). Runs the real ESLint/Semgrep,
+      # including two full CLI runs whose outputs must be byte-identical.
+      - name: Lint evaluation harness
+        working-directory: ${{ github.workspace }}
+        run: ruff check evaluation
+      - name: Test evaluation harness
+        working-directory: ${{ github.workspace }}
+        env:
+          PYTHONPATH: ${{ github.workspace }}/services/ai-review
+        run: python -m pytest evaluation/tests -v

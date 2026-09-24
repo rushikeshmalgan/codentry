@@ -1,8 +1,10 @@
-"""Structural guards for the Phase 0 scope boundary.
+"""Structural guards for the scope boundary.
 
-Phase 0 is foundation hardening plus deterministic analysis. These tests fail
-if the service quietly grows an AI reviewer, an evaluation dependency in
-production code, an approving/merging GitHub call, or unrelated products.
+Production code is foundation hardening plus deterministic analysis. These
+tests fail if the service quietly grows an AI reviewer, an evaluation
+dependency in production code, an approving/merging GitHub call, or unrelated
+products; and they pin the dependency direction between production code and
+the evaluation harness (`evaluation/`, which lives outside this service).
 They are static (AST/text) checks — they prove absence of the obvious
 wiring, not the absence of every possible bypass.
 """
@@ -90,10 +92,22 @@ def test_production_code_never_imports_the_evaluation_package():
         assert "evaluation" not in roots, f"{path.relative_to(SERVICE_ROOT)} imports evaluation"
 
 
-def test_evaluation_scaffold_is_documentation_only_in_phase_0():
-    evaluation = REPO_ROOT / "evaluation"
-    assert (evaluation / "README.md").is_file()
-    assert list(evaluation.rglob("*.py")) == []
+def test_evaluation_harness_depends_on_the_analysis_layer_only():
+    """Dependency direction is one-way: `evaluation` may import `analysis` (it
+    measures that code), never the application layer — no web framework, no
+    database client, no GitHub plumbing. The reverse direction (production
+    importing `evaluation`) is guarded by the test above."""
+    files = [
+        p for p in (REPO_ROOT / "evaluation").rglob("*.py") if "__pycache__" not in p.parts
+    ]
+    assert files, "evaluation/ holds no Python; this guard would pass vacuously"
+    forbidden = {"app", "fastapi", "uvicorn", "supabase"}
+    offenders = {
+        str(p.relative_to(REPO_ROOT)): sorted(_imported_roots(p) & forbidden)
+        for p in files
+        if _imported_roots(p) & forbidden
+    }
+    assert offenders == {}
 
 
 def test_github_write_surface_is_limited_to_minting_the_installation_token():

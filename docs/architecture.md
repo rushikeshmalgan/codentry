@@ -139,6 +139,8 @@ classified retryable (5xx, network, rate limit) or permanent (404, auth).
 
 ## Differential analysis (`analysis/differential.py`)
 
+The pure orchestration (analyze base and head, classify, decide `completed`/`partial`/`failed`, build `analysis_meta`) lives in `analysis/snapshot_analysis.py`; `app/review_runner.py` only supplies the identity scope and the fetched snapshot, and the evaluation harness calls the same function, so measurements and production run one code path.
+
 The same tools and rules run on the merge base and the head. Head findings are
 matched to base findings by **identity**, not line:
 
@@ -166,7 +168,7 @@ No Anthropic/OpenAI/Gemini SDK, prompt builder, AI validator, AI finding, model
 router, RAG, multi-agent code, AI confidence scores, dashboard, billing, or
 comment posting. `Finding.source` allows `"AI"` only because the schema contract
 anticipates it; nothing constructs one (`tests/test_scope_guards.py`).
-`evaluation/` contains documentation only.
+`evaluation/` holds only the offline evaluation harness core (case format, Arm A runner, matching, statistics): no AI arm, no datasets, no results. It imports `analysis/` and nothing from `app/`, and production code never imports it (`tests/test_scope_guards.py`).
 
 ## Known remaining gaps (read before trusting this)
 

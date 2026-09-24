@@ -1,6 +1,6 @@
 # Codentry — Current Project Status & Implementation Documentation
 
-**As of:** 24 September 2026, after Phase 0 (foundation hardening) and before any further implementation.
+**As of:** 24 September 2026, after Phase 0 (foundation hardening) and Day 1 of the 8-day plan (the offline evaluation harness core). Nothing else has been implemented since Phase 0.
 **Audience:** team members, project guides, reviewers, and future developers. Assumes no prior knowledge.
 **Source of truth for implemented behavior:** the repository. Where this document and the code disagree, the code wins; please fix the document.
 
@@ -88,7 +88,7 @@ Nothing in this diagram posts to GitHub except the installation-token exchange. 
 | Static analysis | ESLint `^8.57.1` (pinned baseline install), `@typescript-eslint/parser ^7.18.0`, Semgrep `>=1.70` (1.177.0 installed locally) | [eslint-baseline/package.json](../services/ai-review/analysis/eslint-baseline/package.json) |
 | Database | Supabase Postgres via `supabase-py >=2.9`; `pgvector` extension enabled by migration 0001 but **unused** | [supabase/migrations/](../supabase/migrations/) |
 | Tests / lint | pytest, respx, PyYAML (dev), ruff; Vitest, `next lint`, `tsc` | [requirements-dev.txt](../services/ai-review/requirements-dev.txt) |
-| CI | GitHub Actions (ubuntu-latest, Node 22, Python 3.13) | [ci.yml](../.github/workflows/ci.yml) — **has not run on this state of the repo** |
+| CI | GitHub Actions (ubuntu-latest, Node 22, Python 3.13) | [ci.yml](../.github/workflows/ci.yml) — **passed on pushed commit `11114d9`** (Phase 0); the Day 1 harness step is newer and has not run |
 | Hosting (planned, unverified) | Vercel (web), Render (backend), Supabase (DB) | [render.yaml](../render.yaml), [deployment.md](deployment.md) |
 | AI | **None** | A `CLAUDE_API_KEY` setting exists but nothing reads it |
 
@@ -111,7 +111,7 @@ codentry/
 │  └─ tests/                      34 Python files (incl. helpers)
 ├─ packages/schemas/              Finding JSON Schema (review.schema.json) + README
 ├─ supabase/migrations/           0001 … 0004 (+ README)
-├─ evaluation/                    README only — no harness yet
+├─ evaluation/                    offline harness core (Day 1): case format, Arm A runner, matching, statistics, CLI, tests, 2 fixture cases
 ├─ docs/                          this document set; PRD (docx); original literature survey (pdf); backup/
 ├─ render.yaml, .env.example, .github/workflows/ci.yml
 └─ README.md
@@ -225,13 +225,13 @@ See the status table below. In one line: Phase 0's hardened static-analysis pipe
 ## 26. What is partially implemented
 
 - **Persistence:** full contract implemented for two stores; only the in-memory one has been exercised.
-- **CI:** workflow exists; it has not run on this repository state, so the Ubuntu-only proof-of-concept has never executed.
+- **CI:** passed on the pushed Phase 0 commit `11114d9` (both jobs, `ubuntu-latest`), so the POSIX-only proof-of-concept test has now executed on Linux. Commits after that (the Day 1 harness and its CI step) have not run in CI yet.
 - **Findings for evaluation:** stored with identity and change status, but no consumer/aggregation exists.
 - **GitHub App:** auth code and webhook plumbing exist; no App is registered.
 
 ## 27. What is not implemented
 
-AI/LLM review of any kind; posting comments or reviews to GitHub; approve/merge (deliberately never); an evaluation harness, datasets, ground-truth tooling, metrics, and reports; a dashboard; RAG; multi-agent review; multiple LLM providers; a Vercel-side webhook inbox; containerized/network-isolated analysis; billing; multi-language analysis beyond JavaScript/TypeScript.
+AI/LLM review of any kind; posting comments or reviews to GitHub; approve/merge (deliberately never); evaluation datasets and ground-truth tooling (mutation generator, labeling), aggregate metric reports, and any AI arm (only the harness core exists: case format, Arm A runner, matching, statistics); a dashboard; RAG; multi-agent review; multiple LLM providers; a Vercel-side webhook inbox; containerized/network-isolated analysis; billing; multi-language analysis beyond JavaScript/TypeScript.
 
 ## 28. Known limitations
 
@@ -257,7 +257,7 @@ AI/LLM review of any kind; posting comments or reviews to GitHub; approve/merge 
 
 ## 31. Current research/evaluation readiness
 
-Foundation ready for an **offline** harness that calls `analysis/` on pinned snapshots (Phase 0 report, section J). **Not** ready to use the deployed pipeline's data as evidence, and no measurement has been made. Nothing in this repository is a result. Prerequisites still missing: case format, ground-truth sources, matching/metrics code, statistical reporting, reproducible run records — see [8_DAY_IMPLEMENTATION_PLAN.md](8_DAY_IMPLEMENTATION_PLAN.md).
+The **offline harness core exists** (Day 1 of [8_DAY_IMPLEMENTATION_PLAN.md](8_DAY_IMPLEMENTATION_PLAN.md)): a case format with a JSON Schema, an Arm A runner that reuses the production differential analysis, location-based matching with ±k sensitivity, Wilson/McNemar/bootstrap helpers, and reproducible run records (`python -m evaluation.run`). It has been run on two hand-made **fixture** cases only; those test the harness and are not evidence. **VERIFIED LOCALLY** (Windows, real ESLint and Semgrep); not yet run in CI. **Not** ready to use the deployed pipeline's data as evidence, and no measurement has been made. Nothing in this repository is a result. Still missing: ground-truth sources at scale (plan Days 2–3), aggregate reporting with limitations (Day 4), any AI arm (Day 5+).
 
 ## 32. Glossary
 
@@ -302,6 +302,6 @@ Foundation ready for an **offline** harness that calls `analysis/` on pinned sna
 | Container/network sandbox for analysis | NOT IMPLEMENTED | [architecture.md](architecture.md) gap #2 | |
 | AI / LLM review (any provider) | NOT IMPLEMENTED | [test_scope_guards.py](../services/ai-review/tests/test_scope_guards.py) enforces absence | Planned only after an evaluation harness exists. |
 | Posting comments / reviews to GitHub | NOT IMPLEMENTED | same test | Approve/merge deliberately never. |
-| Evaluation harness, datasets, metrics | NOT IMPLEMENTED (PLANNED) | [evaluation/README.md](../evaluation/README.md), [8_DAY_IMPLEMENTATION_PLAN.md](8_DAY_IMPLEMENTATION_PLAN.md) | Documentation only today. |
+| Evaluation harness, datasets, metrics | PARTIALLY IMPLEMENTED (Day 1 core, VERIFIED LOCALLY) | [evaluation/README.md](../evaluation/README.md), [8_DAY_IMPLEMENTATION_PLAN.md](8_DAY_IMPLEMENTATION_PLAN.md) | Core only: no datasets, no aggregate report, no AI arm; two hand-made fixture cases; nothing measured. |
 | Dashboard, billing, RAG, multi-agent, second LLM | NOT IMPLEMENTED | — | Explicitly out of scope for now. |
-| GitHub Actions CI | PARTIALLY IMPLEMENTED | [ci.yml](../.github/workflows/ci.yml) | Workflow exists; has not run on this state. |
+| GitHub Actions CI | IMPLEMENTED; PASSED on the pushed Phase 0 commit `11114d9` | [ci.yml](../.github/workflows/ci.yml) | Both jobs (web: lint/typecheck/test/build; ai-review: ruff/pytest) succeeded on `ubuntu-latest` with Node 22 and Python 3.13 (queried from the public GitHub Actions API, 24 Sep 2026). The evaluation-harness step added after that commit has not run yet. |

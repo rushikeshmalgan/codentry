@@ -1,0 +1,7 @@
+# Files whose exact bytes are hashed into analysis_meta / evaluation run.json
+# (ruleset_sha256, baseline_config_sha256). Keep them LF on every OS: with
+# core.autocrlf=true a Windows checkout would otherwise change the hash without
+# changing the rules, making a reproducibility record look like a different
+# configuration than the one CI ran.
+services/ai-review/analysis/semgrep-rules/*.yml text eol=lf
+services/ai-review/analysis/eslint-baseline/.eslintrc.baseline.json text eol=lf

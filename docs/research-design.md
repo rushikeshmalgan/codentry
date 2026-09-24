@@ -89,5 +89,5 @@ claims must be stated with their interval.
 
 Codentry is not CodeArena, a coding-assessment platform, an online judge, or a
 trainer. None of that code belongs here, and `tests/test_scope_guards.py`
-checks the repository for it. The evaluation harness (a separate, later phase)
-will live under `evaluation/` and must never be imported by production code.
+checks the repository for it. The evaluation harness lives under `evaluation/`
+(core built; see its README) and must never be imported by production code.

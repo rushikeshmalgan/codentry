@@ -1,6 +1,6 @@
 # Codentry — 8-Day Implementation Plan Before Review
 
-**Written:** 24 September 2026. **Status of this document:** a plan. **Nothing in it has been started.** Current state: [PROJECT_STATUS.md](PROJECT_STATUS.md). Research design: [research-design.md](research-design.md). Cost/hosting context: [FINAL_PRODUCT_AND_PRICING.md](FINAL_PRODUCT_AND_PRICING.md), [NO_COST_ALTERNATIVES.md](NO_COST_ALTERNATIVES.md).
+**Written:** 24 September 2026. **Status of this document:** a plan. **Day 1 has been implemented locally (see its status note); Days 2–8 have not been started.** Current state: [PROJECT_STATUS.md](PROJECT_STATUS.md). Research design: [research-design.md](research-design.md). Cost/hosting context: [FINAL_PRODUCT_AND_PRICING.md](FINAL_PRODUCT_AND_PRICING.md), [NO_COST_ALTERNATIVES.md](NO_COST_ALTERNATIVES.md).
 
 ## 0. Ground rules
 
@@ -70,6 +70,13 @@ Direction of dependency: `evaluation` may import `analysis`; `app`/`analysis` mu
 **Risks:** over-designing the schema; tying the runner to the DB. **Mitigation:** the runner reads only files and calls `analysis/`.
 
 **Must NOT attempt today:** AI, mutation generation, GitHub calls, UI, real datasets.
+
+**Status — implemented locally on 24 September 2026; not yet run in CI.** Every task above exists and its tests pass on the developer's Windows machine with the real ESLint 8.57.1 and Semgrep 1.177.0 (two CLI runs produced byte-identical `result.json` and `run.json`). The new CI step has not run yet. Differences from the plan as written:
+- The pure differential function was **extracted** to `analysis/snapshot_analysis.py` (a mechanical move; `app/review_runner.analyze_snapshot` is now a thin wrapper) instead of copied, so the harness and the worker cannot drift. The existing `test_review_runner` tests pin its behavior.
+- `ground_truth[]` lives inside `case.json` (the layout sketch above shows a separate `ground_truth.json`). The loader splits a case into `CaseInputs` (what an arm may see) and the ground truth, so blinding is structural, not a convention.
+- `source.kind` has a third value, `handmade`, for the two hand-made fixture cases. `verified_by` is a structured `{method, ref}` whose methods exclude any model (ground truth is never a model's judgement).
+- Added: root `.gitattributes` (pins LF for the hashed ruleset/baseline config; `evaluation/cases/.gitattributes` pins case bytes), `jsonschema` in `requirements-dev.txt`, `evaluation/ruff.toml`, `evaluation/record.py` (per-case record), and a second scope-guard test (evaluation may not import `app`/`fastapi`/`supabase`).
+- The two cases carry `stratum` `fixture:*`. They test the harness and are **not evidence**.
 
 ---
 

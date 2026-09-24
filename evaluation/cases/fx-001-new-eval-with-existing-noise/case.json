@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "fx-001-new-eval-with-existing-noise",
+  "stratum": "fixture:new-and-existing",
+  "language": "javascript",
+  "license": "LicenseRef-project-authored",
+  "source": { "kind": "handmade", "author": "codentry-team" },
+  "files": [
+    { "path": "src/tasks.js", "status": "modified", "base": "base/src/tasks.js", "head": "head/src/tasks.js" }
+  ],
+  "ground_truth": [
+    {
+      "file": "src/tasks.js",
+      "start_line": 9,
+      "end_line": 9,
+      "kind": "logic",
+      "provenance": "handmade",
+      "verified_by": [{ "method": "construction", "ref": "loop bound changed from < to <= in head; reads one element past the end" }],
+      "description": "Off-by-one: the loop bound now runs one iteration too far. A static rule set is not expected to find this."
+    },
+    {
+      "file": "src/tasks.js",
+      "start_line": 16,
+      "end_line": 16,
+      "kind": "security",
+      "provenance": "handmade",
+      "verified_by": [{ "method": "construction", "ref": "eval() of a caller-supplied string added in head" }],
+      "description": "eval() of a caller-supplied expression."
+    }
+  ]
+}

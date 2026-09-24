@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codentry.invalid/evaluation/case.schema.json",
+  "title": "Codentry evaluation case",
+  "description": "One pull-request-shaped change (base -> head) plus the defects known to have been introduced by it. Ground truth is established by construction, executable tests, dataset annotation or independent human review -- never by a model (see docs/research-design.md). `ground_truth` may be empty: that is a clean change, and every finding reported on it counts as a false positive.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "stratum", "language", "license", "source", "files", "ground_truth"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "id": {
+      "description": "Must equal the case directory name.",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$"
+    },
+    "stratum": {
+      "description": "Reporting group. Strata are always reported separately, never pooled (e.g. mutant:logic vs mutant:rule-aligned). Harness self-test data uses the fixture: prefix and is not evidence.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*(:[a-z0-9_-]+)*$"
+    },
+    "language": { "enum": ["javascript", "typescript"] },
+    "license": {
+      "description": "SPDX identifier of the redistributed code, or a LicenseRef-* label for project-authored material.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "source": {
+      "oneOf": [
+        {
+          "description": "Real repository history.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "url", "base_sha", "head_sha"],
+          "properties": {
+            "kind": { "const": "repository" },
+            "url": { "type": "string", "pattern": "^https://" },
+            "base_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+            "head_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+          }
+        },
+        {
+          "description": "Produced by a deterministic generator (e.g. a mutation operator); regenerating from the seed must reproduce the case byte for byte.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "generator", "seed"],
+          "properties": {
+            "kind": { "const": "generated" },
+            "generator": { "type": "string", "minLength": 1 },
+            "seed": { "type": "integer" }
+          }
+        },
+        {
+          "description": "Written by hand by a named author (harness fixtures).",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "author"],
+          "properties": {
+            "kind": { "const": "handmade" },
+            "author": { "type": "string", "minLength": 1 }
+          }
+        }
+      ]
+    },
+    "files": {
+      "description": "The changed files. `path` is the path at the head (the identity path); `base`/`head` are file locations relative to the case directory.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 200,
+      "items": { "$ref": "#/$defs/changed_file" }
+    },
+    "ground_truth": {
+      "description": "Defects introduced by the change, located on HEAD lines.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/defect" }
+    }
+  },
+  "$defs": {
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "^(?!/)(?!.*\\\\)(?!.*(^|/)\\.\\.(/|$))[^\\u0000-\\u001f]+$"
+    },
+    "changed_file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "status"],
+      "properties": {
+        "path": { "$ref": "#/$defs/relative_path" },
+        "status": { "enum": ["added", "modified", "removed", "renamed"] },
+        "previous_path": { "$ref": "#/$defs/relative_path" },
+        "base": { "$ref": "#/$defs/relative_path" },
+        "head": { "$ref": "#/$defs/relative_path" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "added" } } },
+          "then": { "required": ["head"], "properties": { "base": false, "previous_path": false } }
+        },
+        {
+          "if": { "properties": { "status": { "const": "modified" } } },
+          "then": { "required": ["base", "head"], "properties": { "previous_path": false } }
+        },
+        {
+          "if": { "properties": { "status": { "const": "removed" } } },
+          "then": { "required": ["base"], "properties": { "head": false, "previous_path": false } }
+        },
+        {
+          "if": { "properties": { "status": { "const": "renamed" } } },
+          "then": { "required": ["base", "head", "previous_path"] }
+        }
+      ]
+    },
+    "defect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file", "start_line", "end_line", "kind", "provenance", "verified_by"],
+      "properties": {
+        "file": { "$ref": "#/$defs/relative_path" },
+        "start_line": { "type": "integer", "minimum": 1 },
+        "end_line": { "type": "integer", "minimum": 1 },
+        "kind": {
+          "enum": ["correctness", "security", "logic", "cross_file", "architecture", "performance", "style"]
+        },
+        "provenance": {
+          "description": "How the defect came to exist / was found.",
+          "enum": ["handmade", "mutation", "real_defect", "human_label"]
+        },
+        "verified_by": {
+          "description": "How the label was confirmed. A model is deliberately not an allowed method: ground truth is never a model judging a model.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["method", "ref"],
+            "properties": {
+              "method": { "enum": ["construction", "executable_test", "dataset_annotation", "human_review"] },
+              "ref": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "description": { "type": "string", "maxLength": 500 }
+      }
+    }
+  }
+}
