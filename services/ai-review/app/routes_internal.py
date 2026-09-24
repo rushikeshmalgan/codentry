@@ -18,7 +18,7 @@ from app.events import (
     handle_pull_request_event,
 )
 from app.internal_auth import require_internal_secret
-from app.review_runner import run_placeholder_review
+from app.review_runner import run_static_review
 from app.schemas import (
     InstallationSummary,
     InternalWebhookEnvelope,
@@ -86,7 +86,14 @@ def receive_webhook_event(
             )
             return WebhookAcceptedResponse(status="ignored", reason=result.get("reason"))
 
-        background_tasks.add_task(run_placeholder_review, store, review_run_id)
+        background_tasks.add_task(
+            run_static_review,
+            store,
+            review_run_id,
+            result["github_installation_id"],
+            result["repo_full_name"],
+            result["github_pr_number"],
+        )
         logger.info(
             "pull_request_event_accepted delivery_id=%s action=%s review_run_id=%s",
             envelope.delivery_id,

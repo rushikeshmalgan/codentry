@@ -3,9 +3,11 @@ pending -> running -> completed async lifecycle.
 
 TestClient runs FastAPI BackgroundTasks synchronously as part of the
 request/response cycle, so by the time client.post(...) returns, the
-placeholder review has already completed — no polling needed.
+review has already completed (or failed) — no polling needed.
 """
 
+from analysis.workspace import SourceFile
+from app.config import get_settings
 from tests.github_payloads import (
     installation_payload,
     installation_repositories_payload,
@@ -49,22 +51,39 @@ def test_valid_internal_secret_is_accepted(client, internal_headers):
 # --- Event routing ---
 
 
-def test_pull_request_event_accepted_and_completes(client, internal_headers):
-    resp = _post(client, internal_headers, "pr-1", "pull_request", pull_request_payload(action="opened"))
+def test_pull_request_event_accepted_and_completes(client, internal_headers, monkeypatch):
+    """Exercises the real Phase 3 pipeline end-to-end: GitHub content fetch
+    is mocked (no live GitHub App exists in this environment — see
+    docs/github-app-setup.md) but ESLint/Semgrep genuinely run against the
+    returned content, and the finding they produce is genuinely persisted.
+    """
+    monkeypatch.setenv("GITHUB_APP_ID", "12345")
+    monkeypatch.setenv("GITHUB_PRIVATE_KEY", "test-key-not-a-real-pem")
+    get_settings.cache_clear()
 
-    assert resp.status_code == 202
-    body = resp.json()
-    assert body["status"] == "accepted"
-    review_run_id = body["review_run_id"]
-    assert review_run_id
+    async def fake_fetch_changed_files(**kwargs):
+        return [SourceFile(path="bad.js", content="function f() {\n  const unused = 1;\n}\n")]
 
-    status_resp = client.get(f"/internal/review-runs/{review_run_id}", headers=internal_headers)
-    status_body = status_resp.json()
-    assert status_body["status"] == "completed"
-    assert status_body["latency_ms"] is not None
-    assert status_body["started_at"] is not None
-    assert status_body["completed_at"] is not None
-    assert status_body["error_message"] is None
+    monkeypatch.setattr("app.review_runner.fetch_changed_files", fake_fetch_changed_files)
+
+    try:
+        resp = _post(client, internal_headers, "pr-1", "pull_request", pull_request_payload(action="opened"))
+
+        assert resp.status_code == 202
+        body = resp.json()
+        assert body["status"] == "accepted"
+        review_run_id = body["review_run_id"]
+        assert review_run_id
+
+        status_resp = client.get(f"/internal/review-runs/{review_run_id}", headers=internal_headers)
+        status_body = status_resp.json()
+        assert status_body["status"] == "completed"
+        assert status_body["latency_ms"] is not None
+        assert status_body["started_at"] is not None
+        assert status_body["completed_at"] is not None
+        assert status_body["error_message"] is None
+    finally:
+        get_settings.cache_clear()
 
 
 def test_installation_event_accepted(client, internal_headers):

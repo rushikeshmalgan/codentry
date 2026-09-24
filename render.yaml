@@ -9,7 +9,13 @@ services:
     runtime: python
     rootDir: services/ai-review
     plan: free
-    buildCommand: pip install -r requirements.txt
+    # NOTE (Phase 3, unverified against a real Render deploy): ESLint needs
+    # Node.js. Render's Python native runtime is not confirmed here to have
+    # `node` preinstalled — if the build fails on the npm install step,
+    # either switch this service to Render's Node runtime and shell out to
+    # `python3` instead, or use a Dockerfile that installs both runtimes.
+    # Semgrep alone (pip-installed, no Node needed) still works either way.
+    buildCommand: pip install -r requirements.txt && cd analysis/eslint-baseline && npm install
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:

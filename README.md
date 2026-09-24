@@ -318,8 +318,8 @@ Completed:
 * Durable, DB-backed replay protection (`webhook_deliveries`, unique on `delivery_id`)
 * Authenticated Vercel → Render internal handoff (`X-Codentry-Internal-Secret`, distinct from the GitHub webhook secret)
 * Installation / repository / pull-request bookkeeping, with repository activation (`is_active`)
-* Async placeholder pipeline: `review_runs` goes `pending → running → completed` with 0 findings, latency measured
-* GitHub App JWT + installation-token authentication module (implemented, unit-tested — not yet called by the pipeline; nothing to fetch/post until Phase 3/5)
+* Async pipeline: `review_runs` goes `pending → running → completed`/`failed` — the original 0-findings placeholder was replaced in Phase 3 by the real static-analysis pipeline below
+* GitHub App JWT + installation-token authentication module (implemented, unit-tested; used since Phase 3 to fetch PR file content)
 * Internal review-run status endpoint, internal installations debug view, public setup/info page
 * 39 backend tests + 26 frontend tests, all green; verified end-to-end locally with real HMAC signatures against both services actually running
 
@@ -329,15 +329,20 @@ registered (needs an account with GitHub admin access). See
 `docs/staging-test-phase2.md` for the staging verification procedure once
 it exists.
 
-### Phase 3 — Static Analysis
+### Phase 3 — Static Analysis ✅
 
-Planned:
+Completed:
 
-* ESLint integration
-* Semgrep integration
-* Finding normalization
-* Severity and confidence
-* Source attribution
+* Standalone pipeline (`services/ai-review/analysis/`) — zero AI/GitHub/Supabase calls, structurally verified by a subprocess test that blocks those imports and asserts the CLI still works
+* Real ESLint (pinned baseline install + repo-config fallback) and Semgrep (local ruleset, no network) execution
+* Finding normalization into the shared `Finding` schema (`packages/schemas/review.schema.json`, fixed the `file`→`file_path` naming mismatch left over from Phase 1)
+* `findings` table (Phase 3 migration), wired into the real review-run lifecycle (`app/review_runner.py::run_static_review`)
+* Standalone CLI: `python -m analysis.run <repo> <files>` — see `docs/static-analysis.md`
+* 90+ backend tests total, including golden-output, timeout, partial-failure, and performance-baseline tests
+
+Not yet done: `analysis/changed_files.py` (GitHub content fetching) is
+tested only against mocked HTTP — no live GitHub App exists yet to verify
+it against a real PR (same USER ACTION REQUIRED as Phase 2).
 
 ### Phase 4 — AI Review
 

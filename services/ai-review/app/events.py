@@ -132,26 +132,22 @@ def handle_pull_request_event(store: ReviewStore, payload: dict[str, Any]) -> di
         state=pr.get("state"),
     )
 
-    if action not in ALLOWED_PULL_REQUEST_ACTIONS:
-        return {
-            "action": action,
-            "pull_request_id": pr_row["id"],
-            "review_run_id": None,
-            "reason": "unsupported_action",
-        }
-
-    if not repo_row["is_active"]:
-        return {
-            "action": action,
-            "pull_request_id": pr_row["id"],
-            "review_run_id": None,
-            "reason": "repository_inactive",
-        }
-
-    review_run = store.create_review_run(pull_request_id=pr_row["id"], trigger_event=action)
-    return {
+    # Included in every branch (not just the success path) so the caller can
+    # schedule static analysis directly off this dict without a second
+    # lookup by id — see app/routes_internal.py.
+    common = {
         "action": action,
         "pull_request_id": pr_row["id"],
-        "review_run_id": review_run["id"],
-        "reason": None,
+        "github_installation_id": github_installation_id,
+        "repo_full_name": repo_row["full_name"],
+        "github_pr_number": pr_number,
     }
+
+    if action not in ALLOWED_PULL_REQUEST_ACTIONS:
+        return {**common, "review_run_id": None, "reason": "unsupported_action"}
+
+    if not repo_row["is_active"]:
+        return {**common, "review_run_id": None, "reason": "repository_inactive"}
+
+    review_run = store.create_review_run(pull_request_id=pr_row["id"], trigger_event=action)
+    return {**common, "review_run_id": review_run["id"], "reason": None}

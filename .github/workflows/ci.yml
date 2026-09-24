@@ -33,6 +33,15 @@ jobs:
           python-version: "3.13"
           cache: "pip"
           cache-dependency-path: services/ai-review/requirements-dev.txt
+      # Needed for the analysis/ ESLint runner (Phase 3) — Semgrep is pure
+      # Python and doesn't need this, but ESLint does.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: services/ai-review/analysis/eslint-baseline/package-lock.json
+      - run: npm install
+        working-directory: services/ai-review/analysis/eslint-baseline
       - run: pip install -r requirements-dev.txt
       - run: ruff check .
       - run: python -m pytest -v

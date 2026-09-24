@@ -1,4 +1,7 @@
-# Phase 2 staging test procedure — USER ACTION REQUIRED
+# Phase 2/3 staging test procedure — USER ACTION REQUIRED
+
+Updated for Phase 3: step A.5/A.6 below now also cover verifying real
+ESLint/Semgrep findings were persisted, not just an empty completed run.
 
 **Status: BLOCKED in this environment.** These procedures need a registered
 GitHub App (`docs/github-app-setup.md`), a deployed Vercel + Render pair
@@ -26,14 +29,18 @@ environment.
 4. In Render's logs for `codentry-ai-review`, confirm a
    `pull_request_event_accepted` log line with a `review_run_id`.
 5. Query `GET /internal/review-runs/{id}` (with the internal secret header)
-   and confirm `status` reaches `completed` within a second or two, with
-   `latency_ms` populated and `error_message` null.
+   and confirm `status` reaches `completed` (or `failed`, with a specific
+   `error_message` — see `docs/static-analysis.md`'s failure-behavior
+   section — if the App's Node/Semgrep setup on Render isn't working yet),
+   with `latency_ms` populated.
 6. Confirm in the Supabase table editor that `installations`,
-   `repositories`, `pull_requests`, and `review_runs` rows exist and match
-   what GitHub sent.
-7. Confirm **no comment was posted to the PR** — Phase 2 does not post
-   anything; that's Phase 5. This absence is itself part of the pass
-   criteria.
+   `repositories`, `pull_requests`, `review_runs`, **and `findings`** rows
+   exist and match what GitHub sent — if the test PR has any real ESLint or
+   Semgrep violations, they should appear here with `source` correctly set
+   to `ESLINT` or `SEMGREP`.
+7. Confirm **no comment was posted to the PR** — Phase 3 only persists
+   findings to the database; posting them is Phase 5. This absence is
+   itself part of the pass criteria.
 
 ## B. GitHub "Redeliver" test (replay protection)
 

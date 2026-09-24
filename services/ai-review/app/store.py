@@ -31,6 +31,8 @@ from abc import ABC, abstractmethod
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
+from analysis.finding import Finding
+
 logger = logging.getLogger("codentry.ai_review.store")
 
 
@@ -114,6 +116,17 @@ class ReviewStore(ABC):
     def list_installations_summary(self) -> list[dict[str, Any]]:
         pass
 
+    @abstractmethod
+    def create_findings(self, review_run_id: str, findings: list[Finding]) -> list[dict[str, Any]]:
+        """Persist normalized findings (Phase 3: ESLINT/SEMGREP; Phase 4
+        onward: AI too) for a review run. Returns the stored rows, each with
+        a generated id/created_at and github_comment_id left null (that's
+        populated in Phase 5 once a comment is actually posted)."""
+
+    @abstractmethod
+    def get_findings_for_review_run(self, review_run_id: str) -> list[dict[str, Any]]:
+        pass
+
 
 class InMemoryReviewStore(ReviewStore):
     def __init__(self) -> None:
@@ -126,6 +139,7 @@ class InMemoryReviewStore(ReviewStore):
         self._pull_requests: dict[str, dict[str, Any]] = {}
         self._pull_requests_by_key: dict[tuple[str, int], str] = {}
         self._review_runs: dict[str, dict[str, Any]] = {}
+        self._findings: dict[str, dict[str, Any]] = {}
 
     def record_delivery(self, delivery_id: str, event_type: str) -> bool:
         with self._lock:
@@ -310,6 +324,41 @@ class InMemoryReviewStore(ReviewStore):
                     }
                 )
             return summaries
+
+    def create_findings(self, review_run_id: str, findings: list[Finding]) -> list[dict[str, Any]]:
+        with self._lock:
+            rows = []
+            for f in findings:
+                row = {
+                    "id": str(uuid.uuid4()),
+                    "review_run_id": review_run_id,
+                    "source": f.source,
+                    "category": f.category,
+                    "severity": f.severity,
+                    "confidence": f.confidence,
+                    "title": f.title,
+                    "description": f.description,
+                    "file_path": f.file_path,
+                    "start_line": f.start_line,
+                    "end_line": f.end_line,
+                    "suggestion": f.suggestion,
+                    "reasoning": f.reasoning,
+                    "evidence_span": f.evidence_span,
+                    "github_comment_id": None,
+                    "dedup_hash": f.dedup_hash,
+                    "created_at": _now().isoformat(),
+                }
+                self._findings[row["id"]] = row
+                rows.append(dict(row))
+            return rows
+
+    def get_findings_for_review_run(self, review_run_id: str) -> list[dict[str, Any]]:
+        with self._lock:
+            return [
+                dict(row)
+                for row in self._findings.values()
+                if row["review_run_id"] == review_run_id
+            ]
 
 
 class SupabaseReviewStore(ReviewStore):
@@ -556,6 +605,40 @@ class SupabaseReviewStore(ReviewStore):
                 }
             )
         return summaries
+
+    def create_findings(self, review_run_id: str, findings: list[Finding]) -> list[dict[str, Any]]:
+        if not findings:
+            return []
+        rows = [
+            {
+                "review_run_id": review_run_id,
+                "source": f.source,
+                "category": f.category,
+                "severity": f.severity,
+                "confidence": f.confidence,
+                "title": f.title,
+                "description": f.description,
+                "file_path": f.file_path,
+                "start_line": f.start_line,
+                "end_line": f.end_line,
+                "suggestion": f.suggestion,
+                "reasoning": f.reasoning,
+                "evidence_span": f.evidence_span,
+                "dedup_hash": f.dedup_hash,
+            }
+            for f in findings
+        ]
+        result = self._client.table("findings").insert(rows).execute()
+        return result.data
+
+    def get_findings_for_review_run(self, review_run_id: str) -> list[dict[str, Any]]:
+        result = (
+            self._client.table("findings")
+            .select("*")
+            .eq("review_run_id", review_run_id)
+            .execute()
+        )
+        return result.data
 
 
 def _is_unique_violation(exc: Exception) -> bool:

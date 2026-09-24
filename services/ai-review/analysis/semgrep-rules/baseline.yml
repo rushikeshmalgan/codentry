@@ -1,0 +1,28 @@
+rules:
+  - id: hardcoded-secret
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "Hardcoded credential-like string literal assigned to a variable named like a secret/token/password/API key."
+    metadata:
+      category: security
+    patterns:
+      - pattern: $VAR = "..."
+      - metavariable-regex:
+          metavariable: $VAR
+          regex: (?i)^.*(secret|password|passwd|api[_-]?key|token).*$
+
+  - id: eval-usage
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "eval() executes a string as code and can lead to remote code execution if the input is not fully trusted."
+    metadata:
+      category: security
+    pattern: eval(...)
+
+  - id: sql-string-concatenation
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "Building a SQL query via string concatenation risks SQL injection; use parameterized queries instead."
+    metadata:
+      category: security
+    pattern: '"..." + $X'

@@ -1,0 +1,12 @@
+{
+  "name": "@codentry/eslint-baseline",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pinned, self-contained ESLint install used as Codentry's fallback baseline config for repositories that have none of their own (or whose own config fails to load). Never runs against a repository's own node_modules/config execution path.",
+  "dependencies": {
+    "eslint": "^8.57.1",
+    "typescript": "^5.6.3",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0"
+  }
+}

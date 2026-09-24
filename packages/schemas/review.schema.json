@@ -2,9 +2,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://codentry.dev/schemas/finding.schema.json",
   "title": "Codentry Finding",
-  "description": "The normalized shape every static-analysis or AI finding must conform to before being stored or posted to a PR. Source of truth for both the Python (services/ai-review) and TypeScript (apps/web) sides. Introduced in Phase 1 as a documented contract only; first consumed by code in Phase 3 (static findings) and Phase 4 (AI findings).",
+  "description": "The normalized shape every static-analysis or AI finding must conform to before being stored or posted to a PR. Source of truth for both the Python (services/ai-review) and TypeScript (apps/web) sides. Introduced in Phase 1 as a documented contract only; first consumed by code in Phase 3 (services/ai-review/analysis/finding.py, static findings) and Phase 4 (AI findings). The `file` field was renamed to `file_path` in Phase 3 to match the database schema — this schema had no code consumer yet, so the rename was free.",
   "type": "object",
-  "required": ["source", "category", "severity", "title", "description", "file", "start_line", "end_line"],
+  "required": ["source", "category", "severity", "title", "description", "file_path", "start_line", "end_line", "dedup_hash"],
   "additionalProperties": false,
   "properties": {
     "source": {
@@ -34,7 +34,7 @@
       "type": "string",
       "minLength": 1
     },
-    "file": {
+    "file_path": {
       "type": "string",
       "minLength": 1
     },
@@ -57,6 +57,11 @@
     "evidence_span": {
       "type": ["string", "null"],
       "description": "AI findings only. The exact code text the finding refers to, cross-checked against the real file content at start_line-end_line as a hallucination guard (Phase 4)."
+    },
+    "dedup_hash": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Deterministic hash of (source, file_path, start_line, end_line, rule_id) — see services/ai-review/analysis/finding.py:compute_dedup_hash. Never derived from a timestamp or random value."
     }
   }
 }

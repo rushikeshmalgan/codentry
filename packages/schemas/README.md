@@ -10,17 +10,18 @@ what a "finding" looks like.
   `Finding` object. This is the single source of truth for the shape every
   ESLint, Semgrep, and AI finding must conform to.
 
-## Status (Phase 1)
+## Status (Phase 3)
 
-This schema is **not yet consumed by any code**. It exists now so the
-contract is fixed and reviewable before Phase 3 (static analysis) and
-Phase 4 (Claude AI review) both need to produce objects matching it.
+Consumed since Phase 3 by `services/ai-review/analysis/finding.py`'s
+`Finding` Pydantic model, which mirrors this schema field-for-field
+(including the `file` → `file_path` rename made when Phase 3 landed, back
+when this schema still had no code consumer to break).
 
 ## Consumption plan
 
-- **Phase 3** (`services/ai-review`): mirror this schema as a Pydantic model
-  used to validate normalized ESLint/Semgrep output before it's written to
-  the `findings` table.
+- **Phase 3** (`services/ai-review`) — done: `analysis/finding.py`'s
+  `Finding` model validates normalized ESLint/Semgrep output before it's
+  written to the `findings` table.
 - **Phase 4** (`services/ai-review`): the same Pydantic model (with
   `confidence`, `reasoning`, `evidence_span` required instead of optional)
   is used as Claude's forced structured-output schema, so malformed AI

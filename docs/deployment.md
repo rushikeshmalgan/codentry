@@ -28,9 +28,19 @@ Two options:
   repo's `render.yaml`. Render will create the `codentry-ai-review` web
   service with the build/start commands already filled in.
 - **Manual**: create a new Web Service, root directory `services/ai-review`,
-  runtime Python 3, build command `pip install -r requirements.txt`, start
-  command `uvicorn app.main:app --host 0.0.0.0 --port $PORT`, health check
-  path `/health`.
+  runtime Python 3, build command
+  `pip install -r requirements.txt && cd analysis/eslint-baseline && npm install`,
+  start command `uvicorn app.main:app --host 0.0.0.0 --port $PORT`, health
+  check path `/health`.
+
+**Unverified (Phase 3):** ESLint needs Node.js, and this environment has no
+Render account to confirm `node` is preinstalled on Render's Python native
+runtime. If the build fails on the `npm install` step, the fallback is
+either a Dockerfile installing both runtimes, or Render's Node runtime
+shelling out to `python3` instead. Semgrep alone (pure pip install) works
+regardless — a repo without Node available would still get Semgrep findings,
+just no ESLint ones, which `analysis/static_analysis.py` already handles as
+a `partial_failure`, not a crash.
 
 Environment variables to set in the Render dashboard (not in `render.yaml`,
 so they're never committed):
@@ -53,9 +63,9 @@ worked around here.
 ## Supabase
 
 See `supabase/README.md` — project creation and migration application are
-manual steps, not part of this deployment doc. Two migrations exist so far:
-`0001_enable_pgvector.sql` and `0002_github_app_bookkeeping.sql`; apply both,
-in order.
+manual steps, not part of this deployment doc. Three migrations exist so
+far: `0001_enable_pgvector.sql`, `0002_github_app_bookkeeping.sql`, and
+`0003_findings.sql`; apply all three, in order.
 
 ## GitHub App
 
