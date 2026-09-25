@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "pr-axios-11118",
+  "stratum": "noise:pr",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/axios/axios",
+    "base_sha": "d19040bda7a8be2f82c3c6e1a5bc03917daee39a",
+    "head_sha": "2d2a21af8a433089474a2149781799c93acbcf3c",
+    "derivation": "pull_request",
+    "pull_request": 11118
+  },
+  "files": [
+    {
+      "path": "lib/core/InterceptorManager.js",
+      "status": "modified",
+      "base": "base/lib/core/InterceptorManager.js",
+      "head": "head/lib/core/InterceptorManager.js"
+    },
+    {
+      "path": "tests/unit/core/InterceptorManager.test.js",
+      "status": "modified",
+      "base": "base/tests/unit/core/InterceptorManager.test.js",
+      "head": "head/tests/unit/core/InterceptorManager.test.js"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

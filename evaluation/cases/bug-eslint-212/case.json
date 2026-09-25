@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "bug-eslint-212",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/eslint",
+    "base_sha": "2a83dbcb770bc26a31fc9a3fa75ed57ddcbf48f5",
+    "head_sha": "6a5cd32e5a75b23558ad0282e080ffbb6affcad0",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-212-fix",
+    "head_ref": "Bug-212"
+  },
+  "files": [
+    {
+      "path": "lib/rules/indent.js",
+      "status": "modified",
+      "base": "base/lib/rules/indent.js",
+      "head": "head/lib/rules/indent.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/rules/indent.js",
+      "start_line": 1097,
+      "end_line": 1098,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Eslint-212: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-eslint-212",
+      "description": "Location 1 of 1 changed by the fix of BugsJS Eslint-212 (category: incorrect feature implementation --> incorrect data processing)."
+    }
+  ]
+}

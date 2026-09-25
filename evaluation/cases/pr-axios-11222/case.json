@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "pr-axios-11222",
+  "stratum": "noise:pr",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/axios/axios",
+    "base_sha": "1226e6c53eeb0e9d7159bea83556c2ff117b5f2e",
+    "head_sha": "18e7dfedf30c96e58652887f930642ae82e0130c",
+    "derivation": "pull_request",
+    "pull_request": 11222
+  },
+  "files": [
+    {
+      "path": "docs/scripts/process-sponsors.js",
+      "status": "modified",
+      "base": "base/docs/scripts/process-sponsors.js",
+      "head": "head/docs/scripts/process-sponsors.js"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

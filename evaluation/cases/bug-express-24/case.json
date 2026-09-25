@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "bug-express-24",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/express",
+    "base_sha": "33508e0c756094f3cf465e29f78782102fa59bfb",
+    "head_sha": "4070dabe532ecb799445920cf9756eb6625a0254",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-24-fix",
+    "head_ref": "Bug-24"
+  },
+  "files": [
+    {
+      "path": "lib/router/index.js",
+      "status": "modified",
+      "base": "base/lib/router/index.js",
+      "head": "head/lib/router/index.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/router/index.js",
+      "start_line": 155,
+      "end_line": 157,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Express-24: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-express-24",
+      "description": "Location 1 of 2 changed by the fix of BugsJS Express-24 (category: incomplete feature implementation --> error handling)."
+    },
+    {
+      "file": "lib/router/index.js",
+      "start_line": 574,
+      "end_line": 574,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Express-24: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-express-24",
+      "description": "Location 2 of 2 changed by the fix of BugsJS Express-24 (category: incomplete feature implementation --> error handling)."
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "pr-zod-6541",
+  "stratum": "noise:pr",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/colinhacks/zod",
+    "base_sha": "68aca3dc402c59f5c4e30322e83028389e44b8b5",
+    "head_sha": "18e71c71daff6e79ab8f00a48db252ccb340da1f",
+    "derivation": "pull_request",
+    "pull_request": 6541
+  },
+  "files": [
+    {
+      "path": "packages/zod/src/v4/core/json-schema-generator.ts",
+      "status": "modified",
+      "base": "base/packages/zod/src/v4/core/json-schema-generator.ts",
+      "head": "head/packages/zod/src/v4/core/json-schema-generator.ts"
+    },
+    {
+      "path": "packages/zod/src/v4/core/json-schema-processors.ts",
+      "status": "modified",
+      "base": "base/packages/zod/src/v4/core/json-schema-processors.ts",
+      "head": "head/packages/zod/src/v4/core/json-schema-processors.ts"
+    },
+    {
+      "path": "packages/zod/src/v4/core/tests/polyfill-collision.test.ts",
+      "status": "added",
+      "head": "head/packages/zod/src/v4/core/tests/polyfill-collision.test.ts"
+    },
+    {
+      "path": "packages/zod/src/v4/core/to-json-schema.ts",
+      "status": "modified",
+      "base": "base/packages/zod/src/v4/core/to-json-schema.ts",
+      "head": "head/packages/zod/src/v4/core/to-json-schema.ts"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

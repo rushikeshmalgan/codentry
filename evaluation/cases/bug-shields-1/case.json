@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "bug-shields-1",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "CC0-1.0",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/shields",
+    "base_sha": "73472d0be8f570955140c7399d785322aad5b1d7",
+    "head_sha": "9d84d2fec14e6a44821b9b5d545f9c8244c0f4f9",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-1-fix",
+    "head_ref": "Bug-1"
+  },
+  "files": [
+    {
+      "path": "lib/request-handler.js",
+      "status": "modified",
+      "base": "base/lib/request-handler.js",
+      "head": "head/lib/request-handler.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/request-handler.js",
+      "start_line": 100,
+      "end_line": 100,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Shields-1: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-shields-1",
+      "description": "Location 1 of 2 changed by the fix of BugsJS Shields-1 (category: incorrect feature implementation --> incorrect data processing)."
+    },
+    {
+      "file": "lib/request-handler.js",
+      "start_line": 202,
+      "end_line": 202,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Shields-1: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-shields-1",
+      "description": "Location 2 of 2 changed by the fix of BugsJS Shields-1 (category: incorrect feature implementation --> incorrect data processing)."
+    }
+  ]
+}

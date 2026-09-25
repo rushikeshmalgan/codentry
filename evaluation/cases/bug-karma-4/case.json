@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "bug-karma-4",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/karma",
+    "base_sha": "91ba7b454a6afe2abaa3fd05167b409ba15928b9",
+    "head_sha": "47066ea538b89627d4a65d061f16d4d2dd0037c8",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-4-fix",
+    "head_ref": "Bug-4"
+  },
+  "files": [
+    {
+      "path": "lib/reporter.js",
+      "status": "modified",
+      "base": "base/lib/reporter.js",
+      "head": "head/lib/reporter.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/reporter.js",
+      "start_line": 52,
+      "end_line": 52,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Karma-4: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-karma-4",
+      "description": "Location 1 of 1 changed by the fix of BugsJS Karma-4 (category: incomplete feature implementation --> missing input validation)."
+    }
+  ]
+}

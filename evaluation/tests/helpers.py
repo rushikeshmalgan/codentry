@@ -21,6 +21,7 @@ VALID_DOCUMENT: dict[str, Any] = {
     "license": "LicenseRef-project-authored",
     "source": {"kind": "handmade", "author": "tests"},
     "files": [{"path": "src/add.js", "status": "modified", "base": "base/src/add.js", "head": "head/src/add.js"}],
+    "ground_truth_status": "labeled",
     "ground_truth": [
         {
             "file": "src/add.js",

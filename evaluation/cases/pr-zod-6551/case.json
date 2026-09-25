@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "pr-zod-6551",
+  "stratum": "noise:pr",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/colinhacks/zod",
+    "base_sha": "e7604717801fe5cc17c525fb92abe0abeae0ae6e",
+    "head_sha": "5489a532e65ee3f5ab0959ff8a5da346ced96f2a",
+    "derivation": "pull_request",
+    "pull_request": 6551
+  },
+  "files": [
+    {
+      "path": "packages/zod/src/v4/classic/tests/validate.test.ts",
+      "status": "modified",
+      "base": "base/packages/zod/src/v4/classic/tests/validate.test.ts",
+      "head": "head/packages/zod/src/v4/classic/tests/validate.test.ts"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

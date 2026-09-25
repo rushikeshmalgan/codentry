@@ -75,8 +75,20 @@ def test_third_party_notices_reproduce_every_license_text_verbatim():
     notices = (REPO_ROOT / "evaluation" / "THIRD_PARTY_NOTICES.md").read_bytes().decode("utf-8")
     notices = notices.replace("\r\n", "\n")
     for repo in MANIFEST["repositories"]:
-        assert (DATASETS / repo["license_file"]).read_bytes().decode("utf-8").strip() in notices
         assert repo["url"] in notices
+    # every vendored license text (mutation sources, BugsJS projects, noise repositories)
+    licenses = sorted((DATASETS / "licenses").glob("*.LICENSE"))
+    assert len(licenses) >= 17
+    for path in licenses:
+        assert path.read_bytes().decode("utf-8").strip() in notices, path.name
+
+
+def test_every_vendored_license_text_is_one_of_the_accepted_licenses():
+    """The programmatic check the importers apply, re-applied to what is committed."""
+    from evaluation.datasets.licensing import classify
+
+    for path in sorted((DATASETS / "licenses").glob("*.LICENSE")):
+        assert classify(path.read_bytes().decode("utf-8")) in {"MIT", "ISC", "CC0-1.0"}, path.name
 
 
 @pytest.mark.parametrize(

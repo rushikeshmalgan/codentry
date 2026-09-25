@@ -164,9 +164,9 @@ def test_golden_result_for_new_finding_amid_existing_noise(two_runs):
     for k in ("0", "2", "5"):
         m = result["match"][k]
         # the eval on line 16 is found; the off-by-one on line 9 (a logic bug) is not
-        assert m["detected_defect_indices"] == [1] and m["missed_defect_indices"] == [0]
+        assert m["detected_groups"] == ["#1"] and m["missed_groups"] == ["#0"]
         assert m["recall"] == 0.5
-        assert m["false_positive_finding_indices"] == []
+        assert m["unmatched_finding_indices"] == []
 
 
 def test_golden_result_for_renamed_shifted_file_with_preexisting_issues(two_runs):

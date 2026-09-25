@@ -137,3 +137,65 @@ def test_bootstrap_rejects_bad_arguments():
         bootstrap_interval(VALUES, mean, seed=1, resamples=0)
     with pytest.raises(ValueError):
         bootstrap_interval(VALUES, mean, seed=1, confidence=1.0)
+
+
+# ---- Cohen's kappa -----------------------------------------------------------
+def labels(yes_yes: int, yes_no: int, no_yes: int, no_no: int):
+    a = ["y"] * (yes_yes + yes_no) + ["n"] * (no_yes + no_no)
+    b = ["y"] * yes_yes + ["n"] * yes_no + ["y"] * no_yes + ["n"] * no_no
+    return a, b
+
+
+def test_kappa_matches_the_textbook_two_by_two_example():
+    """50 items: 20 yes/yes, 5 yes/no, 10 no/yes, 15 no/no.
+    observed = 35/50 = 0.70; chance = 0.5*0.6 + 0.5*0.4 = 0.50; kappa = 0.40."""
+    from evaluation.metrics.stats import cohens_kappa
+
+    a, b = labels(20, 5, 10, 15)
+    assert cohens_kappa(a, b) == pytest.approx(0.4, abs=1e-12)
+
+
+def test_kappa_is_one_for_perfect_agreement_and_symmetric():
+    from evaluation.metrics.stats import cohens_kappa
+
+    a = ["real issue", "not an issue", "unclear", "real issue"]
+    assert cohens_kappa(a, list(a)) == 1.0
+    a, b = labels(20, 5, 10, 15)
+    assert cohens_kappa(a, b) == cohens_kappa(b, a)
+
+
+def test_kappa_is_zero_when_agreement_is_only_what_chance_predicts():
+    from evaluation.metrics.stats import cohens_kappa
+
+    a, b = labels(9, 9, 9, 9)  # each labeler says yes half the time, independently
+    assert cohens_kappa(a, b) == pytest.approx(0.0, abs=1e-12)
+
+
+def test_kappa_is_negative_when_labelers_systematically_disagree():
+    from evaluation.metrics.stats import cohens_kappa
+
+    a, b = labels(0, 10, 10, 0)
+    assert cohens_kappa(a, b) == pytest.approx(-1.0, abs=1e-12)
+
+
+def test_kappa_handles_three_categories():
+    from evaluation.metrics.stats import cohens_kappa
+
+    a = ["r", "r", "r", "n", "n", "u", "u", "n", "r", "n"]
+    b = ["r", "r", "n", "n", "n", "u", "r", "n", "r", "u"]
+    # observed 7/10; chance 0.4*0.4 + 0.4*0.4 + 0.2*0.2 = 0.36 -> (0.7-0.36)/0.64
+    assert cohens_kappa(a, b) == pytest.approx((0.7 - 0.36) / 0.64, abs=1e-12)
+
+
+def test_kappa_is_undefined_not_zero_or_one_when_there_is_nothing_to_agree_about():
+    from evaluation.metrics.stats import cohens_kappa
+
+    assert cohens_kappa([], []) is None
+    assert cohens_kappa(["n"] * 8, ["n"] * 8) is None  # both said the same thing every time
+
+
+def test_kappa_rejects_mismatched_lengths():
+    from evaluation.metrics.stats import cohens_kappa
+
+    with pytest.raises(ValueError):
+        cohens_kappa(["a"], ["a", "b"])

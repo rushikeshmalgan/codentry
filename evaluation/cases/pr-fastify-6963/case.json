@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "pr-fastify-6963",
+  "stratum": "noise:pr",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/fastify/fastify",
+    "base_sha": "4a3e325483a06d5fb7773c6804407752a4507c1b",
+    "head_sha": "dfd9dc0b9becb0cd2090da2a4d9f978fa5482857",
+    "derivation": "pull_request",
+    "pull_request": 6963
+  },
+  "files": [
+    {
+      "path": "test/types/route.tst.ts",
+      "status": "modified",
+      "base": "base/test/types/route.tst.ts",
+      "head": "head/test/types/route.tst.ts"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

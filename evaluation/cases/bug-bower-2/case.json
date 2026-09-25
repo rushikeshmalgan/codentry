@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "id": "bug-bower-2",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/bower",
+    "base_sha": "e52a857f7bb2e52019159ece1b8270128b8fbb0f",
+    "head_sha": "9c52ec2751d689a2cddb34adb004df41ce7c8a92",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-2-fix",
+    "head_ref": "Bug-2"
+  },
+  "files": [
+    {
+      "path": "lib/core/Project.js",
+      "status": "modified",
+      "base": "base/lib/core/Project.js",
+      "head": "head/lib/core/Project.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/core/Project.js",
+      "start_line": 89,
+      "end_line": 89,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Bower-2: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-bower-2",
+      "description": "Location 1 of 3 changed by the fix of BugsJS Bower-2 (category: incomplete feature implementation --> configuration processing)."
+    },
+    {
+      "file": "lib/core/Project.js",
+      "start_line": 97,
+      "end_line": 101,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Bower-2: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-bower-2",
+      "description": "Location 2 of 3 changed by the fix of BugsJS Bower-2 (category: incomplete feature implementation --> configuration processing)."
+    },
+    {
+      "file": "lib/core/Project.js",
+      "start_line": 106,
+      "end_line": 106,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Bower-2: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-bower-2",
+      "description": "Location 3 of 3 changed by the fix of BugsJS Bower-2 (category: incomplete feature implementation --> configuration processing)."
+    }
+  ]
+}

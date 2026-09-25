@@ -37,7 +37,7 @@ from evaluation.metrics.matching import DEFAULT_TOLERANCE, TOLERANCES
 from evaluation.record import build_result
 from evaluation.runners.arm_a_static import ARM_ID, REPORTED_POLICY, arm_label, run_arm_a
 
-RUN_SCHEMA = "codentry.eval.run/1"
+RUN_SCHEMA = "codentry.eval.run/2"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -124,6 +124,7 @@ def run(cases_dir: Path, out_dir: Path, seed: int, overwrite: bool = False) -> d
             {
                 "id": case.id,
                 "stratum": case.stratum,
+                "ground_truth_status": case.ground_truth_status,
                 "status": record["status"],
                 "result_sha256": _sha256(payload),
                 "reported": record["counts"]["reported"],

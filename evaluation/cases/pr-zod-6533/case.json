@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "pr-zod-6533",
+  "stratum": "noise:pr",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/colinhacks/zod",
+    "base_sha": "68a609ac9b9516e6fe84e3558f17ce16b1032bef",
+    "head_sha": "2ec972ecc5a8af8135ed072d2d5b5363c27bb46f",
+    "derivation": "pull_request",
+    "pull_request": 6533
+  },
+  "files": [
+    {
+      "path": "packages/zod/src/v4/classic/tests/assignability.test.ts",
+      "status": "modified",
+      "base": "base/packages/zod/src/v4/classic/tests/assignability.test.ts",
+      "head": "head/packages/zod/src/v4/classic/tests/assignability.test.ts"
+    },
+    {
+      "path": "packages/zod/src/v4/core/util.ts",
+      "status": "modified",
+      "base": "base/packages/zod/src/v4/core/util.ts",
+      "head": "head/packages/zod/src/v4/core/util.ts"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

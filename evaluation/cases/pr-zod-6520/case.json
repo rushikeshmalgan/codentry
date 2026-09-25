@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "id": "pr-zod-6520",
+  "stratum": "noise:pr",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/colinhacks/zod",
+    "base_sha": "0227e53d03b5652be75422b6d10e0dd9bf340f0b",
+    "head_sha": "68a609ac9b9516e6fe84e3558f17ce16b1032bef",
+    "derivation": "pull_request",
+    "pull_request": 6520
+  },
+  "files": [
+    {
+      "path": "packages/zod/src/v4/classic/tests/instanceof.test.ts",
+      "status": "modified",
+      "base": "base/packages/zod/src/v4/classic/tests/instanceof.test.ts",
+      "head": "head/packages/zod/src/v4/classic/tests/instanceof.test.ts"
+    },
+    {
+      "path": "packages/zod/src/v4/core/api.ts",
+      "status": "modified",
+      "base": "base/packages/zod/src/v4/core/api.ts",
+      "head": "head/packages/zod/src/v4/core/api.ts"
+    },
+    {
+      "path": "packages/zod/src/v4/core/util.ts",
+      "status": "modified",
+      "base": "base/packages/zod/src/v4/core/util.ts",
+      "head": "head/packages/zod/src/v4/core/util.ts"
+    },
+    {
+      "path": "packages/zod/src/v4/mini/tests/checks.test.ts",
+      "status": "modified",
+      "base": "base/packages/zod/src/v4/mini/tests/checks.test.ts",
+      "head": "head/packages/zod/src/v4/mini/tests/checks.test.ts"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "id": "bug-express-16",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/express",
+    "base_sha": "8eddcfe9472d14858831efccd8f707f7076a6d6a",
+    "head_sha": "6f914160209c16c640d36db8565a968c4e63d3dc",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-16-fix",
+    "head_ref": "Bug-16"
+  },
+  "files": [
+    {
+      "path": "lib/response.js",
+      "status": "modified",
+      "base": "base/lib/response.js",
+      "head": "head/lib/response.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/response.js",
+      "start_line": 821,
+      "end_line": 821,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Express-16: manually validated bug (Gyimesi et al., ICST 2019)"
+        },
+        {
+          "method": "executable_test",
+          "ref": "BugsJS recorded run (not re-run here): fails with the fix's tests, not on the buggy revision: res when accepting html should include the redirect type; res when accepting text should include the redirect type"
+        }
+      ],
+      "group": "bugsjs-express-16",
+      "description": "Location 1 of 2 changed by the fix of BugsJS Express-16 (category: incorrect feature implementation --> incorrect data processing)."
+    },
+    {
+      "file": "lib/response.js",
+      "start_line": 825,
+      "end_line": 825,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Express-16: manually validated bug (Gyimesi et al., ICST 2019)"
+        },
+        {
+          "method": "executable_test",
+          "ref": "BugsJS recorded run (not re-run here): fails with the fix's tests, not on the buggy revision: res when accepting html should include the redirect type; res when accepting text should include the redirect type"
+        }
+      ],
+      "group": "bugsjs-express-16",
+      "description": "Location 2 of 2 changed by the fix of BugsJS Express-16 (category: incorrect feature implementation --> incorrect data processing)."
+    }
+  ]
+}

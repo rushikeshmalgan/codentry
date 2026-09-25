@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "pr-axios-11094",
+  "stratum": "noise:pr",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/axios/axios",
+    "base_sha": "529ce70296334a0397f9e45e7dfa5658f6b6fdba",
+    "head_sha": "c3f553c740ebf3dff5e22dae24e9caaafafddd2d",
+    "derivation": "pull_request",
+    "pull_request": 11094
+  },
+  "files": [
+    {
+      "path": "lib/adapters/xhr.js",
+      "status": "modified",
+      "base": "base/lib/adapters/xhr.js",
+      "head": "head/lib/adapters/xhr.js"
+    },
+    {
+      "path": "lib/core/buildFullPath.js",
+      "status": "modified",
+      "base": "base/lib/core/buildFullPath.js",
+      "head": "head/lib/core/buildFullPath.js"
+    },
+    {
+      "path": "lib/helpers/normalizeURLForProtocolCheck.js",
+      "status": "added",
+      "head": "head/lib/helpers/normalizeURLForProtocolCheck.js"
+    },
+    {
+      "path": "tests/browser/requests.browser.test.js",
+      "status": "modified",
+      "base": "base/tests/browser/requests.browser.test.js",
+      "head": "head/tests/browser/requests.browser.test.js"
+    },
+    {
+      "path": "tests/unit/adapters/xhr.test.js",
+      "status": "added",
+      "head": "head/tests/unit/adapters/xhr.test.js"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

@@ -71,6 +71,36 @@ def test_repository_and_generated_sources_validate():
     assert validate_document(document(source=generated)) == []
 
 
+def test_repository_sources_may_say_how_the_change_was_derived():
+    repo = {"kind": "repository", "url": "https://github.com/o/r", "base_sha": "a" * 40,
+            "head_sha": "b" * 40, "derivation": "pull_request", "pull_request": 12}
+    assert validate_document(document(source=repo)) == []
+    reversed_fix = {**repo, "derivation": "reversed_fix", "base_ref": "Bug-1-fix", "head_ref": "Bug-1"}
+    reversed_fix.pop("pull_request")
+    assert validate_document(document(source=reversed_fix)) == []
+    assert validate_document(document(source={**repo, "derivation": "cherry_pick"}))  # unknown value
+    assert validate_document(document(source={**repo, "pull_request": 0}))  # PR numbers start at 1
+
+
+def test_ground_truth_status_is_required_and_constrains_the_defect_list():
+    doc = document()
+    doc.pop("ground_truth_status")
+    assert any("ground_truth_status" in e for e in validate_document(doc))
+    assert validate_document(document(ground_truth_status="maybe"))
+    # an unlabeled change cannot carry defects: nobody has labeled it
+    assert validate_document(document(ground_truth_status="unlabeled"))
+    assert validate_document(document(ground_truth_status="unlabeled", ground_truth=[])) == []
+    assert validate_document(document(ground_truth_status="labeled", ground_truth=[])) == []
+
+
+def test_defects_may_share_a_group_and_a_group_must_be_a_slug():
+    doc = document()
+    doc["ground_truth"][0]["group"] = "bugsjs-express-3"
+    assert validate_document(doc) == []
+    doc["ground_truth"][0]["group"] = "Not A Slug"
+    assert any("group" in e for e in validate_document(doc))
+
+
 @pytest.mark.parametrize(
     "entry",
     [

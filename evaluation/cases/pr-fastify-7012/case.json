@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "pr-fastify-7012",
+  "stratum": "noise:pr",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/fastify/fastify",
+    "base_sha": "ac28821df11d7862694900326a6cc8c831dc8bf6",
+    "head_sha": "d1dd8902ad972703b81a6f0e8395bb10dfd80b5f",
+    "derivation": "pull_request",
+    "pull_request": 7012
+  },
+  "files": [
+    {
+      "path": "lib/content-type-parser.js",
+      "status": "modified",
+      "base": "base/lib/content-type-parser.js",
+      "head": "head/lib/content-type-parser.js"
+    },
+    {
+      "path": "test/content-type-parser-async-context.test.js",
+      "status": "added",
+      "head": "head/test/content-type-parser-async-context.test.js"
+    },
+    {
+      "path": "test/custom-parser.4.test.js",
+      "status": "modified",
+      "base": "base/test/custom-parser.4.test.js",
+      "head": "head/test/custom-parser.4.test.js"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

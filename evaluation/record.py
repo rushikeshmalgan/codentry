@@ -27,7 +27,7 @@ from evaluation.runners.arm_a_static import (
     arm_label,
 )
 
-RESULT_SCHEMA = "codentry.eval.result/1"
+RESULT_SCHEMA = "codentry.eval.result/2"
 
 
 def changed_line_count(inputs: CaseInputs) -> int:
@@ -53,28 +53,38 @@ def build_result(case: Case, result: ArmAResult) -> dict[str, Any]:
     changed_lines = changed_line_count(case.inputs)
     reported_keys = [findings[i].identity_key or findings[i].dedup_hash for i in reported_positions]
 
+    labeled = case.ground_truth_status == "labeled"
+    groups = [d.group for d in case.ground_truth]
+    distinct_groups = sorted(set(groups))
+
     by_tolerance: dict[str, Any] = {}
     for k in TOLERANCES:
         m = match(reported_spans, defect_spans, k)
-        tp = len(m.true_positive_findings)
+        n_matched = len(m.matched_findings)
+        detected_groups = sorted({groups[j] for j in m.detected_defects})
         by_tolerance[str(k)] = {
             "tolerance": k,
-            "defects": m.defects,
-            "detected": len(m.detected_defects),
-            "detected_defect_indices": list(m.detected_defects),
-            "missed_defect_indices": list(m.missed_defects),
+            # a defect is a group of locations; recall counts groups, not locations
+            "defects": len(distinct_groups),
+            "detected": len(detected_groups),
+            "detected_groups": detected_groups,
+            "missed_groups": [g for g in distinct_groups if g not in detected_groups],
+            "locations": m.defects,
+            "detected_location_indices": list(m.detected_defects),
             "reported": m.reported,
             # indices into `findings` (not into the reported subset)
-            "true_positive_finding_indices": [
-                reported_positions[i] for i in m.true_positive_findings
-            ],
-            "false_positive_finding_indices": [
-                reported_positions[i] for i in m.false_positive_findings
+            "matched_finding_indices": [reported_positions[i] for i in m.matched_findings],
+            # Unmatched is not the same as false: a finding becomes a false positive only
+            # after people adjudicate it (evaluation/labeling/protocol.md).
+            "unmatched_finding_indices": [
+                reported_positions[i] for i in m.unmatched_findings
             ],
             "exactly_located": len(m.exactly_located_findings),
-            "recall": ratio(len(m.detected_defects), m.defects),
-            "precision": ratio(tp, m.reported),
-            "location_accuracy": ratio(len(m.exactly_located_findings), tp),
+            "recall": ratio(len(detected_groups), len(distinct_groups)) if labeled else None,
+            "precision": ratio(n_matched, m.reported) if labeled else None,
+            "location_accuracy": (
+                ratio(len(m.exactly_located_findings), n_matched) if labeled else None
+            ),
         }
 
     counts = {status: 0 for status in ("new", "existing", "fixed", "unclassified")}
@@ -87,6 +97,7 @@ def build_result(case: Case, result: ArmAResult) -> dict[str, Any]:
         "arm_label": arm_label(result.analysis_meta.get("head", {}).get("semgrep_version")),
         "case_id": case.id,
         "stratum": case.stratum,
+        "ground_truth_status": case.ground_truth_status,
         "status": result.status,
         "error_code": result.error_code,
         "reported_policy": REPORTED_POLICY,
@@ -96,7 +107,8 @@ def build_result(case: Case, result: ArmAResult) -> dict[str, Any]:
             "reported": len(reported_positions),
             "reported_duplicates": duplicate_count(reported_keys),
             "changed_lines": changed_lines,
-            "ground_truth_defects": len(case.ground_truth),
+            "ground_truth_defects": len(distinct_groups),
+            "ground_truth_locations": len(case.ground_truth),
         },
         "findings_per_changed_line": ratio(len(reported_positions), changed_lines),
         "ground_truth": [
@@ -106,6 +118,7 @@ def build_result(case: Case, result: ArmAResult) -> dict[str, Any]:
                 "end_line": d.end_line,
                 "kind": d.kind,
                 "provenance": d.provenance,
+                "group": d.group,
             }
             for d in case.ground_truth
         ],

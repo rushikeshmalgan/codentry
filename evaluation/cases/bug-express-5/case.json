@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "bug-express-5",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/express",
+    "base_sha": "d4b78670e08a19d163711e35412ea229875d63de",
+    "head_sha": "999546dfdeb874c20b360ad58346ed07917f3ac0",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-5-fix",
+    "head_ref": "Bug-5"
+  },
+  "files": [
+    {
+      "path": "lib/utils.js",
+      "status": "modified",
+      "base": "base/lib/utils.js",
+      "head": "head/lib/utils.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/utils.js",
+      "start_line": 70,
+      "end_line": 70,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Express-5: manually validated bug (Gyimesi et al., ICST 2019)"
+        },
+        {
+          "method": "executable_test",
+          "ref": "BugsJS recorded run (not re-run here): fails with the fix's tests, not on the buggy revision: utils.isAbsolute() should support windows"
+        }
+      ],
+      "group": "bugsjs-express-5",
+      "description": "Location 1 of 1 changed by the fix of BugsJS Express-5 (category: incorrect feature implementation --> incorrect filepath)."
+    }
+  ]
+}

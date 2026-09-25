@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "bug-hessian.js-9",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/hessian.js",
+    "base_sha": "6772d3ca45b437b2a8c5c5d27e4419d46f7ec688",
+    "head_sha": "68dd5347b54e4702f6a2f43bea862abc784a9f6c",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-9-fix",
+    "head_ref": "Bug-9"
+  },
+  "files": [
+    {
+      "path": "lib/v1/decoder.js",
+      "status": "modified",
+      "base": "base/lib/v1/decoder.js",
+      "head": "head/lib/v1/decoder.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/v1/decoder.js",
+      "start_line": 415,
+      "end_line": 415,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Hessian.js-9: manually validated bug (Gyimesi et al., ICST 2019)"
+        },
+        {
+          "method": "executable_test",
+          "ref": "BugsJS recorded run (not re-run here): fails with the fix's tests, not on the buggy revision: map.test.js should decode successful when key is null"
+        }
+      ],
+      "group": "bugsjs-hessian.js-9",
+      "description": "Location 1 of 1 changed by the fix of BugsJS Hessian.js-9 (category: generic --> missing type conversion)."
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codentry.invalid/evaluation/labeling/label.schema.json",
+  "title": "Codentry labeling records",
+  "description": "Formats used by the labeling protocol (protocol.md): the item a person is shown, one labeler's row, and the resolved adjudication row. A label is always a person's judgement; a model is never a valid labeler.",
+  "$defs": {
+    "label": {
+      "enum": ["real issue", "not an issue", "unclear"]
+    },
+    "item": {
+      "description": "One finding shown to labelers. `hidden` is kept for analysis and never shown on the sheet.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item_id", "case_id", "tool", "rule", "file", "start_line", "end_line", "message", "context", "hidden"],
+      "properties": {
+        "item_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*-[0-9]{2,}$" },
+        "case_id": { "type": "string", "minLength": 1 },
+        "tool": { "enum": ["ESLINT", "SEMGREP"] },
+        "rule": { "type": "string", "minLength": 1 },
+        "file": { "type": "string", "minLength": 1 },
+        "start_line": { "type": "integer", "minimum": 1 },
+        "end_line": { "type": "integer", "minimum": 1 },
+        "message": { "type": "string" },
+        "context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["first_line", "lines", "flagged"],
+          "properties": {
+            "first_line": { "type": "integer", "minimum": 1 },
+            "lines": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+            "flagged": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": { "type": "integer", "minimum": 1 }
+            }
+          }
+        },
+        "hidden": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["arm", "identity_key", "severity", "change_status", "sampled_with_seed"],
+          "properties": {
+            "arm": { "type": "string" },
+            "identity_key": { "type": "string" },
+            "severity": { "type": "string" },
+            "change_status": { "const": "new" },
+            "sampled_with_seed": { "type": "integer" }
+          }
+        }
+      }
+    },
+    "label_row": {
+      "description": "One row of a labeler's CSV (header exactly item_id,label,note).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item_id", "label", "note"],
+      "properties": {
+        "item_id": { "type": "string" },
+        "label": { "$ref": "#/$defs/label" },
+        "note": { "type": "string" }
+      }
+    },
+    "adjudication_row": {
+      "description": "The resolved label for one item, written after agreement was computed. Both labelers' own files stay untouched.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item_id", "label", "resolution", "labeler_a", "labeler_b"],
+      "properties": {
+        "item_id": { "type": "string" },
+        "label": { "$ref": "#/$defs/label" },
+        "resolution": { "enum": ["agreed", "discussion"] },
+        "labeler_a": { "$ref": "#/$defs/label" },
+        "labeler_b": { "$ref": "#/$defs/label" },
+        "note": { "type": "string" }
+      }
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/$defs/item" },
+    { "$ref": "#/$defs/label_row" },
+    { "$ref": "#/$defs/adjudication_row" }
+  ]
+}

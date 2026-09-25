@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "bug-karma-6",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/karma",
+    "base_sha": "ffa0d93a2616122b845904973a3bbd7abeae24c4",
+    "head_sha": "85328f3e124c0a5875155885af434021ef3a20ec",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-6-fix",
+    "head_ref": "Bug-6"
+  },
+  "files": [
+    {
+      "path": "lib/cli.js",
+      "status": "modified",
+      "base": "base/lib/cli.js",
+      "head": "head/lib/cli.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/cli.js",
+      "start_line": 21,
+      "end_line": 21,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Karma-6: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-karma-6",
+      "description": "Location 1 of 2 changed by the fix of BugsJS Karma-6 (category: incomplete feature implementation --> configuration processing)."
+    },
+    {
+      "file": "lib/cli.js",
+      "start_line": 22,
+      "end_line": 22,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Karma-6: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-karma-6",
+      "description": "Location 2 of 2 changed by the fix of BugsJS Karma-6 (category: incomplete feature implementation --> configuration processing)."
+    }
+  ]
+}

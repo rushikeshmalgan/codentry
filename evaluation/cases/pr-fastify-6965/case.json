@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "pr-fastify-6965",
+  "stratum": "noise:pr",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/fastify/fastify",
+    "base_sha": "83e69762aff047940b376fc2a266d143499ef727",
+    "head_sha": "4176096a31f5b4c31512c36f578b08a596a72435",
+    "derivation": "pull_request",
+    "pull_request": 6965
+  },
+  "files": [
+    {
+      "path": "lib/four-oh-four.js",
+      "status": "modified",
+      "base": "base/lib/four-oh-four.js",
+      "head": "head/lib/four-oh-four.js"
+    },
+    {
+      "path": "test/404s.test.js",
+      "status": "modified",
+      "base": "base/test/404s.test.js",
+      "head": "head/test/404s.test.js"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

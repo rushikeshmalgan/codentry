@@ -1,0 +1,862 @@
+{
+  "schema_version": 1,
+  "purpose": "Real-defect cases built by reversing BugsJS fixes (base = fixed file, head = buggy file).",
+  "bug_dataset": {
+    "url": "https://github.com/BugsJS/bug-dataset",
+    "commit": "7abbad3e4df12cd5294110bb5db11b7d5bc758a6"
+  },
+  "selection": {
+    "seed": 20260925,
+    "criteria": {
+      "changed_files": "the cleaned fix changes exactly one file, a JavaScript source file (not a test)",
+      "max_hunks": 3,
+      "max_changed_head_lines": 20,
+      "recorded_tests": "where the dataset records test results: at least one test fails with the fix's tests added but not on the buggy revision (a bug whose recorded results show none is excluded); where it records none, the bug is kept and its evidence is BugsJS's manual validation only",
+      "diff_agreement": "git's diff and the harness's difflib diff give the same head-side hunks",
+      "text": "UTF-8, no carriage returns"
+    },
+    "method": "per project: every bug meeting the criteria, then a seeded sample"
+  },
+  "threats": [
+    "Reversal is not a natural pull request: the 'change' is a fix undone, so its shape (size, what surrounds it) differs from how bugs are really introduced.",
+    "Contamination: Express, Karma, Hexo and ESLint are popular public projects, and BugsJS is public; a language model may have seen both the code and the fixes.",
+    "Selection: only small, single-file, JavaScript-source fixes (see criteria), which favors localized bugs.",
+    "Executable evidence is BugsJS's RECORDED test run, not a run by this project (no project test suite was executed here). For Karma and ESLint the dataset snapshot records no test results, so those cases rest on BugsJS's manual validation alone; each case says which (see test_evidence).",
+    "Ground truth is where the fix changed code; a finding elsewhere that also points at the bug is scored as unmatched."
+  ],
+  "projects": [
+    {
+      "id": "express",
+      "bugsjs_name": "Express",
+      "url": "https://github.com/BugsJS/express",
+      "license": "MIT",
+      "license_file": "licenses/bugsjs-express.LICENSE",
+      "license_sha256": "8c4077d6e82bc1bf9922fac451177ba2bdf3219d931428b68c4eb992555fe411",
+      "license_verified": "license text read by machine on import: the permission grant and warranty disclaimer are identical to the standard MIT text after whitespace normalization. Redistribution is permitted; see ../THIRD_PARTY_NOTICES.md.",
+      "bugs_in_dataset": 27,
+      "eligible": 19,
+      "excluded_by_reason": {
+        "diff_disagreement": 4,
+        "not_a_single_modified_source_file": 1,
+        "too_many_hunks": 3
+      },
+      "selected": [
+        {
+          "bug": 4,
+          "case": "bug-express-4",
+          "path": "lib/request.js",
+          "buggy_commit": "d07c06363f00647ab0553ef227b9b65cb4a04ae9",
+          "fixed_commit": "3ac2d5e560eebed8d374728e6cee92da3482fa8e",
+          "head_ranges": [
+            [
+              16,
+              16
+            ],
+            [
+              457,
+              457
+            ]
+          ],
+          "test_evidence": "recorded_run",
+          "bug_revealing_tests": [
+            "req .subdomains when present should work with IPv4 address",
+            "req .subdomains when subdomain offset is set when subdomain offset is zero should return an array with the whole IPv4"
+          ],
+          "category": "incomplete feature implementation --> missing input validation",
+          "sha256": {
+            "case.json": "3f302b8c648ea635f098b9cc14f676d45dc7243af7230aa89f9146e25a8c629c",
+            "base": "049e9cc1b0a282a9ebc6eca057cb35de26f0d2558d265f0a308733ab1edd4033",
+            "head": "fdb03eeae71ed4d337d4fa978b28c0cc422375d76011aac4acd650c48c808752"
+          }
+        },
+        {
+          "bug": 5,
+          "case": "bug-express-5",
+          "path": "lib/utils.js",
+          "buggy_commit": "999546dfdeb874c20b360ad58346ed07917f3ac0",
+          "fixed_commit": "d4b78670e08a19d163711e35412ea229875d63de",
+          "head_ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "test_evidence": "recorded_run",
+          "bug_revealing_tests": [
+            "utils.isAbsolute() should support windows"
+          ],
+          "category": "incorrect feature implementation --> incorrect filepath",
+          "sha256": {
+            "case.json": "59aababdaf2219b8d37256c0228ab2a7bf3ef256a75e334ddd1fa581c889ff0a",
+            "base": "34866473a4c7eb0c3d0af44c772033e34ff820d928b8e7b9e6dfd1e4fa98003a",
+            "head": "bedf213bfc7515f5b8819bdc462842f263328ad5baee788dbf73084fbab1a920"
+          }
+        },
+        {
+          "bug": 9,
+          "case": "bug-express-9",
+          "path": "lib/application.js",
+          "buggy_commit": "8ba3f39b33042f59d50ef5b5fb87109d3f3a2a26",
+          "fixed_commit": "ae907ff5ea0d2a2a043ce17757264c1a062d94e5",
+          "head_ranges": [
+            [
+              171,
+              171
+            ]
+          ],
+          "test_evidence": "recorded_run",
+          "bug_revealing_tests": [
+            "app.mountpath should return the mounted path"
+          ],
+          "category": "generic --> variable initialization --> incorrect variable initialization",
+          "sha256": {
+            "case.json": "d92f049ccfee3ebdf3711763a0eaef6c8b2250c3fc6034127246da0efa5dd3b9",
+            "base": "900131de01f54550c20e70034e4f870db4dc9554858b2a9db5537598f9c014c6",
+            "head": "63c96651be13cd2574e13b15a48168bb66734bf01c4719b28276be7517e8fc7a"
+          }
+        },
+        {
+          "bug": 15,
+          "case": "bug-express-15",
+          "path": "lib/response.js",
+          "buggy_commit": "b66c7da05f8f7e1f58f69ddbcb2a6bb7b1fd4587",
+          "fixed_commit": "62162b440aaad93f192e62a3204483b68bf4a391",
+          "head_ranges": [
+            [
+              471,
+              471
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incomplete feature implementation --> incomplete data processing",
+          "sha256": {
+            "case.json": "891632d3a2245fce45d42ee5a7ae62f251aa05ec98f30bbf93c5a148ee257374",
+            "base": "6a05185a05401cd3cd481f62dfb6cbacf6234e601f065de8c4b45b391f10273f",
+            "head": "f9e5779275d25f186a892247c2d4dbff233d63ca05b5aff5f0ca0d919c5173b8"
+          }
+        },
+        {
+          "bug": 16,
+          "case": "bug-express-16",
+          "path": "lib/response.js",
+          "buggy_commit": "6f914160209c16c640d36db8565a968c4e63d3dc",
+          "fixed_commit": "8eddcfe9472d14858831efccd8f707f7076a6d6a",
+          "head_ranges": [
+            [
+              821,
+              821
+            ],
+            [
+              825,
+              825
+            ]
+          ],
+          "test_evidence": "recorded_run",
+          "bug_revealing_tests": [
+            "res when accepting html should include the redirect type",
+            "res when accepting text should include the redirect type"
+          ],
+          "category": "incorrect feature implementation --> incorrect data processing",
+          "sha256": {
+            "case.json": "e8f8c16f82e7f70c15b650ad19f2e476528e8659051b641b9438931d5dd45aad",
+            "base": "65ffc75017cc979349b09a02df3da30e09abdda2f711bb4084a25126fdf0fcfc",
+            "head": "b1b662de616f0f595b219429863f0ea0220715a36236794dc08f31ef4b1aae8e"
+          }
+        },
+        {
+          "bug": 17,
+          "case": "bug-express-17",
+          "path": "lib/view.js",
+          "buggy_commit": "c3fb7e5adc1fd40e301ed1e25f0d5b5a393d0295",
+          "fixed_commit": "7446cb4af9d917d1801863116c65fb2fe2da0036",
+          "head_ranges": [
+            [
+              79,
+              79
+            ]
+          ],
+          "test_evidence": "recorded_run",
+          "bug_revealing_tests": [
+            "res .render(name) should error without \"view engine\" set and file extension to a non-engine module"
+          ],
+          "category": "incomplete feature implementation --> error handling",
+          "sha256": {
+            "case.json": "f87309e08936ac3a40b0b47e5e1944a014dc653fd0958bd0c7b9079f1802316e",
+            "base": "78152ed5428dd5357cb4858afc499fbf46c300cc000b24e145a234f69dbfa141",
+            "head": "3553d5e2aa06e554895e0ef3194664c237c65cbe36464d13f8a8a528e523d0f3"
+          }
+        },
+        {
+          "bug": 24,
+          "case": "bug-express-24",
+          "path": "lib/router/index.js",
+          "buggy_commit": "4070dabe532ecb799445920cf9756eb6625a0254",
+          "fixed_commit": "33508e0c756094f3cf465e29f78782102fa59bfb",
+          "head_ranges": [
+            [
+              155,
+              157
+            ],
+            [
+              574,
+              574
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incomplete feature implementation --> error handling",
+          "sha256": {
+            "case.json": "1a9bf7956e87344bb84ea510e5fe8c65802616d9873ca0b12cb28b662a75612f",
+            "base": "3003d69b671eb342406138d7398ca15775f29a98284b963cd5ee8a714f451d32",
+            "head": "8c46c3eddf1c66bf26190d7461c904bf1b22b409be8270c6a5eaecff3d88ddc7"
+          }
+        },
+        {
+          "bug": 26,
+          "case": "bug-express-26",
+          "path": "lib/router/index.js",
+          "buggy_commit": "d40dc651f3561a4978fdc9c40e7fc802261d99ce",
+          "fixed_commit": "5180dffb155feabc5a0d51c2bce72ae2949f61b2",
+          "head_ranges": [
+            [
+              129,
+              129
+            ]
+          ],
+          "test_evidence": "recorded_run",
+          "bug_revealing_tests": [
+            "Router FQDN should ignore FQDN in path"
+          ],
+          "category": "incomplete feature implementation --> missing input validation --> missing handling of special characters",
+          "sha256": {
+            "case.json": "6cb81f42db3453d66f54a2f62d4965f98c59fbe38d2a9a37cd06eae878c3fc87",
+            "base": "08a9ab7922afcee0bb90a85319f9df1b0298511b8f0543cc04197d585d8c776a",
+            "head": "8509c934c187c4a29ec326201ba155883368115024c519e681de3f055ec1e74b"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hexo",
+      "bugsjs_name": "Hexo",
+      "url": "https://github.com/BugsJS/hexo",
+      "license": "MIT",
+      "license_file": "licenses/bugsjs-hexo.LICENSE",
+      "license_sha256": "5947a278fcc0b9d10aea9a639bf27a5ad3fb91ee03513e31cd3e072dad064afb",
+      "license_verified": "license text read by machine on import: the permission grant and warranty disclaimer are identical to the standard MIT text after whitespace normalization. Redistribution is permitted; see ../THIRD_PARTY_NOTICES.md.",
+      "bugs_in_dataset": 12,
+      "eligible": 5,
+      "excluded_by_reason": {
+        "diff_disagreement": 3,
+        "not_a_single_modified_source_file": 2,
+        "too_many_hunks": 2
+      },
+      "selected": [
+        {
+          "bug": 1,
+          "case": "bug-hexo-1",
+          "path": "lib/plugins/console/generate.js",
+          "buggy_commit": "7589ac75871521e9d73133f943c69582dc7373b2",
+          "fixed_commit": "58ed4bb49156f1818883cb88af364a13c591d343",
+          "head_ranges": [
+            [
+              16,
+              16
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "generic --> variable initialization --> missing variable initialization",
+          "sha256": {
+            "case.json": "4df9f26e162ece67e7250d31813b2abe47291d3bce284a9cf48b12e603a758d8",
+            "base": "dbce588f76a7f1de4cc800a39c345780e1b1b97ae43668f5332deab78b821390",
+            "head": "099878ca1f661f263fd99613a2050c1a72b24a74bd2895c7370ec6b67dc2101e"
+          }
+        },
+        {
+          "bug": 4,
+          "case": "bug-hexo-4",
+          "path": "lib/models/post_asset.js",
+          "buggy_commit": "9aca27b2bddaca35d22880d66aa03d77c6114a4e",
+          "fixed_commit": "0aabe24da40412116efbe3143cd108ac08920031",
+          "head_ranges": [
+            [
+              5,
+              5
+            ],
+            [
+              21,
+              21
+            ]
+          ],
+          "test_evidence": "recorded_run",
+          "bug_revealing_tests": [
+            "Hexo Tags asset_img with space"
+          ],
+          "category": "incorrect feature implementation --> incorrect data processing",
+          "sha256": {
+            "case.json": "08c261014732f8209dcdcb990f5adc0554226c37afa675be6ff753b5f9383336",
+            "base": "aea598f07882c92f38c43d16c9704cf377e288db95c7e9d4be6943e7090f3b5d",
+            "head": "a49636110c4636900688922117fd7fd08bdae880899fc7ef30940f2bf90dfa0c"
+          }
+        },
+        {
+          "bug": 7,
+          "case": "bug-hexo-7",
+          "path": "lib/plugins/helper/toc.js",
+          "buggy_commit": "dee3b03d2697ad33675a4b2cf761a9f49c9d2486",
+          "fixed_commit": "6fcc6716af77bf604ddfe561fd3b159caf324ece",
+          "head_ranges": [
+            [
+              4,
+              4
+            ],
+            [
+              28,
+              28
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incomplete feature implementation --> incomplete data processing",
+          "sha256": {
+            "case.json": "c9cba9c4e9666fb30942979fa6bf54bd4cb18605642c9e0ce1e997e9b9420011",
+            "base": "f31200730c95fd0ab801878e4a3d3c38977da1696eeb1c7866744cc60b5d7c63",
+            "head": "82c43429b617c5464cffb4d600452adcc67c66d4f2786d618e2545cb8b8df1c0"
+          }
+        },
+        {
+          "bug": 8,
+          "case": "bug-hexo-8",
+          "path": "lib/plugins/helper/open_graph.js",
+          "buggy_commit": "1da7ad5c920fb16e182342c4acda7d8a94af31f9",
+          "fixed_commit": "dd501b7f2d5a8365964f795ae9c7924e7f4a064d",
+          "head_ranges": [
+            [
+              88,
+              89
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incorrect feature implementation --> incorrect filepath",
+          "sha256": {
+            "case.json": "d474db22ef09395859b184eaf05b788f5cab8af4b331a41d936244d077078634",
+            "base": "2400daa7bba580180d828682f7f78cc97e316141475402339a1e084f251248ac",
+            "head": "892ed5ea00e45c568aeb6d1b7d5b75dd1ed159b3d3d4ab0f5649bc2e0d5dc4d4"
+          }
+        },
+        {
+          "bug": 12,
+          "case": "bug-hexo-12",
+          "path": "lib/hexo/post.js",
+          "buggy_commit": "36545fb147f554ccc303b2a2d41ba7e533bd3020",
+          "fixed_commit": "d50553e7f20181645465c5f1ceed6c9fba356528",
+          "head_ranges": [
+            [
+              50,
+              50
+            ],
+            [
+              207,
+              207
+            ]
+          ],
+          "test_evidence": "recorded_run",
+          "bug_revealing_tests": [
+            "Hexo Core Post create() - non-string title",
+            "Hexo Core Post publish() - non-string title"
+          ],
+          "category": "generic --> data processing",
+          "sha256": {
+            "case.json": "41cb8d26d70bb6b51bc72f68c15893db3187e60791a420fdf521935f2a1b347b",
+            "base": "c4b4dea3d6565553ce8021cc2c2d937b2f60908c5f58247d4b7271ae42e172bd",
+            "head": "ba361669e299f861f5b1a282155a41cc803f0e8d745bfbd3ba25923bf25b4b36"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hessian.js",
+      "bugsjs_name": "Hessian.js",
+      "url": "https://github.com/BugsJS/hessian.js",
+      "license": "MIT",
+      "license_file": "licenses/bugsjs-hessian.js.LICENSE",
+      "license_sha256": "2f2be2a992d454ab7694fddcb42c173924ce890e9df19738054347f35ab54f21",
+      "license_verified": "license text read by machine on import: the permission grant and warranty disclaimer are identical to the standard MIT text after whitespace normalization. Redistribution is permitted; see ../THIRD_PARTY_NOTICES.md.",
+      "bugs_in_dataset": 9,
+      "eligible": 2,
+      "excluded_by_reason": {
+        "not_a_single_modified_source_file": 7
+      },
+      "selected": [
+        {
+          "bug": 4,
+          "case": "bug-hessian.js-4",
+          "path": "lib/v1/encoder.js",
+          "buggy_commit": "d996501c087a3cecc5ce3e470106ebdb90657ca9",
+          "fixed_commit": "63bb627b99267577e85c117008e8d896103b69c6",
+          "head_ranges": [
+            [
+              302,
+              302
+            ]
+          ],
+          "test_evidence": "recorded_run",
+          "bug_revealing_tests": [
+            "object.test.js v1.0 should write null for property like: { a: { \"$class\": \"yyy.yyy\", \"$\": null } }"
+          ],
+          "category": "incomplete feature implementation --> missing input validation --> missing null check",
+          "sha256": {
+            "case.json": "4d85d06b2e9aab701edfddcc42af0e016ab7ea24880bb2f66341bdffeb6d8b47",
+            "base": "e0299cdc07b6d461644873b9fe25693253a8a986993f221fb002853e4ae60fc8",
+            "head": "e88e806da81116df5681235f3fe039b0ba4190135ce14cad0b88aee57af5d39e"
+          }
+        },
+        {
+          "bug": 9,
+          "case": "bug-hessian.js-9",
+          "path": "lib/v1/decoder.js",
+          "buggy_commit": "68dd5347b54e4702f6a2f43bea862abc784a9f6c",
+          "fixed_commit": "6772d3ca45b437b2a8c5c5d27e4419d46f7ec688",
+          "head_ranges": [
+            [
+              415,
+              415
+            ]
+          ],
+          "test_evidence": "recorded_run",
+          "bug_revealing_tests": [
+            "map.test.js should decode successful when key is null"
+          ],
+          "category": "generic --> missing type conversion",
+          "sha256": {
+            "case.json": "b638d7bde3f38145109417df1f13000893c82a3980b539a00fbac65fa0211357",
+            "base": "6f514150655976aaaf460d7a3ef5ecde69adc7a9d68792f1f2aad1e38ac4cbb4",
+            "head": "7f6b875ef10505143735906fd44d59132577489b0cba8e264cf269cf379fd4e3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bower",
+      "bugsjs_name": "Bower",
+      "url": "https://github.com/BugsJS/bower",
+      "license": "MIT",
+      "license_file": "licenses/bugsjs-bower.LICENSE",
+      "license_sha256": "4b1183128948f3b6b81c1280a540de07fae672652ad1b7f215bd024800033e07",
+      "license_verified": "license text read by machine on import: the permission grant and warranty disclaimer are identical to the standard MIT text after whitespace normalization. Redistribution is permitted; see ../THIRD_PARTY_NOTICES.md.",
+      "bugs_in_dataset": 3,
+      "eligible": 2,
+      "excluded_by_reason": {
+        "not_a_single_modified_source_file": 1
+      },
+      "selected": [
+        {
+          "bug": 2,
+          "case": "bug-bower-2",
+          "path": "lib/core/Project.js",
+          "buggy_commit": "9c52ec2751d689a2cddb34adb004df41ce7c8a92",
+          "fixed_commit": "e52a857f7bb2e52019159ece1b8270128b8fbb0f",
+          "head_ranges": [
+            [
+              89,
+              89
+            ],
+            [
+              97,
+              101
+            ],
+            [
+              106,
+              106
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incomplete feature implementation --> configuration processing",
+          "sha256": {
+            "case.json": "869392e9d447796cb3a535edb5f76f4383e0d58da10ef2c45586572ccd65f1d6",
+            "base": "fc4fe97ae79e5da1d55737924fce7806f045104ba65c2c933baec67c48f2d677",
+            "head": "2b8caf1f150948712b69839975d808710b0615830754e209b6d8752c99591843"
+          }
+        },
+        {
+          "bug": 3,
+          "case": "bug-bower-3",
+          "path": "lib/core/scripts.js",
+          "buggy_commit": "e85a5f778fc74e91862caa5bad2817d6bf475d1c",
+          "fixed_commit": "14921123025c487c51038a04539384e37acbf9e3",
+          "head_ranges": [
+            [
+              86,
+              86
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incorrect feature implementation --> incorrect data processing",
+          "sha256": {
+            "case.json": "8ecb1eca56769b44d18b137d14e6af1e33d529f1f93039cb264c5c2530bab090",
+            "base": "8277d4509e15a017fb44f50b24c86d3f66f826165e9de40e2c285055dc4cac49",
+            "head": "c4881bea8f7047e0460630dcffd56cad9d6dde9589a1251f8f8040b9bc3ab6fd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shields",
+      "bugsjs_name": "Shields",
+      "url": "https://github.com/BugsJS/shields",
+      "license": "CC0-1.0",
+      "license_file": "licenses/bugsjs-shields.LICENSE",
+      "license_sha256": "8fe89bd45eec57c65de212a0a0f3987d6f8c5114bf859959d3122309414f2478",
+      "license_verified": "license text read by machine on import: the text is the CC0 1.0 Universal public-domain dedication (Statement of Purpose present). Redistribution is permitted; see ../THIRD_PARTY_NOTICES.md.",
+      "bugs_in_dataset": 4,
+      "eligible": 1,
+      "excluded_by_reason": {
+        "not_a_single_modified_source_file": 2,
+        "too_many_hunks": 1
+      },
+      "selected": [
+        {
+          "bug": 1,
+          "case": "bug-shields-1",
+          "path": "lib/request-handler.js",
+          "buggy_commit": "9d84d2fec14e6a44821b9b5d545f9c8244c0f4f9",
+          "fixed_commit": "73472d0be8f570955140c7399d785322aad5b1d7",
+          "head_ranges": [
+            [
+              100,
+              100
+            ],
+            [
+              202,
+              202
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incorrect feature implementation --> incorrect data processing",
+          "sha256": {
+            "case.json": "edd6ccae5013dec6bf3b4d527538b7d424d94697e940bc3a615dd02181413a11",
+            "base": "85b1f6053ebedbbe86ba103b7bd6f5fa600ffabcbfdf4c21cd22a832f575e391",
+            "head": "3965870f50d6f1f052cad6d6d8aef30f5fbdb352b63a9f066d04421f02610239"
+          }
+        }
+      ]
+    },
+    {
+      "id": "karma",
+      "bugsjs_name": "Karma",
+      "url": "https://github.com/BugsJS/karma",
+      "license": "MIT",
+      "license_file": "licenses/bugsjs-karma.LICENSE",
+      "license_sha256": "0a3671404e4ac6f02114d66013be6f030ada5d5f46758520bf5a8b1c496a455b",
+      "license_verified": "license text read by machine on import: the permission grant and warranty disclaimer are identical to the standard MIT text after whitespace normalization. Redistribution is permitted; see ../THIRD_PARTY_NOTICES.md.",
+      "bugs_in_dataset": 22,
+      "eligible": 14,
+      "excluded_by_reason": {
+        "not_a_single_modified_source_file": 5,
+        "too_many_hunks": 3
+      },
+      "selected": [
+        {
+          "bug": 4,
+          "case": "bug-karma-4",
+          "path": "lib/reporter.js",
+          "buggy_commit": "47066ea538b89627d4a65d061f16d4d2dd0037c8",
+          "fixed_commit": "91ba7b454a6afe2abaa3fd05167b409ba15928b9",
+          "head_ranges": [
+            [
+              52,
+              52
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incomplete feature implementation --> missing input validation",
+          "sha256": {
+            "case.json": "2bfc612fd876781c2e9fd93d56fb08907d5eb23f3991cb57b10b3e87a9c9f219",
+            "base": "16adf979e0a4f03a7a4770e55734627b7d1a600a4705b6596668d92349d5dee8",
+            "head": "77b548c513a316d11118d20fc20dd4addc7927b41b1b28499e1d1259583349a1"
+          }
+        },
+        {
+          "bug": 6,
+          "case": "bug-karma-6",
+          "path": "lib/cli.js",
+          "buggy_commit": "85328f3e124c0a5875155885af434021ef3a20ec",
+          "fixed_commit": "ffa0d93a2616122b845904973a3bbd7abeae24c4",
+          "head_ranges": [
+            [
+              21,
+              21
+            ],
+            [
+              22,
+              22
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incomplete feature implementation --> configuration processing",
+          "sha256": {
+            "case.json": "f56acdfaf0dd555e3781144aa6c0df78783402265b7f1c6171381ede4000957c",
+            "base": "cd48a93f8ea2e7f21f68ca2117d59717c3f2785c80aa2d2b340fe077758c61d1",
+            "head": "c7380fbc8717b8725de9a2a582b85dd8db048b44d7af29f0ab99f2f2177530a0"
+          }
+        },
+        {
+          "bug": 9,
+          "case": "bug-karma-9",
+          "path": "lib/watcher.js",
+          "buggy_commit": "4858f39e121348764b094c8966579f5d05f3defc",
+          "fixed_commit": "4794c6e0f451aaa4662424977de85b3c64e19a87",
+          "head_ranges": [
+            [
+              11,
+              11
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incorrect feature implementation --> incorrect filepath",
+          "sha256": {
+            "case.json": "57ffa27a2e4298923f422f6d571a172de276ce28554c5258ae2217e92f66a236",
+            "base": "384475580e5387c4a878ffec808ec930807aaa85c95fdc5c5c8f6b41223a19e2",
+            "head": "b9d1373241560032f32c68d5a64c8c9aae7ee51d8855c6ea3aec85586d831c26"
+          }
+        },
+        {
+          "bug": 14,
+          "case": "bug-karma-14",
+          "path": "lib/server.js",
+          "buggy_commit": "7d2c1ae992ce430288f3f24b8d8b27ed880e5625",
+          "fixed_commit": "d0b4bee7c84041fe097f2a65e52dc16849acaac6",
+          "head_ranges": [
+            [
+              187,
+              187
+            ],
+            [
+              395,
+              395
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incomplete feature implementation --> error handling",
+          "sha256": {
+            "case.json": "dd55c3d6642dd0bee32be710204ab2d5da2bb523d73dd1ac24e136d555adf3de",
+            "base": "645ed7649cf342954288af7ee4f97dfd74f0a23b4c73fc3c76673214113f3d3f",
+            "head": "39a51b846ec7aafbe54b06957df3e49795f3200cdda2d467cb6f1f8c481f73e6"
+          }
+        },
+        {
+          "bug": 20,
+          "case": "bug-karma-20",
+          "path": "lib/file-list.js",
+          "buggy_commit": "819763225897add01677517fbe0b4a555ee1f613",
+          "fixed_commit": "efae3a2a38c8235c562ff736d7a82aa334aa996a",
+          "head_ranges": [
+            [
+              76,
+              76
+            ],
+            [
+              78,
+              82
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "generic --> data processing",
+          "sha256": {
+            "case.json": "d2790aab9125d7bd5525f4ad418513a07a4f5ad8114d1afecda58efa4bc83401",
+            "base": "aeac7a43aa3ca6e12e3219fb9dd27e80173bb81e2b24087cafbd424f1a123423",
+            "head": "658a74823b08566525762424dd8057ba4e76f8cee8654f081762190ecf306030"
+          }
+        },
+        {
+          "bug": 21,
+          "case": "bug-karma-21",
+          "path": "lib/file-list.js",
+          "buggy_commit": "09d64ed1570b5351bf38a34f74a6d5caf1474b3f",
+          "fixed_commit": "20ca5b60f33262cfd21c345e61ddecff5e9f17a7",
+          "head_ranges": [
+            [
+              16,
+              16
+            ],
+            [
+              158,
+              158
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incorrect feature implementation --> incorrect filepath",
+          "sha256": {
+            "case.json": "4ab8de46adea26ecb7afac5b7fe00054cdfa5d2a3434be17787c7aaf9189fdc3",
+            "base": "53771cde8328f7510e3c2ba323d46a6be41b3cd045e4b628535fc9a20afe9848",
+            "head": "fced1eff92b9b998077d34cd177b3390061129d30ef08f5f9ab730688609ffd0"
+          }
+        }
+      ]
+    },
+    {
+      "id": "eslint",
+      "bugsjs_name": "Eslint",
+      "url": "https://github.com/BugsJS/eslint",
+      "license": "MIT",
+      "license_file": "licenses/bugsjs-eslint.LICENSE",
+      "license_sha256": "9b8270febdcc7ee736eafacadb53d7707f8ca38494d9c39844fec119882e93ea",
+      "license_verified": "license text read by machine on import: the permission grant and warranty disclaimer are identical to the standard MIT text after whitespace normalization. Redistribution is permitted; see ../THIRD_PARTY_NOTICES.md.",
+      "bugs_in_dataset": 333,
+      "eligible": 241,
+      "excluded_by_reason": {
+        "diff_disagreement": 58,
+        "not_a_single_modified_source_file": 18,
+        "too_many_hunks": 16
+      },
+      "selected": [
+        {
+          "bug": 3,
+          "case": "bug-eslint-3",
+          "path": "lib/rules/prefer-template.js",
+          "buggy_commit": "263b7782438899240548d0020cf9a49c2bbe2b5c",
+          "fixed_commit": "b6052e52d113b1b7a6924a6ecee7754d55c135bc",
+          "head_ranges": [
+            [
+              34,
+              34
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incomplete feature implementation --> missing input validation --> missing type check",
+          "sha256": {
+            "case.json": "743950694cb2776bb8cc5d4757f4612dedaf06dda6cabd9e09c9ccea97623433",
+            "base": "b2faa6e12744e751e0169c3e546d28b82e3d2dc56ce24c979fb181431efa14a6",
+            "head": "978d92aaf910d808b1ae6c95d008e9da1d78e19c2b649ea9f18324e072cd7bcb"
+          }
+        },
+        {
+          "bug": 39,
+          "case": "bug-eslint-39",
+          "path": "lib/rules/key-spacing.js",
+          "buggy_commit": "a989a7c299ab6fddaa44fdbe196add405061a912",
+          "fixed_commit": "f0f89be0fb095c2c80dcdde5ff23fe5c63771a17",
+          "head_ranges": [
+            [
+              139,
+              139
+            ],
+            [
+              292,
+              292
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "generic --> variable initialization --> incorrect variable initialization",
+          "sha256": {
+            "case.json": "1235115221a7bfbdeb6bf3116321272f1328d5288b0c25a4f8646caed41b9d28",
+            "base": "d80858afd289509500c004af70b3735e0c773b0ccbd8883beff55cb3802c23e4",
+            "head": "c4e2a7f007b847a014ea066ab147021750a22146cf0b0b7762ead9c2aa5fef39"
+          }
+        },
+        {
+          "bug": 67,
+          "case": "bug-eslint-67",
+          "path": "lib/rules/quote-props.js",
+          "buggy_commit": "d9edcda1ac25238e7daed3fde6492f9c4c274a61",
+          "fixed_commit": "e44a44aaa31bbe3cf44072fd03821085a43f148d",
+          "head_ranges": [
+            [
+              144,
+              144
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incorrect feature implementation --> incorrect input validation",
+          "sha256": {
+            "case.json": "e791cbbc5e7ed67c5acef74944767031b9ad62118ff0e239a8f01a8e9bd78151",
+            "base": "fbb99fa8771c09df4220e59e9d777c7a2d17ff804f9c9b507e0abc4f4d179bef",
+            "head": "034106568b48f192533961e19011db9e1ab2eccd5626ac233f47a1cc1066603b"
+          }
+        },
+        {
+          "bug": 212,
+          "case": "bug-eslint-212",
+          "path": "lib/rules/indent.js",
+          "buggy_commit": "6a5cd32e5a75b23558ad0282e080ffbb6affcad0",
+          "fixed_commit": "2a83dbcb770bc26a31fc9a3fa75ed57ddcbf48f5",
+          "head_ranges": [
+            [
+              1097,
+              1098
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incorrect feature implementation --> incorrect data processing",
+          "sha256": {
+            "case.json": "009f70a366c42c4c5f8997c7bd26e17a65026b2b5968ba0c41e3749bed2c4ff2",
+            "base": "db48ebc1bcc9a41bb292795e2bb01612fc6609601d94c246f174e1582cdc9acd",
+            "head": "08e6c25667a610d6ed9edf2ef2b8d6aa1d90f8e4afad44f286fb928ac990df83"
+          }
+        },
+        {
+          "bug": 290,
+          "case": "bug-eslint-290",
+          "path": "lib/rules/space-in-parens.js",
+          "buggy_commit": "92171ccc8f06cd26aa75c9510af3c1605629c7b2",
+          "fixed_commit": "9b143b8a0dcb036cce127289997c5e4cbda8767c",
+          "head_ranges": [
+            [
+              48,
+              49
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incorrect feature implementation --> incorrect data processing",
+          "sha256": {
+            "case.json": "77f849f4cda6f2f83c2617409c559d2b40e09a3d02dc305ce1da050d40c8ebeb",
+            "base": "597ba266a5bcd1f8aa442e228a479ada5c8a5c52413d67e577804bb3ffa76b6d",
+            "head": "63a0c7bbbbbeb99f970bfcad79b126aed33e50f522c418ba4a2342522a3acd50"
+          }
+        },
+        {
+          "bug": 311,
+          "case": "bug-eslint-311",
+          "path": "lib/rules/no-useless-escape.js",
+          "buggy_commit": "3004c1e2c561fe30389ae478bb4b18df324a1313",
+          "fixed_commit": "92fea310f3273be212c0378a50f9aad8cf548c6d",
+          "head_ranges": [
+            [
+              28,
+              29
+            ],
+            [
+              197,
+              197
+            ]
+          ],
+          "test_evidence": "none_recorded",
+          "bug_revealing_tests": [],
+          "category": "incorrect feature implementation --> incorrect handling of regex expressions",
+          "sha256": {
+            "case.json": "e0a9c0edeb5cf7e4739680850b7c4505747b402c38c48848631cdde34c82576e",
+            "base": "a6aa583bea5e8f7daee094ee4dcd05c21f0e8a2b5ac692090933bb3ad10cf3ea",
+            "head": "b6be2540dc3ac18e1a300d41a816f71b116ebb25e9709fce0fdc1eb226832893"
+          }
+        }
+      ]
+    }
+  ]
+}

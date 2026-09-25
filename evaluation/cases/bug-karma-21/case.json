@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "bug-karma-21",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/karma",
+    "base_sha": "20ca5b60f33262cfd21c345e61ddecff5e9f17a7",
+    "head_sha": "09d64ed1570b5351bf38a34f74a6d5caf1474b3f",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-21-fix",
+    "head_ref": "Bug-21"
+  },
+  "files": [
+    {
+      "path": "lib/file-list.js",
+      "status": "modified",
+      "base": "base/lib/file-list.js",
+      "head": "head/lib/file-list.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/file-list.js",
+      "start_line": 16,
+      "end_line": 16,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Karma-21: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-karma-21",
+      "description": "Location 1 of 2 changed by the fix of BugsJS Karma-21 (category: incorrect feature implementation --> incorrect filepath)."
+    },
+    {
+      "file": "lib/file-list.js",
+      "start_line": 158,
+      "end_line": 158,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Karma-21: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-karma-21",
+      "description": "Location 2 of 2 changed by the fix of BugsJS Karma-21 (category: incorrect feature implementation --> incorrect filepath)."
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "id": "bug-hexo-4",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/hexo",
+    "base_sha": "0aabe24da40412116efbe3143cd108ac08920031",
+    "head_sha": "9aca27b2bddaca35d22880d66aa03d77c6114a4e",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-4-fix",
+    "head_ref": "Bug-4"
+  },
+  "files": [
+    {
+      "path": "lib/models/post_asset.js",
+      "status": "modified",
+      "base": "base/lib/models/post_asset.js",
+      "head": "head/lib/models/post_asset.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/models/post_asset.js",
+      "start_line": 5,
+      "end_line": 5,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Hexo-4: manually validated bug (Gyimesi et al., ICST 2019)"
+        },
+        {
+          "method": "executable_test",
+          "ref": "BugsJS recorded run (not re-run here): fails with the fix's tests, not on the buggy revision: Hexo Tags asset_img with space"
+        }
+      ],
+      "group": "bugsjs-hexo-4",
+      "description": "Location 1 of 2 changed by the fix of BugsJS Hexo-4 (category: incorrect feature implementation --> incorrect data processing)."
+    },
+    {
+      "file": "lib/models/post_asset.js",
+      "start_line": 21,
+      "end_line": 21,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Hexo-4: manually validated bug (Gyimesi et al., ICST 2019)"
+        },
+        {
+          "method": "executable_test",
+          "ref": "BugsJS recorded run (not re-run here): fails with the fix's tests, not on the buggy revision: Hexo Tags asset_img with space"
+        }
+      ],
+      "group": "bugsjs-hexo-4",
+      "description": "Location 2 of 2 changed by the fix of BugsJS Hexo-4 (category: incorrect feature implementation --> incorrect data processing)."
+    }
+  ]
+}

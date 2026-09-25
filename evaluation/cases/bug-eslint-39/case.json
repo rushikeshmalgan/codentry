@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "bug-eslint-39",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/eslint",
+    "base_sha": "f0f89be0fb095c2c80dcdde5ff23fe5c63771a17",
+    "head_sha": "a989a7c299ab6fddaa44fdbe196add405061a912",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-39-fix",
+    "head_ref": "Bug-39"
+  },
+  "files": [
+    {
+      "path": "lib/rules/key-spacing.js",
+      "status": "modified",
+      "base": "base/lib/rules/key-spacing.js",
+      "head": "head/lib/rules/key-spacing.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/rules/key-spacing.js",
+      "start_line": 139,
+      "end_line": 139,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Eslint-39: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-eslint-39",
+      "description": "Location 1 of 2 changed by the fix of BugsJS Eslint-39 (category: generic --> variable initialization --> incorrect variable initialization)."
+    },
+    {
+      "file": "lib/rules/key-spacing.js",
+      "start_line": 292,
+      "end_line": 292,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Eslint-39: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-eslint-39",
+      "description": "Location 2 of 2 changed by the fix of BugsJS Eslint-39 (category: generic --> variable initialization --> incorrect variable initialization)."
+    }
+  ]
+}

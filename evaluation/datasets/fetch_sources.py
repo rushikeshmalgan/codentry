@@ -67,26 +67,79 @@ def _ensure(path: Path, fetch, expected: str | None, refresh: bool) -> bytes:
 NOTICES = DATASETS.parent / "THIRD_PARTY_NOTICES.md"
 
 
+def _load_optional(name: str) -> dict[str, Any] | None:
+    path = DATASETS / name
+    return json.loads(path.read_bytes().decode("utf-8")) if path.exists() else None
+
+
+def notice_sections(manifest: dict[str, Any]) -> list[dict[str, str]]:
+    """One entry per redistributed open-source project, across all case families:
+    `mut-*` (mutation), `bug-*` (BugsJS reversed fixes), `pr-*` (noise pull requests)."""
+    sections = [
+        {
+            "title": f"{r['id']} — {r['license']}",
+            "license_file": r["license_file"],
+            "where": f"used by `mut-{r['id']}-*` cases and `datasets/sources/{r['id']}/`",
+            "source": f"{r['url']} at commit `{r['commit']}`",
+            "detail": "Files used: " + ", ".join(f"`{e['path']}`" for e in r["files"]),
+        }
+        for r in manifest["repositories"]
+    ]
+    bugs = _load_optional("bugsjs.json")
+    for r in (bugs or {}).get("projects", []):
+        if r["selected"]:
+            sections.append(
+                {
+                    "title": f"BugsJS {r['bugsjs_name']} — {r['license']}",
+                    "license_file": r["license_file"],
+                    "where": "used by `bug-"
+                    + r["id"]
+                    + "-*` cases (base = fixed file, head = buggy file)",
+                    "source": (
+                        f"{r['url']} (BugsJS fork; bug tags), dataset {bugs['bug_dataset']['url']}"
+                    ),
+                    "detail": "Files used: "
+                    + ", ".join(sorted({e["path"] for e in r["selected"]})),
+                }
+            )
+    noise = _load_optional("noise_prs.json")
+    for r in (noise or {}).get("repositories", []):
+        if r["selected"]:
+            sections.append(
+                {
+                    "title": f"{r['id']} (pull requests) — {r['license']}",
+                    "license_file": r["license_file"],
+                    "where": f"used by `pr-{r['id']}-*` cases "
+                    "(base = before the merged pull request, "
+                    "head = after)",
+                    "source": f"{r['url']} at pinned commit `{r['pinned_commit']}`",
+                    "detail": f"{len(r['selected'])} merged pull requests, "
+                    "listed in datasets/noise_prs.json",
+                }
+            )
+    return sections
+
+
 def write_notices(manifest: dict[str, Any]) -> None:
-    """MIT and ISC require the copyright and permission notice to accompany copies.
-    Every mutation case holds a copy (base/) or a one-line modification (head/) of a
-    third-party file, so the license texts are reproduced verbatim here, offline,
-    from the vendored license files."""
+    """MIT, ISC and similar licenses require the copyright and permission notice to
+    accompany copies. Every `mut-*`, `bug-*` and `pr-*` case holds copies (or one-edit
+    modifications) of third-party files, so the license texts are reproduced verbatim
+    here, offline, from the vendored license files."""
     parts = [
         "# Third-party notices\n\n"
-        "The files under `evaluation/datasets/sources/`, and the `base/` and `head/` files of "
-        "every case in `evaluation/cases/` whose directory name starts with `mut-`, are copies "
-        "of (`base/`) or single-edit modifications of (`head/`) source files from the "
-        "open-source projects below, redistributed under their licenses. Each license text is "
-        "reproduced verbatim. Hand-made `fx-*` cases are project-authored.\n"
+        "The files under `evaluation/datasets/sources/` and the `base/` and `head/` files of "
+        "every case in `evaluation/cases/` whose directory name starts with `mut-`, `bug-` or "
+        "`pr-` are copies of (`base/`), single-edit modifications of (`head/`), or historical "
+        "versions of source files from the open-source projects below, redistributed under "
+        "their licenses. Each license text is reproduced verbatim. Hand-made `fx-*` cases are "
+        "project-authored.\n"
     ]
-    for repo in manifest["repositories"]:
-        text = (DATASETS / repo["license_file"]).read_text(encoding="utf-8").strip()
-        files = ", ".join(f"`{e['path']}`" for e in repo["files"])
+    for s in notice_sections(manifest):
+        text = (DATASETS / s["license_file"]).read_bytes().decode("utf-8").strip()
+        where = s["where"][0].upper() + s["where"][1:]
         parts.append(
-            f"\n## {repo['id']} — {repo['license']}\n\n"
-            f"Source: {repo['url']} at commit `{repo['commit']}`\n\nFiles used: {files}\n\n"
-            f"```text\n{text}\n```\n"
+            f"\n## {s['title']}\n\n{where}.\n\n"
+            f"Source: {s['source']}\n\n{s['detail']}\n\n```text\n{text}\n```\n"
         )
     NOTICES.write_bytes("".join(parts).encode("utf-8"))
 

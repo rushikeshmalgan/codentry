@@ -10,11 +10,14 @@ headline.
 Definitions used for every arm, so arms are comparable:
 
 - defect *detected*        at least one reported finding hits it        -> recall
-- finding *true positive*  it hits at least one defect                  -> precision
-- finding *false positive* it hits none                                 -> FP per PR
-- *exactly located*        a true positive that also overlaps the defect
+- finding *matched*        it hits at least one defect                  -> precision
+- finding *unmatched*      it hits none. NOT automatically a false positive:
+                           it may be a real issue the ground truth does not list,
+                           so "false positives per PR" needs human adjudication
+                           (evaluation/labeling/protocol.md)
+- *exactly located*        a matched finding that also overlaps the defect
                            with k = 0 (it points at the defective lines)
-                           -> location accuracy = exactly located / true positives
+                           -> location accuracy = exactly located / matched
 - *duplicate*              a finding whose identity_key was already reported
                            (the same problem reported again)
 - findings per changed line  reported findings / lines the change added
@@ -23,10 +26,12 @@ Known limits, stated here so no number is over-read:
 
 - Matching is by **location only**. It cannot tell whether the finding
   describes the defect or merely sits on the same line (e.g. an unused-variable
-  warning on a mutated line counts as a hit). Adjudicating findings by hand is
-  the later, more expensive step; until then precision here is an upper bound.
-- Several findings on one defect all count as true positives (they are all
-  "pointing at a real defect"); duplicates are reported separately.
+  warning on a mutated line counts as a hit), which inflates precision; and an
+  unmatched finding may be a real issue the ground truth does not list, which
+  deflates it. Location-matched precision is therefore neither an upper nor a
+  lower bound until findings are adjudicated by people.
+- Several findings on one defect are all matched (they all point at a real
+  defect); duplicates are reported separately.
 - A `k` above 0 makes recall and precision look better; read the k = 0 row too.
 """
 
@@ -55,8 +60,8 @@ class MatchResult:
     detected_defects: tuple[int, ...]  # indices into the defect list
     missed_defects: tuple[int, ...]
     reported: int
-    true_positive_findings: tuple[int, ...]  # indices into the reported list
-    false_positive_findings: tuple[int, ...]
+    matched_findings: tuple[int, ...]  # indices into the reported list
+    unmatched_findings: tuple[int, ...]
     exactly_located_findings: tuple[int, ...]
 
 
@@ -75,7 +80,7 @@ def match(
     reported: Sequence[Span], defects: Sequence[Span], tolerance: int = DEFAULT_TOLERANCE
 ) -> MatchResult:
     detected: set[int] = set()
-    true_positive: list[int] = []
+    matched: list[int] = []
     exactly_located: list[int] = []
 
     for i, finding in enumerate(reported):
@@ -88,19 +93,19 @@ def match(
                 if hits(finding, defect, 0):
                     exact_any = True
         if hit_any:
-            true_positive.append(i)
+            matched.append(i)
         if exact_any:
             exactly_located.append(i)
 
-    tp = set(true_positive)
+    matched_set = set(matched)
     return MatchResult(
         tolerance=tolerance,
         defects=len(defects),
         detected_defects=tuple(sorted(detected)),
         missed_defects=tuple(j for j in range(len(defects)) if j not in detected),
         reported=len(reported),
-        true_positive_findings=tuple(true_positive),
-        false_positive_findings=tuple(i for i in range(len(reported)) if i not in tp),
+        matched_findings=tuple(matched),
+        unmatched_findings=tuple(i for i in range(len(reported)) if i not in matched_set),
         exactly_located_findings=tuple(exactly_located),
     )
 

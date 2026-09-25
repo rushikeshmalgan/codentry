@@ -1,0 +1,432 @@
+[
+  {
+    "case_id": "pr-zod-6543",
+    "context": {
+      "first_line": 91,
+      "flagged": [
+        99,
+        99
+      ],
+      "lines": [
+        "        issues = undefined as any;",
+        "        ctx = undefined as any;",
+        "      }",
+        "      return error;",
+        "    },",
+        "    set error(e: errors.$ZodError) {",
+        "      error = e;",
+        "      // a replacement makes the getter's branch unreachable, so the captures have to go here too",
+        "      issues = undefined as any;",
+        "      ctx = undefined as any;",
+        "    },",
+        "  };",
+        "}",
+        "",
+        "export type $SafeParseAsync = <T extends schemas.$ZodType>(",
+        "  schema: T,",
+        "  value: unknown,"
+      ]
+    },
+    "end_line": 99,
+    "file": "packages/zod/src/v4/core/parse.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "96b1d817fd52efe0c2ad0bdd348d2a54ebf7d45d67c3999ec88e3650230ba660",
+      "sampled_with_seed": 1,
+      "severity": "high"
+    },
+    "item_id": "calibration-01-01",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 99,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6543",
+    "context": {
+      "first_line": 92,
+      "flagged": [
+        100,
+        100
+      ],
+      "lines": [
+        "        ctx = undefined as any;",
+        "      }",
+        "      return error;",
+        "    },",
+        "    set error(e: errors.$ZodError) {",
+        "      error = e;",
+        "      // a replacement makes the getter's branch unreachable, so the captures have to go here too",
+        "      issues = undefined as any;",
+        "      ctx = undefined as any;",
+        "    },",
+        "  };",
+        "}",
+        "",
+        "export type $SafeParseAsync = <T extends schemas.$ZodType>(",
+        "  schema: T,",
+        "  value: unknown,",
+        "  _ctx?: schemas.ParseContext<errors.$ZodIssue>"
+      ]
+    },
+    "end_line": 100,
+    "file": "packages/zod/src/v4/core/parse.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "f7cb2c2ee8742afd7540727f32248a2832c84ec4f8fa2a71550ba543856ec63e",
+      "sampled_with_seed": 1,
+      "severity": "high"
+    },
+    "item_id": "calibration-01-02",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 100,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-axios-11082",
+    "context": {
+      "first_line": 43,
+      "flagged": [
+        51,
+        51
+      ],
+      "lines": [
+        "  {}",
+        ");",
+        "const cancelFlag: boolean | undefined = cancel.__CANCEL__;",
+        "const cancelCtor: typeof CanceledError = axios.Cancel;",
+        "const cancelFromAlias = new cancelCtor('from alias');",
+        "",
+        "const status: HttpStatusCode = HttpStatusCode.WebServerIsDown;",
+        "const unknownErrorStatus: HttpStatusCode = HttpStatusCode.WebServerReturnsAnUnknownError;",
+        "const contentTooLargeStatus: HttpStatusCode = HttpStatusCode.ContentTooLarge;",
+        "const unprocessableContentStatus: HttpStatusCode = HttpStatusCode.UnprocessableContent;",
+        "",
+        "class CustomBlob {",
+        "  constructor(_parts?: any[]) {}",
+        "}",
+        "",
+        "const serializerOptions: FormSerializerOptions = {",
+        "  maxDepth: 2,"
+      ]
+    },
+    "end_line": 51,
+    "file": "tests/module/esm/tests/helpers/esm-added-types.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "a64b79bca6ec6edcc05857f91a34628dd3254a13c9a25afaa102ed530342dcd7",
+      "sampled_with_seed": 1,
+      "severity": "high"
+    },
+    "item_id": "calibration-01-03",
+    "message": "'contentTooLargeStatus' is assigned a value but never used.",
+    "rule": "@typescript-eslint/no-unused-vars",
+    "start_line": 51,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 333,
+      "flagged": [
+        341,
+        341
+      ],
+      "lines": [
+        "  json.type = \"object\";",
+        "  json.properties = {};",
+        "",
+        "  for (const key in shape) {",
+        "    // assignProp so a __proto__ key becomes an own property instead of hitting the inherited setter on the plain {} we build into",
+        "    assignProp(",
+        "      json.properties,",
+        "      key,",
+        "      processSchema(shape[key]!, ctx as any, {",
+        "        ...params,",
+        "        path: [...params.path, \"properties\", key],",
+        "      })",
+        "    );",
+        "  }",
+        "",
+        "  // required keys",
+        "  const allKeys = new Set(Object.keys(shape));"
+      ]
+    },
+    "end_line": 341,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "3f2e216158a33595999ceaee3ea288f19a4e5d90533158c3f0f36d180ed620a1",
+      "sampled_with_seed": 1,
+      "severity": "high"
+    },
+    "item_id": "calibration-01-04",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 341,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 726,
+      "flagged": [
+        734,
+        734
+      ],
+      "lines": [
+        "  seen.ref = def.innerType;",
+        "  if (ctx.io !== \"input\") return;",
+        "  const value = serializeDefaultValue(def.defaultValue, schema, ctx as ToJSONSchemaContext, json, params);",
+        "  if (value !== UNREPRESENTABLE_DEFAULT) json._prefault = value;",
+        "};",
+        "",
+        "export const catchProcessor: Processor<schemas.$ZodCatch> = (schema, ctx, json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodCatchDef;",
+        "  processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = def.innerType;",
+        "  let catchValue: any;",
+        "  try {",
+        "    catchValue = def.catchValue(undefined as any);",
+        "  } catch {",
+        "    handleUnrepresentable(schema, ctx, json, params, \"Dynamic catch values are not supported in JSON Schema\");",
+        "    return;"
+      ]
+    },
+    "end_line": 734,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "11554a5a912c4a879f719825b4f8694bead58a8fce1baa2cd0a7041c2f713010",
+      "sampled_with_seed": 1,
+      "severity": "high"
+    },
+    "item_id": "calibration-01-05",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 734,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-axios-11082",
+    "context": {
+      "first_line": 28,
+      "flagged": [
+        36,
+        36
+      ],
+      "lines": [
+        ");",
+        "const cancelFlag: boolean | undefined = cancel.__CANCEL__;",
+        "const cancelCtor: typeof axios.CanceledError = axios.Cancel;",
+        "const cancelFromAlias = new cancelCtor('from alias');",
+        "",
+        "const status = axios.HttpStatusCode.WebServerIsDown;",
+        "const unknownErrorStatus = axios.HttpStatusCode.WebServerReturnsAnUnknownError;",
+        "const contentTooLargeStatus = axios.HttpStatusCode.ContentTooLarge;",
+        "const unprocessableContentStatus = axios.HttpStatusCode.UnprocessableContent;",
+        "",
+        "class CustomBlob {",
+        "  constructor(_parts?: any[]) {}",
+        "}",
+        "",
+        "const serializerOptions: axios.FormSerializerOptions = {",
+        "  maxDepth: 2,",
+        "  Blob: CustomBlob,"
+      ]
+    },
+    "end_line": 36,
+    "file": "tests/module/cjs/tests/helpers/cjs-added-types.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "50f7df80c285dfa684594732eab7fcb0ac847595147e8882b745ee917d77c5ab",
+      "sampled_with_seed": 1,
+      "severity": "high"
+    },
+    "item_id": "calibration-01-06",
+    "message": "'unprocessableContentStatus' is assigned a value but never used.",
+    "rule": "@typescript-eslint/no-unused-vars",
+    "start_line": 36,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 678,
+      "flagged": [
+        686,
+        686
+      ],
+      "lines": [
+        "    json.nullable = true;",
+        "  } else {",
+        "    json.anyOf = [inner, { type: \"null\" }];",
+        "  }",
+        "};",
+        "",
+        "export const nonoptionalProcessor: Processor<schemas.$ZodNonOptional> = (schema, ctx, _json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodNonOptionalDef;",
+        "  processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = def.innerType;",
+        "};",
+        "",
+        "/** Round-trips a default value through JSON so the emitted schema is guaranteed to be valid JSON.",
+        " * A BigInt has no reliable encoding, so it goes through `unrepresentable` like any other",
+        " * unrepresentable value. Returns a sentinel when the caller must not write a default of its own. */",
+        "const UNREPRESENTABLE_DEFAULT = Symbol();"
+      ]
+    },
+    "end_line": 686,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "11554a5a912c4a879f719825b4f8694bead58a8fce1baa2cd0a7041c2f713010",
+      "sampled_with_seed": 1,
+      "severity": "high"
+    },
+    "item_id": "calibration-01-07",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 686,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-fastify-7018",
+    "context": {
+      "first_line": 47,
+      "flagged": [
+        55,
+        55
+      ],
+      "lines": [
+        "    })",
+        "  }",
+        "}",
+        "",
+        "test('validate skips a body without a matching content-type schema', t => {",
+        "  const context = { [symbols.bodySchema]: { 'application/json': () => true } }",
+        "  const request = {",
+        "    mediaType: 'text/plain',",
+        "    get body () {",
+        "      t.assert.fail('an unvalidated body must not be read')",
+        "    }",
+        "  }",
+        "",
+        "  t.assert.strictEqual(validation.validate(context, request), false)",
+        "})",
+        "",
+        "test('validate passes null for an undefined request part and preserves other values', t => {"
+      ]
+    },
+    "end_line": 55,
+    "file": "test/internals/validation.test.js",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "6f729d4e387a44983e7acafcb939b0221e81e4c96f19bb91456b25c0ddcc07da",
+      "sampled_with_seed": 1,
+      "severity": "high"
+    },
+    "item_id": "calibration-01-08",
+    "message": "Expected to return a value in getter 'body'.",
+    "rule": "getter-return",
+    "start_line": 55,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6543",
+    "context": {
+      "first_line": 84,
+      "flagged": [
+        92,
+        92
+      ],
+      "lines": [
+        "  let error: errors.$ZodError | undefined;",
+        "  return {",
+        "    success: false,",
+        "    get error() {",
+        "      if (!error) {",
+        "        error = new Err(issues.map((iss) => util.finalizeIssue(iss, ctx, core.config())));",
+        "        // finalizeIssue drops `input`, so the built error holds nothing; keeping the raw issues past this point pins the parsed value for the life of the result",
+        "        issues = undefined as any;",
+        "        ctx = undefined as any;",
+        "      }",
+        "      return error;",
+        "    },",
+        "    set error(e: errors.$ZodError) {",
+        "      error = e;",
+        "      // a replacement makes the getter's branch unreachable, so the captures have to go here too",
+        "      issues = undefined as any;",
+        "      ctx = undefined as any;"
+      ]
+    },
+    "end_line": 92,
+    "file": "packages/zod/src/v4/core/parse.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "f7cb2c2ee8742afd7540727f32248a2832c84ec4f8fa2a71550ba543856ec63e",
+      "sampled_with_seed": 1,
+      "severity": "high"
+    },
+    "item_id": "calibration-01-09",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 92,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6572",
+    "context": {
+      "first_line": 966,
+      "flagged": [
+        974,
+        974
+      ],
+      "lines": [
+        "test(\"a finished parse pins nothing on the schema\", async () => {",
+        "  // es2020 is the target, and its lib predates WeakRef",
+        "  type Weak<T extends object> = { deref(): T | undefined };",
+        "  const { WeakRef: Weak } = globalThis as unknown as { WeakRef: new <T extends object>(target: T) => Weak<T> };",
+        "  // vitest carries no --expose-gc, so reach the collector the way node's own tests do",
+        "  v8.setFlagsFromString(\"--expose-gc\");",
+        "  const gc = vm.runInNewContext(\"gc\") as () => void;",
+        "",
+        "  const Node: any = z.object({",
+        "    id: z.number(),",
+        "    get next() {",
+        "      return z.optional(Node);",
+        "    },",
+        "  });",
+        "",
+        "  const ref = ((): Weak<object> => {",
+        "    const input = { id: 1, next: { id: 2, next: undefined } };"
+      ]
+    },
+    "end_line": 974,
+    "file": "packages/zod/src/v4/classic/tests/cyclic-data.test.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "80e7de180237b283c5534c238c5dfc7286d692414e0468273991056903d78522",
+      "sampled_with_seed": 1,
+      "severity": "high"
+    },
+    "item_id": "calibration-01-10",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 974,
+    "tool": "ESLINT"
+  }
+]

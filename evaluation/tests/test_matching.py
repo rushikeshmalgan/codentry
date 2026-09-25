@@ -96,22 +96,22 @@ def test_match_counts_detected_missed_true_and_false_positives():
     m0 = match(reported, defects, 0)
     assert m0.detected_defects == (0,)
     assert m0.missed_defects == (1, 2)
-    assert m0.true_positive_findings == (0,)
-    assert m0.false_positive_findings == (1, 2)
+    assert m0.matched_findings == (0,)
+    assert m0.unmatched_findings == (1, 2)
 
     m2 = match(reported, defects, 2)
     assert m2.detected_defects == (0,)  # finding 1 also lands on defect 0
-    assert m2.true_positive_findings == (0, 1)
-    assert m2.false_positive_findings == (2,)
+    assert m2.matched_findings == (0, 1)
+    assert m2.unmatched_findings == (2,)
     assert m2.exactly_located_findings == (0,)  # only finding 0 points at the defective lines
 
 
 def test_location_accuracy_inputs_distinguish_near_from_exact():
     defects = [Span("a.js", 10, 10)]
     reported = [Span("a.js", 12, 12)]
-    assert match(reported, defects, 0).true_positive_findings == ()
+    assert match(reported, defects, 0).matched_findings == ()
     near = match(reported, defects, 2)
-    assert near.true_positive_findings == (0,)
+    assert near.matched_findings == (0,)
     assert near.exactly_located_findings == ()
 
 
@@ -120,14 +120,14 @@ def test_several_findings_on_one_defect_are_all_true_positives_but_detect_it_onc
     reported = [Span("a.js", 10, 10), Span("a.js", 10, 10), Span("a.js", 11, 11)]
     m = match(reported, defects, 2)
     assert m.detected_defects == (0,)
-    assert m.true_positive_findings == (0, 1, 2)
-    assert m.false_positive_findings == ()
+    assert m.matched_findings == (0, 1, 2)
+    assert m.unmatched_findings == ()
 
 
 def test_a_clean_change_makes_every_finding_a_false_positive():
     m = match([Span("a.js", 1, 1), Span("a.js", 9, 9)], [], 2)
     assert m.defects == 0
-    assert m.false_positive_findings == (0, 1)
+    assert m.unmatched_findings == (0, 1)
     assert m.detected_defects == () and m.missed_defects == ()
 
 
@@ -143,7 +143,7 @@ def test_match_is_independent_of_the_order_of_inputs():
     forward = match(reported, defects, 2)
     backward = match(list(reversed(reported)), list(reversed(defects)), 2)
     assert len(forward.detected_defects) == len(backward.detected_defects) == 2
-    assert len(forward.false_positive_findings) == len(backward.false_positive_findings) == 1
+    assert len(forward.unmatched_findings) == len(backward.unmatched_findings) == 1
 
 
 # ---- duplicates and ratios --------------------------------------------------

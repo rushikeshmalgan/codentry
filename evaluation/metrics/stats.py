@@ -86,3 +86,27 @@ def bootstrap_interval(
     low = estimates[int(math.floor(alpha / 2 * resamples))]
     high = estimates[min(resamples - 1, int(math.ceil((1 - alpha / 2) * resamples)) - 1)]
     return (low, high)
+
+
+def cohens_kappa(labels_a: Sequence[str], labels_b: Sequence[str]) -> float | None:
+    """Cohen's kappa for two labelers who labeled the same items.
+
+    kappa = (p_observed - p_chance) / (1 - p_chance), where p_chance is the agreement
+    expected if each labeler kept their own label frequencies but labeled at random.
+    Returns None when kappa is undefined: no items, or both labelers used one single
+    identical label for everything (p_chance == 1), where there is nothing to agree
+    *about*. Never returns 0.0 or 1.0 for those cases.
+    """
+    if len(labels_a) != len(labels_b):
+        raise ValueError("both labelers must label the same items")
+    n = len(labels_a)
+    if n == 0:
+        return None
+    observed = sum(a == b for a, b in zip(labels_a, labels_b, strict=True)) / n
+    categories = set(labels_a) | set(labels_b)
+    chance = sum(
+        (labels_a.count(c) / n) * (labels_b.count(c) / n) for c in categories
+    )
+    if chance == 1.0:
+        return None
+    return (observed - chance) / (1.0 - chance)

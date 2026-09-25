@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "id": "bug-express-4",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/express",
+    "base_sha": "3ac2d5e560eebed8d374728e6cee92da3482fa8e",
+    "head_sha": "d07c06363f00647ab0553ef227b9b65cb4a04ae9",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-4-fix",
+    "head_ref": "Bug-4"
+  },
+  "files": [
+    {
+      "path": "lib/request.js",
+      "status": "modified",
+      "base": "base/lib/request.js",
+      "head": "head/lib/request.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/request.js",
+      "start_line": 16,
+      "end_line": 16,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Express-4: manually validated bug (Gyimesi et al., ICST 2019)"
+        },
+        {
+          "method": "executable_test",
+          "ref": "BugsJS recorded run (not re-run here): fails with the fix's tests, not on the buggy revision: req .subdomains when present should work with IPv4 address; req .subdomains when subdomain offset is set when subdomain offset is zero should return an array with the whole IPv4"
+        }
+      ],
+      "group": "bugsjs-express-4",
+      "description": "Location 1 of 2 changed by the fix of BugsJS Express-4 (category: incomplete feature implementation --> missing input validation)."
+    },
+    {
+      "file": "lib/request.js",
+      "start_line": 457,
+      "end_line": 457,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Express-4: manually validated bug (Gyimesi et al., ICST 2019)"
+        },
+        {
+          "method": "executable_test",
+          "ref": "BugsJS recorded run (not re-run here): fails with the fix's tests, not on the buggy revision: req .subdomains when present should work with IPv4 address; req .subdomains when subdomain offset is set when subdomain offset is zero should return an array with the whole IPv4"
+        }
+      ],
+      "group": "bugsjs-express-4",
+      "description": "Location 2 of 2 changed by the fix of BugsJS Express-4 (category: incomplete feature implementation --> missing input validation)."
+    }
+  ]
+}

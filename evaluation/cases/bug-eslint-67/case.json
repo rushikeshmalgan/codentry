@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "bug-eslint-67",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/eslint",
+    "base_sha": "e44a44aaa31bbe3cf44072fd03821085a43f148d",
+    "head_sha": "d9edcda1ac25238e7daed3fde6492f9c4c274a61",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-67-fix",
+    "head_ref": "Bug-67"
+  },
+  "files": [
+    {
+      "path": "lib/rules/quote-props.js",
+      "status": "modified",
+      "base": "base/lib/rules/quote-props.js",
+      "head": "head/lib/rules/quote-props.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/rules/quote-props.js",
+      "start_line": 144,
+      "end_line": 144,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Eslint-67: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-eslint-67",
+      "description": "Location 1 of 1 changed by the fix of BugsJS Eslint-67 (category: incorrect feature implementation --> incorrect input validation)."
+    }
+  ]
+}

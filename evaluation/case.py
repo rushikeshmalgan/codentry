@@ -24,6 +24,7 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 
 from jsonschema import Draft202012Validator
@@ -67,6 +68,7 @@ class Defect:
     kind: str
     provenance: str
     verified_by: tuple[tuple[str, str], ...]  # (method, ref)
+    group: str  # locations of one defect share a group; defaults to a per-entry id
 
 
 @dataclass(frozen=True)
@@ -75,8 +77,10 @@ class Case:
     stratum: str
     inputs: CaseInputs
     ground_truth: tuple[Defect, ...]
+    ground_truth_status: str  # labeled | unlabeled (never shown to an arm)
 
 
+@lru_cache(maxsize=1)
 def _schema_validator() -> Draft202012Validator:
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     Draft202012Validator.check_schema(schema)
@@ -176,6 +180,7 @@ def load_case(case_dir: Path) -> Case:
                 kind=raw["kind"],
                 provenance=raw["provenance"],
                 verified_by=tuple((v["method"], v["ref"]) for v in raw["verified_by"]),
+                group=raw.get("group", f"#{i}"),
             )
         )
 
@@ -187,7 +192,13 @@ def load_case(case_dir: Path) -> Case:
         head_sha=source.get("head_sha", _UNKNOWN_SHA),
         files=tuple(files),
     )
-    return Case(id=case_id, stratum=document["stratum"], inputs=inputs, ground_truth=tuple(defects))
+    return Case(
+        id=case_id,
+        stratum=document["stratum"],
+        inputs=inputs,
+        ground_truth=tuple(defects),
+        ground_truth_status=document["ground_truth_status"],
+    )
 
 
 def discover_case_dirs(cases_dir: Path) -> list[Path]:

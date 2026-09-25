@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "pr-fastify-6719",
+  "stratum": "noise:pr",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/fastify/fastify",
+    "base_sha": "d693f43d890f07a8852b4737b048ed76458139a2",
+    "head_sha": "6e95cb9f6de47deaf145138661c70a1eec34ec97",
+    "derivation": "pull_request",
+    "pull_request": 6719
+  },
+  "files": [
+    {
+      "path": "lib/route.js",
+      "status": "modified",
+      "base": "base/lib/route.js",
+      "head": "head/lib/route.js"
+    },
+    {
+      "path": "test/route-prefix.test.js",
+      "status": "modified",
+      "base": "base/test/route-prefix.test.js",
+      "head": "head/test/route-prefix.test.js"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

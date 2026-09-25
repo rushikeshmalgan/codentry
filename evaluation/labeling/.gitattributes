@@ -1,0 +1,4 @@
+# Label sheets are read by a CSV parser and hashed; never let git rewrite their line endings.
+*.csv -text
+*.json -text
+*.md -text

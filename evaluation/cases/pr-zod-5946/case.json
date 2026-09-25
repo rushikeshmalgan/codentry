@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "pr-zod-5946",
+  "stratum": "noise:pr",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/colinhacks/zod",
+    "base_sha": "dcbcf0529ca1e5424541d5d4b58e0a7b79507f51",
+    "head_sha": "e54716cb5676f812cefea686eb07e2df961a0cf8",
+    "derivation": "pull_request",
+    "pull_request": 5946
+  },
+  "files": [
+    {
+      "path": "packages/docs/components/ecosystem.tsx",
+      "status": "modified",
+      "base": "base/packages/docs/components/ecosystem.tsx",
+      "head": "head/packages/docs/components/ecosystem.tsx"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

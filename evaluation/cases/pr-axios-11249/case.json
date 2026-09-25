@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "pr-axios-11249",
+  "stratum": "noise:pr",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/axios/axios",
+    "base_sha": "5fc40e1c7478d342ec64c4e865ed4cd1a334207c",
+    "head_sha": "961241f6c19798eff16b0869486c125430a17961",
+    "derivation": "pull_request",
+    "pull_request": 11249
+  },
+  "files": [
+    {
+      "path": "docs/.vitepress/theme/index.ts",
+      "status": "modified",
+      "base": "base/docs/.vitepress/theme/index.ts",
+      "head": "head/docs/.vitepress/theme/index.ts"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

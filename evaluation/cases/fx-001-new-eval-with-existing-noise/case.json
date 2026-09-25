@@ -8,6 +8,7 @@
   "files": [
     { "path": "src/tasks.js", "status": "modified", "base": "base/src/tasks.js", "head": "head/src/tasks.js" }
   ],
+  "ground_truth_status": "labeled",
   "ground_truth": [
     {
       "file": "src/tasks.js",

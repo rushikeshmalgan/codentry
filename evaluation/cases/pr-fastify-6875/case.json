@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "pr-fastify-6875",
+  "stratum": "noise:pr",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/fastify/fastify",
+    "base_sha": "dbebe73c421597da96c3154c1036377f4e8e5117",
+    "head_sha": "83e69762aff047940b376fc2a266d143499ef727",
+    "derivation": "pull_request",
+    "pull_request": 6875
+  },
+  "files": [
+    {
+      "path": "test/types/logger.tst.ts",
+      "status": "modified",
+      "base": "base/test/types/logger.tst.ts",
+      "head": "head/test/types/logger.tst.ts"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

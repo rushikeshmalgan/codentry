@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "bug-karma-14",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/karma",
+    "base_sha": "d0b4bee7c84041fe097f2a65e52dc16849acaac6",
+    "head_sha": "7d2c1ae992ce430288f3f24b8d8b27ed880e5625",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-14-fix",
+    "head_ref": "Bug-14"
+  },
+  "files": [
+    {
+      "path": "lib/server.js",
+      "status": "modified",
+      "base": "base/lib/server.js",
+      "head": "head/lib/server.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/server.js",
+      "start_line": 187,
+      "end_line": 187,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Karma-14: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-karma-14",
+      "description": "Location 1 of 2 changed by the fix of BugsJS Karma-14 (category: incomplete feature implementation --> error handling)."
+    },
+    {
+      "file": "lib/server.js",
+      "start_line": 395,
+      "end_line": 395,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Karma-14: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-karma-14",
+      "description": "Location 2 of 2 changed by the fix of BugsJS Karma-14 (category: incomplete feature implementation --> error handling)."
+    }
+  ]
+}

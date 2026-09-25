@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "pr-axios-11095",
+  "stratum": "noise:pr",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/axios/axios",
+    "base_sha": "cb4fd743abd1c595761c8eda25d1323fc62a3b93",
+    "head_sha": "311fcc5c8d989b7248f05d390bb83bfbfb009977",
+    "derivation": "pull_request",
+    "pull_request": 11095
+  },
+  "files": [
+    {
+      "path": "lib/env/data.js",
+      "status": "modified",
+      "base": "base/lib/env/data.js",
+      "head": "head/lib/env/data.js"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

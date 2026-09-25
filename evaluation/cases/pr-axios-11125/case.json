@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "pr-axios-11125",
+  "stratum": "noise:pr",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/axios/axios",
+    "base_sha": "ba0f3a0c568e68de5e7d455ae8c566ed43525550",
+    "head_sha": "fbe2e8260c86961ff2319da8450f170ca4ae3866",
+    "derivation": "pull_request",
+    "pull_request": 11125
+  },
+  "files": [
+    {
+      "path": "tests/module/esm/tests/helpers/declaration-consumer.ts",
+      "status": "added",
+      "head": "head/tests/module/esm/tests/helpers/declaration-consumer.ts"
+    },
+    {
+      "path": "tests/module/esm/tests/helpers/declaration-emit.ts",
+      "status": "added",
+      "head": "head/tests/module/esm/tests/helpers/declaration-emit.ts"
+    },
+    {
+      "path": "tests/module/esm/tests/ts.module.test.js",
+      "status": "modified",
+      "base": "base/tests/module/esm/tests/ts.module.test.js",
+      "head": "head/tests/module/esm/tests/ts.module.test.js"
+    },
+    {
+      "path": "tests/module/esm/vitest.config.js",
+      "status": "modified",
+      "base": "base/tests/module/esm/vitest.config.js",
+      "head": "head/tests/module/esm/vitest.config.js"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

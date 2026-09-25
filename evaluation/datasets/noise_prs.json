@@ -1,0 +1,761 @@
+{
+  "schema_version": 1,
+  "purpose": "Recently merged pull requests without defect labels, for noise measurement.",
+  "selection": {
+    "criteria": {
+      "merge_forms": "subject ends '(#N)' (squash) or starts 'Merge pull request #N'",
+      "change": "first parent -> the merge/squash commit",
+      "analyzable_files": "1 to 6 changed files ending .js/.jsx/.ts/.tsx (not .d.ts/.min.js, not under dist/ build/ node_modules/ vendor/ or generated locations)",
+      "max_changed_lines": 300,
+      "max_file_bytes": 60000,
+      "text": "UTF-8, no carriage returns in any selected file",
+      "order": "most recent first, take the first N that qualify"
+    }
+  },
+  "threats": [
+    "Recency: the pin is one moment in each repository's history; results describe these pull requests, not the projects.",
+    "Three projects, one to two dozen small pull requests each: a small, clustered sample of well-maintained MIT-licensed libraries, not typical student code.",
+    "Selection favors small changes to source files (1-6 files, <=300 changed lines); large or test-only pull requests are excluded.",
+    "Derivation is from history (first parent -> merge/squash commit); it can differ from what a reviewer saw if the branch was rebased or amended before merging.",
+    "No defect labels: findings on these cases say nothing about accuracy."
+  ],
+  "repositories": [
+    {
+      "id": "fastify",
+      "url": "https://github.com/fastify/fastify",
+      "pinned_commit": "e6860c59fcf46653d690bb5890b189732023d5b9",
+      "license": "MIT",
+      "license_file": "licenses/noise-fastify.LICENSE",
+      "license_sha256": "23c91863859171455a536380991b4160fee4e19e2d8dc353ecf7143cc4e53ca2",
+      "license_verified": "license text read by machine on import: the permission grant and warranty disclaimer are identical to the standard MIT text after whitespace normalization. Redistribution is permitted; see ../THIRD_PARTY_NOTICES.md.",
+      "candidates_examined": 360,
+      "excluded_by_reason": {
+        "analyzable_file_count": 10
+      },
+      "selected": [
+        {
+          "case": "pr-fastify-7049",
+          "pull_request": 7049,
+          "subject": "perf: decode string bodies once instead of per chunk (#7049)",
+          "base_sha": "09b4a17a12a67407a4131d48c26a0dc309c55ecf",
+          "head_sha": "e6860c59fcf46653d690bb5890b189732023d5b9",
+          "changed_lines": 93,
+          "files": [
+            "lib/content-type-parser.js",
+            "test/content-parser.test.js"
+          ],
+          "sha256": {
+            "base/lib/content-type-parser.js": "44b3b3f0644f95bc5a9440ef637dd9f72e40e319114acf079063047de185d437",
+            "base/test/content-parser.test.js": "d789436ecb00ff7503bdc9e0cc08b73d72c8a4bb9ef3baebd823c00b460c9b80",
+            "case.json": "01ff72006cfc184bd5e8b23b7eafdf87eb30d819f3a76f867d7e00eeabef9e56",
+            "head/lib/content-type-parser.js": "225fe5654bd7973e87166b02017cfdda625aec8dd7928f5f69cf720b21b29c32",
+            "head/test/content-parser.test.js": "dac08e4deade6a3f5aa7e63e45b3a1f5783a00cf04861b4ae1fa78d5990afe3b"
+          }
+        },
+        {
+          "case": "pr-fastify-6975",
+          "pull_request": 6975,
+          "subject": "fix(types): restore this context in route shorthand hooks (#6975)",
+          "base_sha": "6ed472b6fe023cd0e6283badda231b84e45582d0",
+          "head_sha": "09b4a17a12a67407a4131d48c26a0dc309c55ecf",
+          "changed_lines": 9,
+          "files": [
+            "test/types/route.tst.ts"
+          ],
+          "sha256": {
+            "base/test/types/route.tst.ts": "fe4069780ab77730b07b97ebde432abd0628490c9f0a49e7c35815da967b2606",
+            "case.json": "aee8a081b3f780b6f06ce8dceaeb781cf18356615ea60a33d0a87649602c32f0",
+            "head/test/types/route.tst.ts": "a2847c1bd07292a39d393e10a58d86f3a2ea261e62be25e7cdc596a94f32711c"
+          }
+        },
+        {
+          "case": "pr-fastify-6901",
+          "pull_request": 6901,
+          "subject": "fix(types): custom logger instance not assignable to FastifyInstance (#6901)",
+          "base_sha": "dfd9dc0b9becb0cd2090da2a4d9f978fa5482857",
+          "head_sha": "6ed472b6fe023cd0e6283badda231b84e45582d0",
+          "changed_lines": 5,
+          "files": [
+            "test/types/fastify.tst.ts"
+          ],
+          "sha256": {
+            "base/test/types/fastify.tst.ts": "542f6ad4835a52e5bc1371ab9ac4e54ce7a414a1a95983b39e1a63c92f3fbda2",
+            "case.json": "5273fa8e07856291055d0e3e4607e3bd701b966f6d2b087b6d72fe4b5a00e5a8",
+            "head/test/types/fastify.tst.ts": "c6bd370dc94511fcba67977d771eadc633fc86408e8c447da1f76017cdfe96ac"
+          }
+        },
+        {
+          "case": "pr-fastify-6963",
+          "pull_request": 6963,
+          "subject": "types: restrict route lookup methods (#6963)",
+          "base_sha": "4a3e325483a06d5fb7773c6804407752a4507c1b",
+          "head_sha": "dfd9dc0b9becb0cd2090da2a4d9f978fa5482857",
+          "changed_lines": 12,
+          "files": [
+            "test/types/route.tst.ts"
+          ],
+          "sha256": {
+            "base/test/types/route.tst.ts": "dc5f705e09a2cdd28c86fbde06c87a290e1fa0facf4070c73b95b8cbdf3b0f91",
+            "case.json": "67226c68ab339e6d30c4042f3aba6338468180526c64e45e6d9e519510bf39ff",
+            "head/test/types/route.tst.ts": "fe4069780ab77730b07b97ebde432abd0628490c9f0a49e7c35815da967b2606"
+          }
+        },
+        {
+          "case": "pr-fastify-7039",
+          "pull_request": 7039,
+          "subject": "perf: read the merged headers once in the trust proxy getters (#7039)",
+          "base_sha": "efbfc931b39942b9fd9d24c87266e5481cdc153a",
+          "head_sha": "4a3e325483a06d5fb7773c6804407752a4507c1b",
+          "changed_lines": 64,
+          "files": [
+            "lib/request.js",
+            "test/internals/request.test.js"
+          ],
+          "sha256": {
+            "base/lib/request.js": "a2df9953425dd3a69f30e8cdaf364f8d70b24363e45004d6f2d0d21b2d9e88d9",
+            "base/test/internals/request.test.js": "021223e453a52a28f662a5cbb41b4cfa23173b063e46f6742870b838e3c05ef5",
+            "case.json": "a6cabace995c725f0acb67ed124c62612d259e87092c79afc625f458c852115c",
+            "head/lib/request.js": "0cb858105fda2eef2358d3209fb4f4a0190217756e662765ab60eb73eed33dce",
+            "head/test/internals/request.test.js": "f36641e79b857d0db92e9b0ef29fe262519e1a842e747caa2479b01155de9f03"
+          }
+        },
+        {
+          "case": "pr-fastify-7018",
+          "pull_request": 7018,
+          "subject": "perf: avoid redundant request-part reads during validation (#7018)",
+          "base_sha": "d1dd8902ad972703b81a6f0e8395bb10dfd80b5f",
+          "head_sha": "d266f833f2bff34c6115c026e461b682e94d0b9c",
+          "changed_lines": 76,
+          "files": [
+            "lib/validation.js",
+            "test/internals/validation.test.js"
+          ],
+          "sha256": {
+            "base/lib/validation.js": "f6e18153d6c0acbba54f16ca42a2f008c2b5741ae4ac88233dbaa7fd535d0c85",
+            "base/test/internals/validation.test.js": "94373780a9a296707e932370963d3a6e8e168dbc65c8fb6c9e6ad768edf0332d",
+            "case.json": "65926518c729325b849b2e930a59abcffe4d142d4ded03db486e85246276386f",
+            "head/lib/validation.js": "e86b6ed753ac3f7066a71bf7c6e681a65f771c148e1a81990eaebd89a2432d5e",
+            "head/test/internals/validation.test.js": "bd74bed53eb7b5449b29971f76b57bf902e1c591da8c9ee41ffc025d28e4f0b2"
+          }
+        },
+        {
+          "case": "pr-fastify-7012",
+          "pull_request": 7012,
+          "subject": "perf: reduce content-type parser overhead (#7012)",
+          "base_sha": "ac28821df11d7862694900326a6cc8c831dc8bf6",
+          "head_sha": "d1dd8902ad972703b81a6f0e8395bb10dfd80b5f",
+          "changed_lines": 124,
+          "files": [
+            "lib/content-type-parser.js",
+            "test/content-type-parser-async-context.test.js",
+            "test/custom-parser.4.test.js"
+          ],
+          "sha256": {
+            "base/lib/content-type-parser.js": "b7603222cade344f9f7246b224cd9ecb028d63bbba934ff81370db79bf472491",
+            "base/test/custom-parser.4.test.js": "c1951a52432122b7d5f74a9a76ae96c820076924ca4c2e9a5691a2c97e61a72b",
+            "case.json": "ac04c447da02df85b8ab6b1fb5fb018ee4271522cf9c2a64748fa28d6e815156",
+            "head/lib/content-type-parser.js": "44b3b3f0644f95bc5a9440ef637dd9f72e40e319114acf079063047de185d437",
+            "head/test/content-type-parser-async-context.test.js": "7757ef557f3e38025bc47ed15accca9f451b5d7cb20ec272e1ca61f5d1659703",
+            "head/test/custom-parser.4.test.js": "e55f723d9ee97c1b7c63f595700e5dd933fa6765489aacd4aa6879d9b51eebf8"
+          }
+        },
+        {
+          "case": "pr-fastify-6965",
+          "pull_request": 6965,
+          "subject": "fix: callNotFound should run not-found preHandler regardless of registration order (#6965)",
+          "base_sha": "83e69762aff047940b376fc2a266d143499ef727",
+          "head_sha": "4176096a31f5b4c31512c36f578b08a596a72435",
+          "changed_lines": 44,
+          "files": [
+            "lib/four-oh-four.js",
+            "test/404s.test.js"
+          ],
+          "sha256": {
+            "base/lib/four-oh-four.js": "7938234ca552ab71026d0a6c5dcca4ea2edddd86845b1c2a7291bf3577f2bbb1",
+            "base/test/404s.test.js": "4569b18319c87eba6164bda8409f2cd1a418d9935d3474692bee26fe056d74cb",
+            "case.json": "be218f35a1a8731c090e2f7d8d659b24c56a0255e01793c439940f84053e1fa3",
+            "head/lib/four-oh-four.js": "33c2fd8be4c27b18025557110d126640dfa5019d2ef23fd800cf4ea7d4ff79ef",
+            "head/test/404s.test.js": "2475b2f8e3d77231bd87bddc922f04c68e0fb3d9f5a762f0873263f7c63c752a"
+          }
+        },
+        {
+          "case": "pr-fastify-6875",
+          "pull_request": 6875,
+          "subject": "test(types): assert LogController.requestCompleted accepts an undefined error (#6875)",
+          "base_sha": "dbebe73c421597da96c3154c1036377f4e8e5117",
+          "head_sha": "83e69762aff047940b376fc2a266d143499ef727",
+          "changed_lines": 6,
+          "files": [
+            "test/types/logger.tst.ts"
+          ],
+          "sha256": {
+            "base/test/types/logger.tst.ts": "12a9c209f91601b73123e79d18102b52472ce25f7817801c800dafc1df1ddc9e",
+            "case.json": "a91d301ea7e5064e837c2d563e2a85593c49ef5f4db464f658899c16ac254ef0",
+            "head/test/types/logger.tst.ts": "12eddff0d684a87ea14a7a168feb674d349bdcff18c5765e80b0ad14efa3fa2c"
+          }
+        },
+        {
+          "case": "pr-fastify-6719",
+          "pull_request": 6719,
+          "subject": "Fix prefix route options url (#6719)",
+          "base_sha": "d693f43d890f07a8852b4737b048ed76458139a2",
+          "head_sha": "6e95cb9f6de47deaf145138661c70a1eec34ec97",
+          "changed_lines": 35,
+          "files": [
+            "lib/route.js",
+            "test/route-prefix.test.js"
+          ],
+          "sha256": {
+            "base/lib/route.js": "f5aa65f093c9e9c27261ebc1c7009b40b0a4d2ae9e8c4ba13b7788ebbec98184",
+            "base/test/route-prefix.test.js": "c6620b191615091be0feaf8d0c8980f0c283b3bfa1312efeacd31fdb4a80d1de",
+            "case.json": "75c108f3e2143848d39639db7258641b3ceacd0bfb6adec398d46733b5571e0f",
+            "head/lib/route.js": "b0d699e7a059a66108edc90cd4bfc9381077ec357a90d4b4d9f86c6d2fb0c85a",
+            "head/test/route-prefix.test.js": "80b9704e850c65c179287f20e9d8117e5ba23768de63dcf4cff8dfaef80fa979"
+          }
+        },
+        {
+          "case": "pr-fastify-6940",
+          "pull_request": 6940,
+          "subject": "fix: run preClose hook exactly once per declaring instance (#6940)",
+          "base_sha": "9a1535bcfe2a780cc6f9c6555df86e5072ca9a29",
+          "head_sha": "f5ef34443c5be0cfc7fbde44f84253ef5d0ec66e",
+          "changed_lines": 36,
+          "files": [
+            "fastify.js",
+            "test/close.test.js"
+          ],
+          "sha256": {
+            "base/fastify.js": "007bae322065b95bc8213dc60f984718a76bef2b593025a027368d6b9a0ef2e0",
+            "base/test/close.test.js": "c971996b0414686898968c1af39355249d56c42bf8bc06b5a555bffc4c68d5d3",
+            "case.json": "d144b86632963d3e9700f04b3e0783731188c99a4809e48a4591e855094ce161",
+            "head/fastify.js": "e9101fa01466ae710131b440bd58b1dcf9aed2011e77dd91d3abd8d4d7881cde",
+            "head/test/close.test.js": "974b14ad612691aba7e5c0cfd15f46ece5370d36bfc9b218ad325ba911e39001"
+          }
+        },
+        {
+          "case": "pr-fastify-6949",
+          "pull_request": 6949,
+          "subject": "test: fix reply.mediaType (#6949)",
+          "base_sha": "377533a260d5de8966f4f9dbe7de9eff5e0d0da9",
+          "head_sha": "b7de40faa21e3cff3a214921223dff2203944902",
+          "changed_lines": 2,
+          "files": [
+            "test/internals/reply.test.js"
+          ],
+          "sha256": {
+            "base/test/internals/reply.test.js": "4e5ef9da6d310cb1405ecfd60c1d81b56262d4c64094b9e70295b01fb608eb4d",
+            "case.json": "6cbab22fc7039dfe8f392cf1dba754b6c93319c82ccfebc437a13b71316131e7",
+            "head/test/internals/reply.test.js": "ff2c5c0cd8b1802937685279b1d7bf7147c2b5058a3a9e88411f71a03134dda9"
+          }
+        }
+      ]
+    },
+    {
+      "id": "axios",
+      "url": "https://github.com/axios/axios",
+      "pinned_commit": "961241f6c19798eff16b0869486c125430a17961",
+      "license": "MIT",
+      "license_file": "licenses/noise-axios.LICENSE",
+      "license_sha256": "82761059eaedacb3356803aea8a170d8298609f91b14fc32ee1bfb40d690183c",
+      "license_verified": "license text read by machine on import: the permission grant and warranty disclaimer are identical to the standard MIT text after whitespace normalization. Redistribution is permitted; see ../THIRD_PARTY_NOTICES.md.",
+      "candidates_examined": 387,
+      "excluded_by_reason": {
+        "analyzable_file_count": 36,
+        "file_too_large": 1,
+        "too_many_changed_lines": 2
+      },
+      "selected": [
+        {
+          "case": "pr-axios-11249",
+          "pull_request": 11249,
+          "subject": "docs: promote Axios v0 security updates (#11249)",
+          "base_sha": "5fc40e1c7478d342ec64c4e865ed4cd1a334207c",
+          "head_sha": "961241f6c19798eff16b0869486c125430a17961",
+          "changed_lines": 2,
+          "files": [
+            "docs/.vitepress/theme/index.ts"
+          ],
+          "sha256": {
+            "base/docs/.vitepress/theme/index.ts": "372bd8be4a9caf1954c59f93501fc288888e01cd91cee2839bc6541cc77470d0",
+            "case.json": "a305e2bef933ce62aefb92e3757874e0cfacfdfb04a2ce26b1b0ffc60e2887cc",
+            "head/docs/.vitepress/theme/index.ts": "8a999dbef9551c3b2469f2e0a12da9ccab7bd079beaf2a5c15acd10670cc212d"
+          }
+        },
+        {
+          "case": "pr-axios-11125",
+          "pull_request": 11125,
+          "subject": "fix(types): expose the response default marker type (#11125)",
+          "base_sha": "ba0f3a0c568e68de5e7d455ae8c566ed43525550",
+          "head_sha": "fbe2e8260c86961ff2319da8450f170ca4ae3866",
+          "changed_lines": 93,
+          "files": [
+            "tests/module/esm/tests/helpers/declaration-consumer.ts",
+            "tests/module/esm/tests/helpers/declaration-emit.ts",
+            "tests/module/esm/tests/ts.module.test.js",
+            "tests/module/esm/vitest.config.js"
+          ],
+          "sha256": {
+            "base/tests/module/esm/tests/ts.module.test.js": "30718ef748eb9fbf12269e9369b46f963e37b9fb2c7f33e0beda0662529397d4",
+            "base/tests/module/esm/vitest.config.js": "9afd1ffd5a610bf9ff6d1111ddde516fa8f85d14026c0203cc60c258e8282658",
+            "case.json": "a00be6d89fa3cc8b07112a99348771e4a5107e843f6d45b3b2b82cebfbd6e3cc",
+            "head/tests/module/esm/tests/helpers/declaration-consumer.ts": "ce0874ddf5cec25647568fcc16b896be9158031659182b5b581748c5f621cb7c",
+            "head/tests/module/esm/tests/helpers/declaration-emit.ts": "aeb222225f7b4f4b4b864dc9ec6ee0221ca39ffbad762d87f77ae9ab1b05b854",
+            "head/tests/module/esm/tests/ts.module.test.js": "16d77c3f7bb9195c0368e46c68ef9fd2457990caf12698bf1a24091de4fc7eca",
+            "head/tests/module/esm/vitest.config.js": "cffa5cfee76cba9c204348a6e4f5f592a9e40d334de5d2a238784bd6fe70fb72"
+          }
+        },
+        {
+          "case": "pr-axios-11222",
+          "pull_request": 11222,
+          "subject": "docs: add HeroDevs as a permanent gold sponsor (#11222)",
+          "base_sha": "1226e6c53eeb0e9d7159bea83556c2ff117b5f2e",
+          "head_sha": "18e7dfedf30c96e58652887f930642ae82e0130c",
+          "changed_lines": 11,
+          "files": [
+            "docs/scripts/process-sponsors.js"
+          ],
+          "sha256": {
+            "base/docs/scripts/process-sponsors.js": "277978e6ec9c1bd665881fc505078376d8e834233ac5ab14a05775b5ea5ebcd3",
+            "case.json": "834a72da895c05a7c7aa3f8a075a466a99202bc9478cbc3926cc050b48975800",
+            "head/docs/scripts/process-sponsors.js": "b9183a8d4886ecf096fecaf8b7997f622380a80d579690e6cc0a39b4ae089f86"
+          }
+        },
+        {
+          "case": "pr-axios-11152",
+          "pull_request": 11152,
+          "subject": "chore(release): prepare release 1.20.0 (#11152)",
+          "base_sha": "e6824eec5fcf9da467a9792724396badc490c469",
+          "head_sha": "84a9f3b9a4f3244b8c8e818f557d64c7b964fb25",
+          "changed_lines": 2,
+          "files": [
+            "lib/env/data.js"
+          ],
+          "sha256": {
+            "base/lib/env/data.js": "b45e2e963ae768274f79a7d00c43badbf1501f6a2b01c82f8bd4122410d8cb01",
+            "case.json": "1dcb9aaec807a4218fef56f8ed130e1196c0ccac9f4a03b882bb453deb79d6b5",
+            "head/lib/env/data.js": "7c588674e19d6f63f49a916aef3931f5f3b607f1c4c8321b79847ccd03f1c4ba"
+          }
+        },
+        {
+          "case": "pr-axios-11118",
+          "pull_request": 11118,
+          "subject": "fix(interceptors): tolerate nullish handlers in syncHandlerEntries (#11118)",
+          "base_sha": "d19040bda7a8be2f82c3c6e1a5bc03917daee39a",
+          "head_sha": "2d2a21af8a433089474a2149781799c93acbcf3c",
+          "changed_lines": 76,
+          "files": [
+            "lib/core/InterceptorManager.js",
+            "tests/unit/core/InterceptorManager.test.js"
+          ],
+          "sha256": {
+            "base/lib/core/InterceptorManager.js": "a8a886651fa4f1b60fb59a450bff38335dee0c0f4d0728584b8472a8ecf3a9a9",
+            "base/tests/unit/core/InterceptorManager.test.js": "9c7bc81a9243f3f27db68ac4e62ad7410cd35265b816efb913eea73db455b342",
+            "case.json": "aece3991aa757992775b3232a7d2dcc227ef0511de88a657b305e38f557a90fd",
+            "head/lib/core/InterceptorManager.js": "b86c5c166a2ec62542cdd9dc7d4c8cdec4861214c728050e7c4c78bfae263ad6",
+            "head/tests/unit/core/InterceptorManager.test.js": "844e664429c5e0ae5013e6837af13a29f58ed7b4a3ae0a945ee0a86d317f62ad"
+          }
+        },
+        {
+          "case": "pr-axios-11136",
+          "pull_request": 11136,
+          "subject": "docs: refresh sponsor data (#11136)",
+          "base_sha": "a339fe124a4b120ac419f9c8c11b6e9ba74b9421",
+          "head_sha": "f5e83e49ee32b1004db82dad2b14d1e273a99e07",
+          "changed_lines": 50,
+          "files": [
+            "docs/scripts/process-sponsors.js",
+            "docs/scripts/selectLatestSponsorsBySlug.js"
+          ],
+          "sha256": {
+            "base/docs/scripts/process-sponsors.js": "c1c83adefaf7f5113bb0f22482d0ba4b29a2c01994b1621c475c77476ffa1285",
+            "case.json": "eb9c6c1245d351463385dadcaa79684fa81ddb64611af961cec2c13580d6c31b",
+            "head/docs/scripts/process-sponsors.js": "277978e6ec9c1bd665881fc505078376d8e834233ac5ab14a05775b5ea5ebcd3",
+            "head/docs/scripts/selectLatestSponsorsBySlug.js": "fda931e9fa6b13c95d42e6c3d794d080b2cc12a05eb85f5294bb930c1e7b25df"
+          }
+        },
+        {
+          "case": "pr-axios-11082",
+          "pull_request": 11082,
+          "subject": "feat(HttpStatusCode): add RFC 9110 aliases for 413 and 422 (#11082)",
+          "base_sha": "1ac4aeb77ac1b33b29c885aa1bea93d5a05e7bfd",
+          "head_sha": "39955a6ebed53217a524a3c8c7e5568fc0faa4bd",
+          "changed_lines": 26,
+          "files": [
+            "lib/helpers/HttpStatusCode.js",
+            "tests/module/cjs/tests/helpers/cjs-added-types.ts",
+            "tests/module/esm/tests/helpers/esm-added-types.ts",
+            "tests/unit/helpers/HttpStatusCode.test.js"
+          ],
+          "sha256": {
+            "base/lib/helpers/HttpStatusCode.js": "ab58c60f7ce7f82604f9d8efe2efb9d1083d655eac3c1a7d4a4a66074691af2d",
+            "base/tests/module/cjs/tests/helpers/cjs-added-types.ts": "9bc85cc63a8f9eef21917837408fb1b3c006031a075e916c3078955cd28f72ed",
+            "base/tests/module/esm/tests/helpers/esm-added-types.ts": "f88069f21d8adb9375bd7ac91a0d74fb9fe225ad6249de308affbf771280cd68",
+            "base/tests/unit/helpers/HttpStatusCode.test.js": "bdc502d5fff2cf5f1cc8395d7b545100a801d5a488d27b5d5b0c8a4bbd61881e",
+            "case.json": "5a2e6adaad94ae67e4004b61cb73cb97c68eb2c829dce73aabe26d26d16b2110",
+            "head/lib/helpers/HttpStatusCode.js": "aa20b4179d5ac7601ea09c99453414d062d8e408ea15720e75587e315be05fb2",
+            "head/tests/module/cjs/tests/helpers/cjs-added-types.ts": "0e7ccd8b7bddc4b9b14492d525ef83d1d89382f3e290a88e01c5efff8365c1aa",
+            "head/tests/module/esm/tests/helpers/esm-added-types.ts": "3cf75c09fdaf52f211a3e999d300325fd35eaec7b26dd79efb178c445a6df007",
+            "head/tests/unit/helpers/HttpStatusCode.test.js": "36ec1b99bb9ded34ad81a1725a2f42b8bce252e355c23c02970eee2f315c37ad"
+          }
+        },
+        {
+          "case": "pr-axios-11097",
+          "pull_request": 11097,
+          "subject": "docs: add localized global search (#11097)",
+          "base_sha": "ac2813149c7ffaf7bcc6dfde3731eb61cdaa5a5d",
+          "head_sha": "f64e4586e9a6a6458af9364bc0b5839ce8cac571",
+          "changed_lines": 105,
+          "files": [
+            "docs/.vitepress/tokenizeSearchText.js",
+            "docs/.vitepress/tokenizeSearchText.test.js"
+          ],
+          "sha256": {
+            "case.json": "25040e9553ea61bccd71ca50b2ad35f8401a318759659f407b757be5eba8a33b",
+            "head/docs/.vitepress/tokenizeSearchText.js": "a23236dab2065dc82f9dafc03161f5c821ed424f64f27014015a0aded393eb21",
+            "head/docs/.vitepress/tokenizeSearchText.test.js": "70183bbc23c4b4d258da930f79450f0622c17d5207b7068f6a602d4278ffe2fc"
+          }
+        },
+        {
+          "case": "pr-axios-11094",
+          "pull_request": 11094,
+          "subject": "fix(xhr): reject navigation-canceled requests as ECONNABORTED (#11094)",
+          "base_sha": "529ce70296334a0397f9e45e7dfa5658f6b6fdba",
+          "head_sha": "c3f553c740ebf3dff5e22dae24e9caaafafddd2d",
+          "changed_lines": 196,
+          "files": [
+            "lib/adapters/xhr.js",
+            "lib/core/buildFullPath.js",
+            "lib/helpers/normalizeURLForProtocolCheck.js",
+            "tests/browser/requests.browser.test.js",
+            "tests/unit/adapters/xhr.test.js"
+          ],
+          "sha256": {
+            "base/lib/adapters/xhr.js": "a8560efd4102d00326990603ae477afcc13c7ec9faa971121e2528ca9f373f98",
+            "base/lib/core/buildFullPath.js": "c38fcb6e8abf387ed82c57c20df43c058d982cf92359a2cfc51ea36911ba6a6c",
+            "base/tests/browser/requests.browser.test.js": "f6c93d2fcfc2f30afd762c8f4b9bb905e7366ce6bff47dd7ee2e49ed0944d0fa",
+            "case.json": "df74798543170fafbd343b5fb0594ce804f35999f516727a014cb8ae6ebd1688",
+            "head/lib/adapters/xhr.js": "9550f610f3570921aa953e713b5676c6f4c042f2cf4c635f95eb8ac3180106a6",
+            "head/lib/core/buildFullPath.js": "5515e006778b57d3563ce9f42067f74ff95f065a1382ab729878c1cfb14e606c",
+            "head/lib/helpers/normalizeURLForProtocolCheck.js": "68917c5d3c596ecef3aea0d7ef6dd76c9d0fa82b6a08d61261d575bee80cc642",
+            "head/tests/browser/requests.browser.test.js": "d3c2400c49fa1965552482f28dbe37176bd820dffaeeca07b3f6714fe8dfe1e2",
+            "head/tests/unit/adapters/xhr.test.js": "7301a567763addccb39d119d19d29ce3e4b25c89b9d26517b133f37fc7ffe9a2"
+          }
+        },
+        {
+          "case": "pr-axios-11109",
+          "pull_request": 11109,
+          "subject": "fix(core): tolerate non-string stack when decorating request errors (#11109)",
+          "base_sha": "712e02373f1c5ac72fdf5da16f04838338ba817e",
+          "head_sha": "a75bf44647e5132e39b778730394b0a2b983265c",
+          "changed_lines": 80,
+          "files": [
+            "lib/core/Axios.js",
+            "tests/unit/core/Axios.test.js"
+          ],
+          "sha256": {
+            "base/lib/core/Axios.js": "df5b81bb05f5b36183d303edb050fa28b1a0f5555d0e0371b69eb9b7ea487395",
+            "case.json": "7e91b4181ec06bccc5b3596e5a62d4eb62c60da8061114f6c74d03ce841cb237",
+            "head/lib/core/Axios.js": "7c33622fbbee25d7cb286e9c10f208526c3c1b5b160237ac9892503396388c0a",
+            "head/tests/unit/core/Axios.test.js": "e825e2d3f10b5bba3b672db6d692f04802c99c09cac8037f8051926562cb0ca4"
+          }
+        },
+        {
+          "case": "pr-axios-11087",
+          "pull_request": 11087,
+          "subject": "fix(interceptors): trim trailing ejected handlers (#11087)",
+          "base_sha": "609dacd8cce089adc7720e11cd62405adf3b6867",
+          "head_sha": "712e02373f1c5ac72fdf5da16f04838338ba817e",
+          "changed_lines": 274,
+          "files": [
+            "lib/core/InterceptorManager.js",
+            "tests/browser/adapter.browser.test.js",
+            "tests/browser/interceptors.browser.test.js",
+            "tests/unit/core/InterceptorManager.test.js"
+          ],
+          "sha256": {
+            "base/lib/core/InterceptorManager.js": "77ec91c0e0a5cc0e0be8bf9e8e7cff903a83731c877fa2b1ccfc885bf226cfdc",
+            "base/tests/browser/adapter.browser.test.js": "11b993b6139fb7aeb94cde24129f87b4f04b498b7848f5176bb20a985fb3e6ab",
+            "base/tests/browser/interceptors.browser.test.js": "9b2fc839e0273cd2ee0f248e9a9e93c3aac6128fe72b10dd3ff50a4efe24e6f2",
+            "case.json": "e32bc242bd550f91d0a0cbbf7bc43c5c1ad4f4580f1fb4eb2ad8be5ef09a2bac",
+            "head/lib/core/InterceptorManager.js": "a8a886651fa4f1b60fb59a450bff38335dee0c0f4d0728584b8472a8ecf3a9a9",
+            "head/tests/browser/adapter.browser.test.js": "58989f774e2855fd8c6dd8b0d7ed8132126ec004437e915c8ad1bfbf397d390c",
+            "head/tests/browser/interceptors.browser.test.js": "57520cf4112a409915d686c64b5c05356036fdb8d702547a284b60ff7da14dd6",
+            "head/tests/unit/core/InterceptorManager.test.js": "9c7bc81a9243f3f27db68ac4e62ad7410cd35265b816efb913eea73db455b342"
+          }
+        },
+        {
+          "case": "pr-axios-11095",
+          "pull_request": 11095,
+          "subject": "chore(release): prepare release 1.19.0 (#11095)",
+          "base_sha": "cb4fd743abd1c595761c8eda25d1323fc62a3b93",
+          "head_sha": "311fcc5c8d989b7248f05d390bb83bfbfb009977",
+          "changed_lines": 2,
+          "files": [
+            "lib/env/data.js"
+          ],
+          "sha256": {
+            "base/lib/env/data.js": "e68115a1ad47e5bd1f11c37d86db10e0243cfcafb02dfa5973338b1a06949d32",
+            "case.json": "452429591dc3fcca29b8bf5cc3c3490ae8a89bc4ccc7da4b447f91b7bd45fbb5",
+            "head/lib/env/data.js": "b45e2e963ae768274f79a7d00c43badbf1501f6a2b01c82f8bd4122410d8cb01"
+          }
+        }
+      ]
+    },
+    {
+      "id": "zod",
+      "url": "https://github.com/colinhacks/zod",
+      "pinned_commit": "2bf7b0630d5378033e90bcee82cb32b0fe04628e",
+      "license": "MIT",
+      "license_file": "licenses/noise-zod.LICENSE",
+      "license_sha256": "3f1189b28e3866e0d979968d466b78f813f76827cfdca1fbb124cc0a5c8841f8",
+      "license_verified": "license text read by machine on import: the permission grant and warranty disclaimer are identical to the standard MIT text after whitespace normalization. Redistribution is permitted; see ../THIRD_PARTY_NOTICES.md.",
+      "candidates_examined": 254,
+      "excluded_by_reason": {
+        "analyzable_file_count": 15,
+        "file_too_large": 15,
+        "too_many_changed_lines": 3
+      },
+      "selected": [
+        {
+          "case": "pr-zod-6620",
+          "pull_request": 6620,
+          "subject": "Cleanup bad commits (#6620)",
+          "base_sha": "94886319faac483a0f5aaf262b5d025728120da1",
+          "head_sha": "10dda3a3a4bc76ed0bf83e994de194587e489ef8",
+          "changed_lines": 2,
+          "files": [
+            "packages/zod/src/v4/core/versions.ts"
+          ],
+          "sha256": {
+            "base/packages/zod/src/v4/core/versions.ts": "5055292857127fefe4d37f1d7b7ba9e1a8e36937bbdfd33d400ccf401c6502c6",
+            "case.json": "1c39b1f251534ba29b695c3bbe911fa24a985dc6a909b94481df655d86781536",
+            "head/packages/zod/src/v4/core/versions.ts": "b378a87d73c3dab7ed48ae7c0d453bb4bdd8f1c218fc80b40e64053918a1a7cc"
+          }
+        },
+        {
+          "case": "pr-zod-6579",
+          "pull_request": 6579,
+          "subject": "docs: reconcile the sponsor listings against every active sponsorship (#6579)",
+          "base_sha": "213ee75d2ad6e41508587c3fab8246967f006993",
+          "head_sha": "6de10dce1afaba7160d1c7ca810cc40bc4a7a733",
+          "changed_lines": 38,
+          "files": [
+            "packages/docs/components/bronze.tsx",
+            "packages/docs/components/gold.tsx",
+            "packages/docs/components/platinum.tsx",
+            "packages/docs/components/silver.tsx"
+          ],
+          "sha256": {
+            "base/packages/docs/components/bronze.tsx": "d1077d4f3ea6cec2fbd40a88cfa8d3fb2aa8ce17ad807f4a0fdab1d4a172844f",
+            "base/packages/docs/components/gold.tsx": "62dcbb1e2d2f77b0d863b9d378bf0ca9a84ff8609ca55734252ea44c2cc36d40",
+            "base/packages/docs/components/platinum.tsx": "958a8cbb9208530a622e4bcb927474e41dc797349b86ba4f8ea7471a9885ef68",
+            "base/packages/docs/components/silver.tsx": "7f1d3ab06753fb90337359a926b8da23fcc65531085fff710e0da576fe0109c4",
+            "case.json": "fa93676dde097ded751f5af38b887bdd36ff6947861e10735eb7a06052fee4d4",
+            "head/packages/docs/components/bronze.tsx": "e3dc17fc7520cb2b57efcc941d1d39ece69b904a34f4066055de4fc4d248830c",
+            "head/packages/docs/components/gold.tsx": "2055502a5da23061b5f0860c93d9ac21a03a9ad17f5fcc0f03858bfe95bfb5d9",
+            "head/packages/docs/components/platinum.tsx": "f0da43c8fbcd5573c73e6f362ee82f1ae6d07becaba1b715d73419c536720c84",
+            "head/packages/docs/components/silver.tsx": "bf27ac9f77e9108a7f3163d6d1375900f99dcb29f2d05b3597a3ffbc1660a931"
+          }
+        },
+        {
+          "case": "pr-zod-6576",
+          "pull_request": 6576,
+          "subject": "docs: reconcile the sponsor listings with active sponsorships (#6576)",
+          "base_sha": "f7fd5548063f55a74847b2711630c9b3f8ea00d4",
+          "head_sha": "f9465d4e6497f92fe85ef7118ea64d7f86c28676",
+          "changed_lines": 71,
+          "files": [
+            "packages/docs/components/bronze.tsx",
+            "packages/docs/components/gold.tsx",
+            "packages/docs/components/platinum.tsx",
+            "packages/docs/components/silver.tsx"
+          ],
+          "sha256": {
+            "base/packages/docs/components/bronze.tsx": "3e7715198faaa7ef7ec5fd6646d097b35646a7e6dca7e78f9348426e360b7795",
+            "base/packages/docs/components/gold.tsx": "64f8af6861df70372e2177e7b237baf5b9bc5d15b558e88d527d7bf65c96d55f",
+            "base/packages/docs/components/platinum.tsx": "b31c56a8366194cc53873bba708e64db64c218a963ed4bd2776b3d90895febbe",
+            "base/packages/docs/components/silver.tsx": "9c279cd0bf6a740a9e2436f4f9aa3e7dcdfd5c78d30a9d17d572495437b13cbe",
+            "case.json": "7b1d995de90ce5d310d09e50761ca52e70bff9172b39e16bb26e60d00348c66b",
+            "head/packages/docs/components/bronze.tsx": "d1077d4f3ea6cec2fbd40a88cfa8d3fb2aa8ce17ad807f4a0fdab1d4a172844f",
+            "head/packages/docs/components/gold.tsx": "62dcbb1e2d2f77b0d863b9d378bf0ca9a84ff8609ca55734252ea44c2cc36d40",
+            "head/packages/docs/components/platinum.tsx": "958a8cbb9208530a622e4bcb927474e41dc797349b86ba4f8ea7471a9885ef68",
+            "head/packages/docs/components/silver.tsx": "7f1d3ab06753fb90337359a926b8da23fcc65531085fff710e0da576fe0109c4"
+          }
+        },
+        {
+          "case": "pr-zod-6572",
+          "pull_request": 6572,
+          "subject": "fix(v4): stop the memoizer from pinning a finished parse (#6572)",
+          "base_sha": "22bed613281143efa3815fe26ab666c6c56586af",
+          "head_sha": "36f17960d1defca5d0896d9424f4e1059fbbf081",
+          "changed_lines": 53,
+          "files": [
+            "packages/zod/src/v4/classic/tests/cyclic-data.test.ts",
+            "packages/zod/src/v4/core/memoizer.ts"
+          ],
+          "sha256": {
+            "base/packages/zod/src/v4/classic/tests/cyclic-data.test.ts": "f8c575cc5301aae664ece06262a644167b32123de37d90326884e0af43eb2987",
+            "base/packages/zod/src/v4/core/memoizer.ts": "699ef7056492af9b768339ce2bf7a68914b1965d7527bb29851a70c8178c68b0",
+            "case.json": "b18eeff4c2a09dc653209ac61a047ca704c995d7f1fd57151ff4ff7532a12370",
+            "head/packages/zod/src/v4/classic/tests/cyclic-data.test.ts": "ca50d363e84275e3a0ad3f0fcd9f6acfe679e6e74fe3cde2b9e9928c16099338",
+            "head/packages/zod/src/v4/core/memoizer.ts": "e4fad51e398d3268f7193ebad6021467a374f8fa66b603c06ba620c46fd613e5"
+          }
+        },
+        {
+          "case": "pr-zod-5946",
+          "pull_request": 5946,
+          "subject": "docs(ecosystem): add @apical-ts/craft (#5946)",
+          "base_sha": "dcbcf0529ca1e5424541d5d4b58e0a7b79507f51",
+          "head_sha": "e54716cb5676f812cefea686eb07e2df961a0cf8",
+          "changed_lines": 6,
+          "files": [
+            "packages/docs/components/ecosystem.tsx"
+          ],
+          "sha256": {
+            "base/packages/docs/components/ecosystem.tsx": "ebe968931857d66b1a7bcd564cd67d6294986828a8958708e6069c7e44bb3d05",
+            "case.json": "3e2389d98644ec5178a89832d748521c477264158c141d00a5feaf2e22a36e29",
+            "head/packages/docs/components/ecosystem.tsx": "c8e206f428ee04fa37efc0ef1a09cc53498dd6cbdfcb1248738424121be2a4f4"
+          }
+        },
+        {
+          "case": "pr-zod-6551",
+          "pull_request": 6551,
+          "subject": "test(v4): pin the check-chain case that keeps compiled validate's definite guard (#6551)",
+          "base_sha": "e7604717801fe5cc17c525fb92abe0abeae0ae6e",
+          "head_sha": "5489a532e65ee3f5ab0959ff8a5da346ced96f2a",
+          "changed_lines": 13,
+          "files": [
+            "packages/zod/src/v4/classic/tests/validate.test.ts"
+          ],
+          "sha256": {
+            "base/packages/zod/src/v4/classic/tests/validate.test.ts": "005bfb3084b6ad288d27315280225c2cc062da73224de2bf22800d447a431a76",
+            "case.json": "6848b12ac3736c79f1bf557234974b86bf6ff849c54ab0c6cc42594d7fe8f58b",
+            "head/packages/zod/src/v4/classic/tests/validate.test.ts": "c9ef19097002fd2c815aee94f5119b256478d969d89563c48ffc4f3468635a11"
+          }
+        },
+        {
+          "case": "pr-zod-6548",
+          "pull_request": 6548,
+          "subject": "test(v4): pin the lazy safeParse error's stack behavior (#6548)",
+          "base_sha": "62e6624bc72c4882968ac4ea2c4281b1a99a7ad4",
+          "head_sha": "07917f4cb396646dff7a1364f9032a668b0d7eb4",
+          "changed_lines": 31,
+          "files": [
+            "packages/zod/src/v4/classic/tests/error.test.ts"
+          ],
+          "sha256": {
+            "base/packages/zod/src/v4/classic/tests/error.test.ts": "4bf4052e1ba5b1f54ae27667d80a1376c301512cd0f300c666cad943a26010fa",
+            "case.json": "24d7363f0c96cd40595332222ce871619adb9c1832bf744afb574edec6335816",
+            "head/packages/zod/src/v4/classic/tests/error.test.ts": "c27750fe2f1efbbfe559cda4ec041d8ba3a2790fce2e0b809a572bb76a906a75"
+          }
+        },
+        {
+          "case": "pr-zod-6543",
+          "pull_request": 6543,
+          "subject": "Release the parsed input once a failing safeParse builds its error (#6543)",
+          "base_sha": "90269c601aae25499ee87e78a07508564825867f",
+          "head_sha": "4d7308828b1a56768741d7cfd6cf476eaead45af",
+          "changed_lines": 43,
+          "files": [
+            "packages/zod/src/v4/classic/tests/error.test.ts",
+            "packages/zod/src/v4/core/parse.ts"
+          ],
+          "sha256": {
+            "base/packages/zod/src/v4/classic/tests/error.test.ts": "d01558c49bcc210990e09d4284192effd00990171358684861b3e40bd087e7f8",
+            "base/packages/zod/src/v4/core/parse.ts": "466f5130c6cdd166c6913a6038a195b987ed04edde89d1dcd9252fc85562e94e",
+            "case.json": "c6d60202de8bce0d5453a2de50c44259c5cb0a38663b1198677798ab5a35ca56",
+            "head/packages/zod/src/v4/classic/tests/error.test.ts": "4bf4052e1ba5b1f54ae27667d80a1376c301512cd0f300c666cad943a26010fa",
+            "head/packages/zod/src/v4/core/parse.ts": "774b6512e2def27c1e977bd0be5b0c1654d2b97652f4df90c1f34f10f6254211"
+          }
+        },
+        {
+          "case": "pr-zod-6541",
+          "pull_request": 6541,
+          "subject": "Rename the JSON Schema `process` helper so bundler polyfills cannot collide (#6541)",
+          "base_sha": "68aca3dc402c59f5c4e30322e83028389e44b8b5",
+          "head_sha": "18e71c71daff6e79ab8f00a48db252ccb340da1f",
+          "changed_lines": 114,
+          "files": [
+            "packages/zod/src/v4/core/json-schema-generator.ts",
+            "packages/zod/src/v4/core/json-schema-processors.ts",
+            "packages/zod/src/v4/core/tests/polyfill-collision.test.ts",
+            "packages/zod/src/v4/core/to-json-schema.ts"
+          ],
+          "sha256": {
+            "base/packages/zod/src/v4/core/json-schema-generator.ts": "d6f2ccc8b4801bcbd8498b9ebd79851e56cbf6a1fca288a14a6981d98ed24c47",
+            "base/packages/zod/src/v4/core/json-schema-processors.ts": "2c41c16fa5f8dfc3fa6a54df78fbdb2b648794706b8a867179f22dc536defec9",
+            "base/packages/zod/src/v4/core/to-json-schema.ts": "d25e46b047dee6f146843581766e8968a835437381ecf9a2e9b71100fd77c569",
+            "case.json": "1c1495a2c8baf7591fd00758859a12ef0464aa14201e636b814202f289285b86",
+            "head/packages/zod/src/v4/core/json-schema-generator.ts": "8404f82a03975ac4ad31072332a46a5f94468db308b7369d6dccd0d11f882c87",
+            "head/packages/zod/src/v4/core/json-schema-processors.ts": "07eb152511e328db9ba1977d438eab7cd1be4f805e30407dea546689d4803fd8",
+            "head/packages/zod/src/v4/core/tests/polyfill-collision.test.ts": "0697d47015783bdfc6c62bc3f04d7ba444d21a4a7ccbaea13137ecfb6a891d82",
+            "head/packages/zod/src/v4/core/to-json-schema.ts": "bbc4ee56fc139e213ec85c7971b4d8633366097c5d7103250abfc451d8af5b46"
+          }
+        },
+        {
+          "case": "pr-zod-6539",
+          "pull_request": 6539,
+          "subject": "Collapse toZod's normalizer and move its docs to the API reference (#6539)",
+          "base_sha": "bf9902164b5396449540415c2221a24bc9fd0e22",
+          "head_sha": "69f2a7ff203e546e3a1350fb9152ace03ba0a6e6",
+          "changed_lines": 36,
+          "files": [
+            "packages/zod/src/v4/classic/tests/assignability.test.ts",
+            "packages/zod/src/v4/core/util.ts"
+          ],
+          "sha256": {
+            "base/packages/zod/src/v4/classic/tests/assignability.test.ts": "1579a9501fbd28263a3df692c237914e0610140117da6455ae9a156c2535fd3a",
+            "base/packages/zod/src/v4/core/util.ts": "05c2c8aed34572bf6ce9b53374769ecea176886930c051ba0a9abcce40270e1e",
+            "case.json": "14ad96a9016f8d9963435e7913915c132df7a6a207fa4e014dc98b2208964893",
+            "head/packages/zod/src/v4/classic/tests/assignability.test.ts": "168a80f59b4dff3616d0f33f51f0987ee5d5a8ceee516cf8ea07c900e4a3f08e",
+            "head/packages/zod/src/v4/core/util.ts": "ced1137fc084939b46c5c2f5df644d8bd335878956b414b8e6153348e9861952"
+          }
+        },
+        {
+          "case": "pr-zod-6533",
+          "pull_request": 6533,
+          "subject": "refactor: collapse toZod's enum leaf normalizer to a dummy union (#6533)",
+          "base_sha": "68a609ac9b9516e6fe84e3558f17ce16b1032bef",
+          "head_sha": "2ec972ecc5a8af8135ed072d2d5b5363c27bb46f",
+          "changed_lines": 11,
+          "files": [
+            "packages/zod/src/v4/classic/tests/assignability.test.ts",
+            "packages/zod/src/v4/core/util.ts"
+          ],
+          "sha256": {
+            "base/packages/zod/src/v4/classic/tests/assignability.test.ts": "d38b9b28eab2df38fc3144fa6fa87860e88031ea5cdcde276c1f145342453d85",
+            "base/packages/zod/src/v4/core/util.ts": "b38541dda78c199f14b7b19798c45edaa8fd0c4cf0dd15d3c4a29a4f9f952b64",
+            "case.json": "b3f9eef8cbadcac4e142dfd465e42a71b5036aed816f28c015309f072e6e119f",
+            "head/packages/zod/src/v4/classic/tests/assignability.test.ts": "1579a9501fbd28263a3df692c237914e0610140117da6455ae9a156c2535fd3a",
+            "head/packages/zod/src/v4/core/util.ts": "f391fbeaaa4f7d94aab44a6173b96965b91269b80edc5412cf1391166a95f7aa"
+          }
+        },
+        {
+          "case": "pr-zod-6520",
+          "pull_request": 6520,
+          "subject": "Widen literal inputs in property check types (#6520)",
+          "base_sha": "0227e53d03b5652be75422b6d10e0dd9bf340f0b",
+          "head_sha": "68a609ac9b9516e6fe84e3558f17ce16b1032bef",
+          "changed_lines": 36,
+          "files": [
+            "packages/zod/src/v4/classic/tests/instanceof.test.ts",
+            "packages/zod/src/v4/core/api.ts",
+            "packages/zod/src/v4/core/util.ts",
+            "packages/zod/src/v4/mini/tests/checks.test.ts"
+          ],
+          "sha256": {
+            "base/packages/zod/src/v4/classic/tests/instanceof.test.ts": "71e6a32717728df4d92787fb4cfe00b2e8457c6e74be781f65a12653c69939c8",
+            "base/packages/zod/src/v4/core/api.ts": "89e45159c5a70730f74df21e6155df9991d183cbc060d94e594fc5773f6498e6",
+            "base/packages/zod/src/v4/core/util.ts": "c27f7b72bc187dd3238060edb753e3190bb9f4fb14b3d822462b79a9b885541a",
+            "base/packages/zod/src/v4/mini/tests/checks.test.ts": "fbc0bb98752a2ee78a19b876123cfa9ad7bdbe69b775e2489bf038ae5ebb4d40",
+            "case.json": "d743463ee68033e0b08788cf601606870512510a38390c63def29903ce6039ba",
+            "head/packages/zod/src/v4/classic/tests/instanceof.test.ts": "d9de4f00dd34417824e20bb560e0227df5ba0c8d59ddc48e382cdb46876220a0",
+            "head/packages/zod/src/v4/core/api.ts": "b68af28c02dde13032cbb9b2941fdb3ff6228440fae5a2aba4d4ebd1563b1c7b",
+            "head/packages/zod/src/v4/core/util.ts": "b38541dda78c199f14b7b19798c45edaa8fd0c4cf0dd15d3c4a29a4f9f952b64",
+            "head/packages/zod/src/v4/mini/tests/checks.test.ts": "42fb2e1f00e2f7f58fde697f6ae738df32de8b9edae8445603a9d2b7c8868571"
+          }
+        }
+      ]
+    }
+  ]
+}

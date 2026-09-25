@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "bug-eslint-3",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/eslint",
+    "base_sha": "b6052e52d113b1b7a6924a6ecee7754d55c135bc",
+    "head_sha": "263b7782438899240548d0020cf9a49c2bbe2b5c",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-3-fix",
+    "head_ref": "Bug-3"
+  },
+  "files": [
+    {
+      "path": "lib/rules/prefer-template.js",
+      "status": "modified",
+      "base": "base/lib/rules/prefer-template.js",
+      "head": "head/lib/rules/prefer-template.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/rules/prefer-template.js",
+      "start_line": 34,
+      "end_line": 34,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Eslint-3: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-eslint-3",
+      "description": "Location 1 of 1 changed by the fix of BugsJS Eslint-3 (category: incomplete feature implementation --> missing input validation --> missing type check)."
+    }
+  ]
+}

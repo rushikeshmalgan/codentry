@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "bug-eslint-290",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/eslint",
+    "base_sha": "9b143b8a0dcb036cce127289997c5e4cbda8767c",
+    "head_sha": "92171ccc8f06cd26aa75c9510af3c1605629c7b2",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-290-fix",
+    "head_ref": "Bug-290"
+  },
+  "files": [
+    {
+      "path": "lib/rules/space-in-parens.js",
+      "status": "modified",
+      "base": "base/lib/rules/space-in-parens.js",
+      "head": "head/lib/rules/space-in-parens.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/rules/space-in-parens.js",
+      "start_line": 48,
+      "end_line": 49,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Eslint-290: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-eslint-290",
+      "description": "Location 1 of 1 changed by the fix of BugsJS Eslint-290 (category: incorrect feature implementation --> incorrect data processing)."
+    }
+  ]
+}

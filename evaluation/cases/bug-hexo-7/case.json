@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "bug-hexo-7",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/hexo",
+    "base_sha": "6fcc6716af77bf604ddfe561fd3b159caf324ece",
+    "head_sha": "dee3b03d2697ad33675a4b2cf761a9f49c9d2486",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-7-fix",
+    "head_ref": "Bug-7"
+  },
+  "files": [
+    {
+      "path": "lib/plugins/helper/toc.js",
+      "status": "modified",
+      "base": "base/lib/plugins/helper/toc.js",
+      "head": "head/lib/plugins/helper/toc.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/plugins/helper/toc.js",
+      "start_line": 4,
+      "end_line": 4,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Hexo-7: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-hexo-7",
+      "description": "Location 1 of 2 changed by the fix of BugsJS Hexo-7 (category: incomplete feature implementation --> incomplete data processing)."
+    },
+    {
+      "file": "lib/plugins/helper/toc.js",
+      "start_line": 28,
+      "end_line": 28,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Hexo-7: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-hexo-7",
+      "description": "Location 2 of 2 changed by the fix of BugsJS Hexo-7 (category: incomplete feature implementation --> incomplete data processing)."
+    }
+  ]
+}

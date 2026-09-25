@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "id": "pr-axios-11082",
+  "stratum": "noise:pr",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/axios/axios",
+    "base_sha": "1ac4aeb77ac1b33b29c885aa1bea93d5a05e7bfd",
+    "head_sha": "39955a6ebed53217a524a3c8c7e5568fc0faa4bd",
+    "derivation": "pull_request",
+    "pull_request": 11082
+  },
+  "files": [
+    {
+      "path": "lib/helpers/HttpStatusCode.js",
+      "status": "modified",
+      "base": "base/lib/helpers/HttpStatusCode.js",
+      "head": "head/lib/helpers/HttpStatusCode.js"
+    },
+    {
+      "path": "tests/module/cjs/tests/helpers/cjs-added-types.ts",
+      "status": "modified",
+      "base": "base/tests/module/cjs/tests/helpers/cjs-added-types.ts",
+      "head": "head/tests/module/cjs/tests/helpers/cjs-added-types.ts"
+    },
+    {
+      "path": "tests/module/esm/tests/helpers/esm-added-types.ts",
+      "status": "modified",
+      "base": "base/tests/module/esm/tests/helpers/esm-added-types.ts",
+      "head": "head/tests/module/esm/tests/helpers/esm-added-types.ts"
+    },
+    {
+      "path": "tests/unit/helpers/HttpStatusCode.test.js",
+      "status": "modified",
+      "base": "base/tests/unit/helpers/HttpStatusCode.test.js",
+      "head": "head/tests/unit/helpers/HttpStatusCode.test.js"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

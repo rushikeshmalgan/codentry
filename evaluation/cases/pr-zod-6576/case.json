@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "id": "pr-zod-6576",
+  "stratum": "noise:pr",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/colinhacks/zod",
+    "base_sha": "f7fd5548063f55a74847b2711630c9b3f8ea00d4",
+    "head_sha": "f9465d4e6497f92fe85ef7118ea64d7f86c28676",
+    "derivation": "pull_request",
+    "pull_request": 6576
+  },
+  "files": [
+    {
+      "path": "packages/docs/components/bronze.tsx",
+      "status": "modified",
+      "base": "base/packages/docs/components/bronze.tsx",
+      "head": "head/packages/docs/components/bronze.tsx"
+    },
+    {
+      "path": "packages/docs/components/gold.tsx",
+      "status": "modified",
+      "base": "base/packages/docs/components/gold.tsx",
+      "head": "head/packages/docs/components/gold.tsx"
+    },
+    {
+      "path": "packages/docs/components/platinum.tsx",
+      "status": "modified",
+      "base": "base/packages/docs/components/platinum.tsx",
+      "head": "head/packages/docs/components/platinum.tsx"
+    },
+    {
+      "path": "packages/docs/components/silver.tsx",
+      "status": "modified",
+      "base": "base/packages/docs/components/silver.tsx",
+      "head": "head/packages/docs/components/silver.tsx"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

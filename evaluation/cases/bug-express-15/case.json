@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "bug-express-15",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/express",
+    "base_sha": "62162b440aaad93f192e62a3204483b68bf4a391",
+    "head_sha": "b66c7da05f8f7e1f58f69ddbcb2a6bb7b1fd4587",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-15-fix",
+    "head_ref": "Bug-15"
+  },
+  "files": [
+    {
+      "path": "lib/response.js",
+      "status": "modified",
+      "base": "base/lib/response.js",
+      "head": "head/lib/response.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/response.js",
+      "start_line": 471,
+      "end_line": 471,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Express-15: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-express-15",
+      "description": "Location 1 of 1 changed by the fix of BugsJS Express-15 (category: incomplete feature implementation --> incomplete data processing)."
+    }
+  ]
+}

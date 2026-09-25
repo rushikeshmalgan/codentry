@@ -14,5 +14,6 @@
       "head": "head/lib/reporting.js"
     }
   ],
+  "ground_truth_status": "labeled",
   "ground_truth": []
 }

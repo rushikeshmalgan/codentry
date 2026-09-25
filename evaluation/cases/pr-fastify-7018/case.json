@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "pr-fastify-7018",
+  "stratum": "noise:pr",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/fastify/fastify",
+    "base_sha": "d1dd8902ad972703b81a6f0e8395bb10dfd80b5f",
+    "head_sha": "d266f833f2bff34c6115c026e461b682e94d0b9c",
+    "derivation": "pull_request",
+    "pull_request": 7018
+  },
+  "files": [
+    {
+      "path": "lib/validation.js",
+      "status": "modified",
+      "base": "base/lib/validation.js",
+      "head": "head/lib/validation.js"
+    },
+    {
+      "path": "test/internals/validation.test.js",
+      "status": "modified",
+      "base": "base/test/internals/validation.test.js",
+      "head": "head/test/internals/validation.test.js"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

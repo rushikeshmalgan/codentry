@@ -29,7 +29,6 @@ independent line diff, otherwise it is discarded (and counted).
 
 from __future__ import annotations
 
-import difflib
 import hashlib
 import json
 import random
@@ -39,6 +38,7 @@ from pathlib import Path
 from typing import Any
 
 from evaluation.case import line_count
+from evaluation.diffing import single_hunk_range
 
 GENERATOR_VERSION = 1
 GENERATOR_ID = f"codentry-mutate/{GENERATOR_VERSION}"
@@ -132,20 +132,9 @@ def _require_simple_text(text: str, filename: str) -> None:
 
 # ---- independent range check ----------------------------------------------
 def diff_head_range(base: str, head: str) -> tuple[int, int] | None:
-    """Head-side line range of the single changed hunk between two texts, or None if
-    there is not exactly one. A pure deletion has no head lines; it is reported as the
-    line now sitting at the deletion point (clamped to the file), because that is where
-    a reviewer would look for the missing code."""
-    matcher = difflib.SequenceMatcher(a=base.split("\n"), b=head.split("\n"), autojunk=False)
-    changes = [op for op in matcher.get_opcodes() if op[0] != "equal"]
-    if len(changes) != 1:
-        return None
-    tag, _i1, _i2, j1, j2 = changes[0]
-    last = max(line_count(head), 1)
-    if tag == "delete":
-        line = min(j1 + 1, last)
-        return (line, line)
-    return (j1 + 1, min(j2, last))
+    """Head-side line range of the single changed hunk, or None if there is not exactly
+    one (see evaluation/diffing.py for how a pure deletion is located)."""
+    return single_hunk_range(base, head)
 
 
 # ---- selection -------------------------------------------------------------

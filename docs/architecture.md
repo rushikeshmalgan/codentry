@@ -168,7 +168,7 @@ No Anthropic/OpenAI/Gemini SDK, prompt builder, AI validator, AI finding, model
 router, RAG, multi-agent code, AI confidence scores, dashboard, billing, or
 comment posting. `Finding.source` allows `"AI"` only because the schema contract
 anticipates it; nothing constructs one (`tests/test_scope_guards.py`).
-`evaluation/` holds only the offline evaluation harness core (case format, Arm A runner, matching, statistics): no AI arm, no datasets, no results. It imports `analysis/` and nothing from `app/`, and production code never imports it (`tests/test_scope_guards.py`).
+`evaluation/` holds only the offline evaluation harness (case format, Arm A runner, matching, statistics, dataset importers with 237 cases, labeling tools): no AI arm and no results. It imports `analysis/` and nothing from `app/`, and production code never imports it (`tests/test_scope_guards.py`).
 
 ## Known remaining gaps (read before trusting this)
 

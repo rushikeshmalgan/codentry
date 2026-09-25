@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "bug-hexo-8",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/hexo",
+    "base_sha": "dd501b7f2d5a8365964f795ae9c7924e7f4a064d",
+    "head_sha": "1da7ad5c920fb16e182342c4acda7d8a94af31f9",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-8-fix",
+    "head_ref": "Bug-8"
+  },
+  "files": [
+    {
+      "path": "lib/plugins/helper/open_graph.js",
+      "status": "modified",
+      "base": "base/lib/plugins/helper/open_graph.js",
+      "head": "head/lib/plugins/helper/open_graph.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/plugins/helper/open_graph.js",
+      "start_line": 88,
+      "end_line": 89,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Hexo-8: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-hexo-8",
+      "description": "Location 1 of 1 changed by the fix of BugsJS Hexo-8 (category: incorrect feature implementation --> incorrect filepath)."
+    }
+  ]
+}

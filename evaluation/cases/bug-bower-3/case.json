@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "bug-bower-3",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/bower",
+    "base_sha": "14921123025c487c51038a04539384e37acbf9e3",
+    "head_sha": "e85a5f778fc74e91862caa5bad2817d6bf475d1c",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-3-fix",
+    "head_ref": "Bug-3"
+  },
+  "files": [
+    {
+      "path": "lib/core/scripts.js",
+      "status": "modified",
+      "base": "base/lib/core/scripts.js",
+      "head": "head/lib/core/scripts.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/core/scripts.js",
+      "start_line": 86,
+      "end_line": 86,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Bower-3: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-bower-3",
+      "description": "Location 1 of 1 changed by the fix of BugsJS Bower-3 (category: incorrect feature implementation --> incorrect data processing)."
+    }
+  ]
+}

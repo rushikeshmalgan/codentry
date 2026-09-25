@@ -107,6 +107,7 @@ def case_document(
         "files": [
             {"path": path, "status": "modified", "base": f"base/{path}", "head": f"head/{path}"}
         ],
+        "ground_truth_status": "labeled",
         "ground_truth": [defect],
     }
 

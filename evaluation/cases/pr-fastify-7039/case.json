@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "pr-fastify-7039",
+  "stratum": "noise:pr",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/fastify/fastify",
+    "base_sha": "efbfc931b39942b9fd9d24c87266e5481cdc153a",
+    "head_sha": "4a3e325483a06d5fb7773c6804407752a4507c1b",
+    "derivation": "pull_request",
+    "pull_request": 7039
+  },
+  "files": [
+    {
+      "path": "lib/request.js",
+      "status": "modified",
+      "base": "base/lib/request.js",
+      "head": "head/lib/request.js"
+    },
+    {
+      "path": "test/internals/request.test.js",
+      "status": "modified",
+      "base": "base/test/internals/request.test.js",
+      "head": "head/test/internals/request.test.js"
+    }
+  ],
+  "ground_truth_status": "unlabeled",
+  "ground_truth": []
+}

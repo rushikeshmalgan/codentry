@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "id": "bug-hexo-12",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/hexo",
+    "base_sha": "d50553e7f20181645465c5f1ceed6c9fba356528",
+    "head_sha": "36545fb147f554ccc303b2a2d41ba7e533bd3020",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-12-fix",
+    "head_ref": "Bug-12"
+  },
+  "files": [
+    {
+      "path": "lib/hexo/post.js",
+      "status": "modified",
+      "base": "base/lib/hexo/post.js",
+      "head": "head/lib/hexo/post.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/hexo/post.js",
+      "start_line": 50,
+      "end_line": 50,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Hexo-12: manually validated bug (Gyimesi et al., ICST 2019)"
+        },
+        {
+          "method": "executable_test",
+          "ref": "BugsJS recorded run (not re-run here): fails with the fix's tests, not on the buggy revision: Hexo Core Post create() - non-string title; Hexo Core Post publish() - non-string title"
+        }
+      ],
+      "group": "bugsjs-hexo-12",
+      "description": "Location 1 of 2 changed by the fix of BugsJS Hexo-12 (category: generic --> data processing)."
+    },
+    {
+      "file": "lib/hexo/post.js",
+      "start_line": 207,
+      "end_line": 207,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Hexo-12: manually validated bug (Gyimesi et al., ICST 2019)"
+        },
+        {
+          "method": "executable_test",
+          "ref": "BugsJS recorded run (not re-run here): fails with the fix's tests, not on the buggy revision: Hexo Core Post create() - non-string title; Hexo Core Post publish() - non-string title"
+        }
+      ],
+      "group": "bugsjs-hexo-12",
+      "description": "Location 2 of 2 changed by the fix of BugsJS Hexo-12 (category: generic --> data processing)."
+    }
+  ]
+}

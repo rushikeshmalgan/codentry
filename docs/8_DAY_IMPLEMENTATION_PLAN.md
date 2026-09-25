@@ -1,6 +1,6 @@
 # Codentry — 8-Day Implementation Plan Before Review
 
-**Written:** 24 September 2026. **Status of this document:** a plan. **Days 1–2 have been implemented locally (see their status notes); Days 3–8 have not been started.** Current state: [PROJECT_STATUS.md](PROJECT_STATUS.md). Research design: [research-design.md](research-design.md). Cost/hosting context: [FINAL_PRODUCT_AND_PRICING.md](FINAL_PRODUCT_AND_PRICING.md), [NO_COST_ALTERNATIVES.md](NO_COST_ALTERNATIVES.md).
+**Written:** 24 September 2026. **Status of this document:** a plan. **Days 1–3 have been implemented locally (see their status notes; Day 3's human labeling step is still open); Days 4–8 have not been started.** Current state: [PROJECT_STATUS.md](PROJECT_STATUS.md). Research design: [research-design.md](research-design.md). Cost/hosting context: [FINAL_PRODUCT_AND_PRICING.md](FINAL_PRODUCT_AND_PRICING.md), [NO_COST_ALTERNATIVES.md](NO_COST_ALTERNATIVES.md).
 
 ## 0. Ground rules
 
@@ -133,6 +133,13 @@ Direction of dependency: `evaluation` may import `analysis`; `app`/`analysis` mu
 **Risks:** dataset setup (Node dependencies, old Node versions); time sink on test execution; licensing. **Mitigation:** localization from patches is sufficient for Arm A; execution is a spot-check.
 
 **Must NOT attempt today:** SZZ-based mining of bug-introducing commits (noisy ground truth [52]); building a novel benchmark; any AI call.
+
+**Status — implemented locally on 26 September 2026; not yet run in CI; one acceptance criterion is open and needs people.**
+- **Delivered:** 30 real-defect cases from BugsJS across 7 projects (Express 8, Karma 6, ESLint 6, Hexo 5, Hessian.js 2, Bower 2, Shields 1; 14 of the 30 fixes touch more than one place); 36 noise pull requests from fastify, axios and zod; `evaluation/labeling/` with the protocol, label schema, an item builder, an agreement checker (Cohen's κ, refuses invalid or blank sheets) and a **10-item calibration round** of real Arm A findings with blank sheets for two labelers. Re-running both importers reproduces every case file, manifest, license text and the notices file byte for byte.
+- **Acceptance criteria:** *every case has provenance, license and SHA-256* — **met** (manifests, machine-checked license texts, tests). *At least one labeler pair has done a 10-finding calibration round* — **NOT met**: it needs two team members; the sheets are ready in `evaluation/labeling/`, and no model may be a labeler.
+- **One-off health checks with the real tools (not results):** all 60 files of the real-defect corpus (buggy and fixed versions) analyze with 0 tool errors and 0 parse errors; all 36 noise cases were analyzed (35 completed, 1 `partial` on a Semgrep timeout that did not recur on another run).
+- **Differences from the plan as written:** (1) Only **10 of the 30** real-defect cases have a *recorded* failing test; in this BugsJS snapshot Karma, ESLint, Mongoose and Node-redis ship no test results, so 20 cases rest on the dataset's manual validation and say so. Pencilblue (GPL-3.0) was excluded; Mongoose has no license GitHub could identify. (2) The **executable spot-check (task 2) was not done**; the plan's fallback (the dataset's own validation) applies. Running old third-party test suites means installing and executing old dependencies, which was not attempted. (3) Noise pull requests are derived from repository history (`… (#N)` squash commits: first parent → commit) instead of the GitHub API, to avoid rate limits and credentials; selection is mechanical and includes trivial pull requests. (4) Schema/record changes: `ground_truth_status` (`labeled`/`unlabeled`), defect `group`, source `derivation`; result records are `codentry.eval.result/2`; recall counts a defect *group* once; findings that match no defect are now called **unmatched**, not "false positives" (that word is reserved for people-adjudicated findings); recall/precision are `null` for unlabeled cases.
+- **Known weaknesses:** the calibration sample is narrow (7 of 10 items are one TypeScript rule, `no-explicit-any`); reversal is not a natural pull request; contamination is likely for every source; 30 + 36 cases from 7 and 3 projects is a small, clustered sample; matching is by location only.
 
 ---
 

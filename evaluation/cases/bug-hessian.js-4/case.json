@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "bug-hessian.js-4",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/hessian.js",
+    "base_sha": "63bb627b99267577e85c117008e8d896103b69c6",
+    "head_sha": "d996501c087a3cecc5ce3e470106ebdb90657ca9",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-4-fix",
+    "head_ref": "Bug-4"
+  },
+  "files": [
+    {
+      "path": "lib/v1/encoder.js",
+      "status": "modified",
+      "base": "base/lib/v1/encoder.js",
+      "head": "head/lib/v1/encoder.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/v1/encoder.js",
+      "start_line": 302,
+      "end_line": 302,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Hessian.js-4: manually validated bug (Gyimesi et al., ICST 2019)"
+        },
+        {
+          "method": "executable_test",
+          "ref": "BugsJS recorded run (not re-run here): fails with the fix's tests, not on the buggy revision: object.test.js v1.0 should write null for property like: { a: { \"$class\": \"yyy.yyy\", \"$\": null } }"
+        }
+      ],
+      "group": "bugsjs-hessian.js-4",
+      "description": "Location 1 of 1 changed by the fix of BugsJS Hessian.js-4 (category: incomplete feature implementation --> missing input validation --> missing null check)."
+    }
+  ]
+}

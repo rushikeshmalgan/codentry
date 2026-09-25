@@ -2,11 +2,21 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://codentry.invalid/evaluation/case.schema.json",
   "title": "Codentry evaluation case",
-  "description": "One pull-request-shaped change (base -> head) plus the defects known to have been introduced by it. Ground truth is established by construction, executable tests, dataset annotation or independent human review -- never by a model (see docs/research-design.md). `ground_truth` may be empty: that is a clean change, and every finding reported on it counts as a false positive.",
+  "description": "One pull-request-shaped change (base -> head) plus the defects known to have been introduced by it. Ground truth is established by construction, executable tests, dataset annotation or independent human review -- never by a model (see docs/research-design.md). With ground_truth_status `labeled`, `ground_truth` lists the defects the change introduces (it may be empty: a clean change); with `unlabeled` nobody has labeled the change, `ground_truth` must be empty, and recall/precision are undefined for it.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "id", "stratum", "language", "license", "source", "files", "ground_truth"],
+  "required": ["schema_version", "id", "stratum", "language", "license", "source", "files", "ground_truth_status", "ground_truth"],
+  "allOf": [
+    {
+      "if": { "properties": { "ground_truth_status": { "const": "unlabeled" } } },
+      "then": { "properties": { "ground_truth": { "maxItems": 0 } } }
+    }
+  ],
   "properties": {
+    "ground_truth_status": {
+      "description": "`labeled`: ground_truth is the defect list for this change, so an unmatched finding is a candidate false positive (still to be adjudicated). `unlabeled`: no defect labels exist (e.g. noise-measurement pull requests); findings count only toward volume/noise measures.",
+      "enum": ["labeled", "unlabeled"]
+    },
     "schema_version": { "const": 1 },
     "id": {
       "description": "Must equal the case directory name.",
@@ -36,7 +46,14 @@
             "kind": { "const": "repository" },
             "url": { "type": "string", "pattern": "^https://" },
             "base_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
-            "head_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+            "head_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+            "derivation": {
+              "description": "`pull_request`: base/head are a merged pull request's parent and merge result. `reversed_fix`: base is a bug's FIXED revision and head its BUGGY revision, so the change reintroduces the bug (not a natural pull request).",
+              "enum": ["pull_request", "reversed_fix"]
+            },
+            "pull_request": { "type": "integer", "minimum": 1 },
+            "base_ref": { "type": "string", "minLength": 1, "maxLength": 100 },
+            "head_ref": { "type": "string", "minLength": 1, "maxLength": 100 }
           }
         },
         {
@@ -151,6 +168,11 @@
               "ref": { "type": "string", "minLength": 1 }
             }
           }
+        },
+        "group": {
+          "description": "Locations of ONE defect share a group (e.g. a bug whose fix touched several hunks). Recall counts a group once, detected if any of its locations is hit. Absent = the entry is its own defect.",
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$"
         },
         "equivalence": {
           "description": "Mutation-seeded defects only: whether the mutant is known to change behavior. `unchecked` means nobody has shown it is not semantically equivalent to the original, so some of these 'defects' may not be defects.",

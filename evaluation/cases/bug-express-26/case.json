@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "bug-express-26",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/express",
+    "base_sha": "5180dffb155feabc5a0d51c2bce72ae2949f61b2",
+    "head_sha": "d40dc651f3561a4978fdc9c40e7fc802261d99ce",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-26-fix",
+    "head_ref": "Bug-26"
+  },
+  "files": [
+    {
+      "path": "lib/router/index.js",
+      "status": "modified",
+      "base": "base/lib/router/index.js",
+      "head": "head/lib/router/index.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/router/index.js",
+      "start_line": 129,
+      "end_line": 129,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Express-26: manually validated bug (Gyimesi et al., ICST 2019)"
+        },
+        {
+          "method": "executable_test",
+          "ref": "BugsJS recorded run (not re-run here): fails with the fix's tests, not on the buggy revision: Router FQDN should ignore FQDN in path"
+        }
+      ],
+      "group": "bugsjs-express-26",
+      "description": "Location 1 of 1 changed by the fix of BugsJS Express-26 (category: incomplete feature implementation --> missing input validation --> missing handling of special characters)."
+    }
+  ]
+}

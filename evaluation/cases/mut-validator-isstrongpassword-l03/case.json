@@ -22,6 +22,7 @@
       "head": "head/src/lib/isStrongPassword.js"
     }
   ],
+  "ground_truth_status": "labeled",
   "ground_truth": [
     {
       "file": "src/lib/isStrongPassword.js",

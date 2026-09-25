@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "bug-karma-20",
+  "stratum": "real:bugsjs",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "repository",
+    "url": "https://github.com/BugsJS/karma",
+    "base_sha": "efae3a2a38c8235c562ff736d7a82aa334aa996a",
+    "head_sha": "819763225897add01677517fbe0b4a555ee1f613",
+    "derivation": "reversed_fix",
+    "base_ref": "Bug-20-fix",
+    "head_ref": "Bug-20"
+  },
+  "files": [
+    {
+      "path": "lib/file-list.js",
+      "status": "modified",
+      "base": "base/lib/file-list.js",
+      "head": "head/lib/file-list.js"
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "ground_truth": [
+    {
+      "file": "lib/file-list.js",
+      "start_line": 76,
+      "end_line": 76,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Karma-20: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-karma-20",
+      "description": "Location 1 of 2 changed by the fix of BugsJS Karma-20 (category: generic --> data processing)."
+    },
+    {
+      "file": "lib/file-list.js",
+      "start_line": 78,
+      "end_line": 82,
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "verified_by": [
+        {
+          "method": "dataset_annotation",
+          "ref": "BugsJS Karma-20: manually validated bug (Gyimesi et al., ICST 2019)"
+        }
+      ],
+      "group": "bugsjs-karma-20",
+      "description": "Location 2 of 2 changed by the fix of BugsJS Karma-20 (category: generic --> data processing)."
+    }
+  ]
+}
