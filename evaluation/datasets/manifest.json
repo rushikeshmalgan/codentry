@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "purpose": "Third-party JavaScript/TypeScript source files that the mutation generator (evaluation/generators) turns into evaluation cases. Every repository is pinned to a commit and every file to a SHA-256; nothing here is fetched at generation time.",
+  "generation": {
+    "generator": "codentry-mutate/1",
+    "global_seed": 20260925,
+    "logic_per_file": 10,
+    "rule_aligned_per_file": 3,
+    "typescript": "5.9.3"
+  },
+  "threats": [
+    "Contamination: these are popular public libraries and may be present in a language model's training data. A one-line mutant is new text, but the surrounding code may be memorized, which can flatter an AI arm.",
+    "Mutant realism: seeded edits are a proxy for real faults; equivalence is 'unchecked', so some mutants may not change behavior.",
+    "Rule alignment: the rule-aligned stratum inserts patterns Arm A's rules target, so it must be reported separately from the logic stratum.",
+    "Mutants are checked for syntax only (not types or tests): a mutant that a type checker or the project's tests would reject instantly still counts as a defect here."
+  ],
+  "repositories": [
+    {
+      "id": "validator",
+      "url": "https://github.com/validatorjs/validator.js",
+      "commit": "9ff342479591ca5a43cb30000195bcf55c1bbed9",
+      "license": "MIT",
+      "license_path": "LICENSE",
+      "files": [
+        {
+          "path": "src/lib/isDate.js",
+          "slug": "isdate",
+          "language": "javascript",
+          "vendored_as": "sources/validator/src/lib/isDate.js",
+          "sha256": "469308ff932e59bcefa003f1e4a49f4008836738e7996b5c357b795c4f97d003",
+          "bytes": 2615
+        },
+        {
+          "path": "src/lib/isFQDN.js",
+          "slug": "isfqdn",
+          "language": "javascript",
+          "vendored_as": "sources/validator/src/lib/isFQDN.js",
+          "sha256": "a1483091e2c24b1b4d5ba20d94b9b4da0cabcd534aed0ca21c8add35a332cc11",
+          "bytes": 1796
+        },
+        {
+          "path": "src/lib/isStrongPassword.js",
+          "slug": "isstrongpassword",
+          "language": "javascript",
+          "vendored_as": "sources/validator/src/lib/isStrongPassword.js",
+          "sha256": "b2b7030e0102af2a876d03dfa1cc049924fe2b31b23c63548cccc99eed1c199b",
+          "bytes": 2792
+        },
+        {
+          "path": "src/lib/isEAN.js",
+          "slug": "isean",
+          "language": "javascript",
+          "vendored_as": "sources/validator/src/lib/isEAN.js",
+          "sha256": "76b83e3012df17f6117ca121b4fe74c6e6d83efcd6da7e04b5f41ec1b6d54e0f",
+          "bytes": 2146
+        }
+      ],
+      "license_file": "licenses/validator.LICENSE",
+      "license_sha256": "683b3c34623e01daad41cb2a3d0a93578c590f8d0206cbd8b0b579fb7def2603",
+      "license_verified": "2026-09-25: GitHub's license API reported MIT; the full LICENSE text was read and its permission grant and warranty disclaimer match the standard MIT text (identical to the other five MIT repositories after whitespace normalization). Redistribution with the notice retained is permitted; see ../THIRD_PARTY_NOTICES.md."
+    },
+    {
+      "id": "semver",
+      "url": "https://github.com/npm/node-semver",
+      "commit": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+      "license": "ISC",
+      "license_path": "LICENSE",
+      "files": [
+        {
+          "path": "classes/comparator.js",
+          "slug": "comparator",
+          "language": "javascript",
+          "vendored_as": "sources/semver/classes/comparator.js",
+          "sha256": "054202956430d63d5ff4599fae09760ce465b489e4f0b5ef5ce7cc7ac21157ac",
+          "bytes": 3631
+        },
+        {
+          "path": "ranges/outside.js",
+          "slug": "outside",
+          "language": "javascript",
+          "vendored_as": "sources/semver/ranges/outside.js",
+          "sha256": "3a2b0b23593d2f49419c06af2af75450cab103b0c25d665d48fe5bca495a21ca",
+          "bytes": 2204
+        },
+        {
+          "path": "functions/coerce.js",
+          "slug": "coerce",
+          "language": "javascript",
+          "vendored_as": "sources/semver/functions/coerce.js",
+          "sha256": "28a251c5ab210ddf9e97551b9f37a53329fcce91f0c3943dcbc02de1a1de915a",
+          "bytes": 2004
+        }
+      ],
+      "license_file": "licenses/semver.LICENSE",
+      "license_sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b",
+      "license_verified": "2026-09-25: GitHub's license API reported ISC; the full LICENSE text was read and its permission grant and warranty disclaimer match the standard ISC text. Redistribution with the notice retained is permitted; see ../THIRD_PARTY_NOTICES.md."
+    },
+    {
+      "id": "ms",
+      "url": "https://github.com/vercel/ms",
+      "commit": "4ff48cec099f0514c3e9bbca18706c9c21122bfb",
+      "license": "MIT",
+      "license_path": "LICENSE",
+      "files": [
+        {
+          "path": "src/index.ts",
+          "slug": "index",
+          "language": "typescript",
+          "vendored_as": "sources/ms/src/index.ts",
+          "sha256": "e1a602896c1433dcebc88cb0e075733c51ea036533296d4df513e417cf9d387e",
+          "bytes": 5864
+        }
+      ],
+      "license_file": "licenses/ms.LICENSE",
+      "license_sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+      "license_verified": "2026-09-25: GitHub's license API reported MIT; the full LICENSE text was read and its permission grant and warranty disclaimer match the standard MIT text (identical to the other five MIT repositories after whitespace normalization). Redistribution with the notice retained is permitted; see ../THIRD_PARTY_NOTICES.md."
+    },
+    {
+      "id": "minimist",
+      "url": "https://github.com/minimistjs/minimist",
+      "commit": "ecfdaea23e7931c0d529c52b743c711c3278a8ce",
+      "license": "MIT",
+      "license_path": "LICENSE",
+      "files": [
+        {
+          "path": "index.js",
+          "slug": "index",
+          "language": "javascript",
+          "vendored_as": "sources/minimist/index.js",
+          "sha256": "b851dc59691951bbd8daf1dd4dd38e5644e614a3bb75fdc4575c4a6fa84166dd",
+          "bytes": 6332
+        }
+      ],
+      "license_file": "licenses/minimist.LICENSE",
+      "license_sha256": "27138518ed50ee99976a8a4c6fe1d5f84cbd8a95c8b9b308a15a5df962801979",
+      "license_verified": "2026-09-25: GitHub's license API reported MIT; the full LICENSE text was read and its permission grant and warranty disclaimer match the standard MIT text (identical to the other five MIT repositories after whitespace normalization). Redistribution with the notice retained is permitted; see ../THIRD_PARTY_NOTICES.md."
+    },
+    {
+      "id": "uuid",
+      "url": "https://github.com/uuidjs/uuid",
+      "commit": "dd8c173521bb3faacb11ff244233df4a0dcde545",
+      "license": "MIT",
+      "license_path": "LICENSE.md",
+      "files": [
+        {
+          "path": "src/v7.ts",
+          "slug": "v7",
+          "language": "typescript",
+          "vendored_as": "sources/uuid/src/v7.ts",
+          "sha256": "fd4c944d304fa2d3d741574b6dc935d823fc31e0884f2fbdc65d8ee2b0c4138b",
+          "bytes": 3573
+        },
+        {
+          "path": "src/v35.ts",
+          "slug": "v35",
+          "language": "typescript",
+          "vendored_as": "sources/uuid/src/v35.ts",
+          "sha256": "e431ce02c243bae8841f9b383792cba3a0b171dc7a8f9e2f0f5f7550a1b0b610",
+          "bytes": 1992
+        }
+      ],
+      "license_file": "licenses/uuid.LICENSE",
+      "license_sha256": "beaa6b04fb82e41dd2ad679e19e27953afb5999b1abbb455b6564e78ebfeb332",
+      "license_verified": "2026-09-25: GitHub's license API reported MIT; the full LICENSE text was read and its permission grant and warranty disclaimer match the standard MIT text (identical to the other five MIT repositories after whitespace normalization). Redistribution with the notice retained is permitted; see ../THIRD_PARTY_NOTICES.md."
+    },
+    {
+      "id": "pretry",
+      "url": "https://github.com/sindresorhus/p-retry",
+      "commit": "1472907affe8d6107aba5884abc36d6361b3042e",
+      "license": "MIT",
+      "license_path": "license",
+      "files": [
+        {
+          "path": "index.js",
+          "slug": "index",
+          "language": "javascript",
+          "vendored_as": "sources/pretry/index.js",
+          "sha256": "3981dc16bfa766054aad9cf3ea56540eddff4ad0c82ec34196954bff33844a6a",
+          "bytes": 7199
+        }
+      ],
+      "license_file": "licenses/pretry.LICENSE",
+      "license_sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "license_verified": "2026-09-25: GitHub's license API reported MIT; the full LICENSE text was read and its permission grant and warranty disclaimer match the standard MIT text (identical to the other five MIT repositories after whitespace normalization). Redistribution with the notice retained is permitted; see ../THIRD_PARTY_NOTICES.md."
+    },
+    {
+      "id": "plimit",
+      "url": "https://github.com/sindresorhus/p-limit",
+      "commit": "a8a6fbec4e0e866d6d779b10889bb4f5567e70eb",
+      "license": "MIT",
+      "license_path": "license",
+      "files": [
+        {
+          "path": "index.js",
+          "slug": "index",
+          "language": "javascript",
+          "vendored_as": "sources/plimit/index.js",
+          "sha256": "edde12a4a4dbdbe8d27161cdd0853db0bab435d5dc6c15f9f4dedc27ee9bca60",
+          "bytes": 3868
+        }
+      ],
+      "license_file": "licenses/plimit.LICENSE",
+      "license_sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "license_verified": "2026-09-25: GitHub's license API reported MIT; the full LICENSE text was read and its permission grant and warranty disclaimer match the standard MIT text (identical to the other five MIT repositories after whitespace normalization). Redistribution with the notice retained is permitted; see ../THIRD_PARTY_NOTICES.md."
+    }
+  ]
+}

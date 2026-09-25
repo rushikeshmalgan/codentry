@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-pretry-index-l05",
+  "stratum": "mutant:logic",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:constant-change",
+    "seed": 7150163092417507641,
+    "origin": {
+      "url": "https://github.com/sindresorhus/p-retry",
+      "commit": "1472907affe8d6107aba5884abc36d6361b3042e",
+      "path": "index.js"
+    }
+  },
+  "files": [
+    {
+      "path": "index.js",
+      "status": "modified",
+      "base": "base/index.js",
+      "head": "head/index.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "index.js",
+      "start_line": 67,
+      "end_line": 67,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:constant-change"
+        }
+      ],
+      "description": "constant-change (1 -> 2) at line 67. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

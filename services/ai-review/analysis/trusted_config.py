@@ -35,7 +35,13 @@ from analysis.limits import MAX_TRUSTED_CONFIG_BYTES, MAX_TRUSTED_CONFIG_RULES
 
 BASELINE_DIR = Path(__file__).parent / "eslint-baseline"
 BASELINE_CONFIG_PATH = BASELINE_DIR / ".eslintrc.baseline.json"
-_TS_PARSER_PATH = BASELINE_DIR / "node_modules" / "@typescript-eslint" / "parser"
+# The parser's ENTRY FILE, not its package directory: @typescript-eslint/parser declares
+# only an `exports` map (no `main`), so require(<package dir>) fails with MODULE_NOT_FOUND
+# and ESLint then refuses to lint any batch containing a .ts/.tsx file. Regression test:
+# tests/test_typescript_analysis.py.
+_TS_PARSER_PATH = (
+    BASELINE_DIR / "node_modules" / "@typescript-eslint" / "parser" / "dist" / "index.js"
+)
 
 # The only file, at the trusted base commit, that may contribute an overlay.
 TRUSTED_CONFIG_FILENAME = ".eslintrc.json"

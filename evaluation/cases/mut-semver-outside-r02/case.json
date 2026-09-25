@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "mut-semver-outside-r02",
+  "stratum": "mutant:rule-aligned",
+  "language": "javascript",
+  "license": "ISC",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:innerhtml-assignment",
+    "seed": 3358883438968897481,
+    "origin": {
+      "url": "https://github.com/npm/node-semver",
+      "commit": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+      "path": "ranges/outside.js"
+    }
+  },
+  "files": [
+    {
+      "path": "ranges/outside.js",
+      "status": "modified",
+      "base": "base/ranges/outside.js",
+      "head": "head/ranges/outside.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "ranges/outside.js",
+      "start_line": 14,
+      "end_line": 14,
+      "kind": "security",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:innerhtml-assignment"
+        }
+      ],
+      "description": "innerhtml-assignment (inserted innerhtml-assignment using parameter 'version') at line 14."
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-minimist-index-l09",
+  "stratum": "mutant:logic",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:drop-guard",
+    "seed": 3613631169550216605,
+    "origin": {
+      "url": "https://github.com/minimistjs/minimist",
+      "commit": "ecfdaea23e7931c0d529c52b743c711c3278a8ce",
+      "path": "index.js"
+    }
+  },
+  "files": [
+    {
+      "path": "index.js",
+      "status": "modified",
+      "base": "base/index.js",
+      "head": "head/index.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "index.js",
+      "start_line": 47,
+      "end_line": 47,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:drop-guard"
+        }
+      ],
+      "description": "drop-guard (guard removed) at line 47. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

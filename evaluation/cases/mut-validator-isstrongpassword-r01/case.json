@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "mut-validator-isstrongpassword-r01",
+  "stratum": "mutant:rule-aligned",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:innerhtml-assignment",
+    "seed": 2920265966751672737,
+    "origin": {
+      "url": "https://github.com/validatorjs/validator.js",
+      "commit": "9ff342479591ca5a43cb30000195bcf55c1bbed9",
+      "path": "src/lib/isStrongPassword.js"
+    }
+  },
+  "files": [
+    {
+      "path": "src/lib/isStrongPassword.js",
+      "status": "modified",
+      "base": "base/src/lib/isStrongPassword.js",
+      "head": "head/src/lib/isStrongPassword.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "src/lib/isStrongPassword.js",
+      "start_line": 37,
+      "end_line": 37,
+      "kind": "security",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:innerhtml-assignment"
+        }
+      ],
+      "description": "innerhtml-assignment (inserted innerhtml-assignment using parameter 'str') at line 37."
+    }
+  ]
+}

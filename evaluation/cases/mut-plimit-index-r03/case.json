@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "mut-plimit-index-r03",
+  "stratum": "mutant:rule-aligned",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:innerhtml-assignment",
+    "seed": 5349605534781431201,
+    "origin": {
+      "url": "https://github.com/sindresorhus/p-limit",
+      "commit": "a8a6fbec4e0e866d6d779b10889bb4f5567e70eb",
+      "path": "index.js"
+    }
+  },
+  "files": [
+    {
+      "path": "index.js",
+      "status": "modified",
+      "base": "base/index.js",
+      "head": "head/index.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "index.js",
+      "start_line": 37,
+      "end_line": 37,
+      "kind": "security",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:innerhtml-assignment"
+        }
+      ],
+      "description": "innerhtml-assignment (inserted innerhtml-assignment using parameter 'function_') at line 37."
+    }
+  ]
+}

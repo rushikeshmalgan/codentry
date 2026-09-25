@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-pretry-index-l10",
+  "stratum": "mutant:logic",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:equality-flip",
+    "seed": 7150163092417507641,
+    "origin": {
+      "url": "https://github.com/sindresorhus/p-retry",
+      "commit": "1472907affe8d6107aba5884abc36d6361b3042e",
+      "path": "index.js"
+    }
+  },
+  "files": [
+    {
+      "path": "index.js",
+      "status": "modified",
+      "base": "base/index.js",
+      "head": "head/index.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "index.js",
+      "start_line": 44,
+      "end_line": 44,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:equality-flip"
+        }
+      ],
+      "description": "equality-flip (!== -> ===) at line 44. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

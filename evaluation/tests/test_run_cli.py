@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -35,11 +36,22 @@ def run_cli(*args: str, timeout: int = 400) -> subprocess.CompletedProcess:
 
 
 @pytest.fixture(scope="module")
-def two_runs(tmp_path_factory):
+def fixture_cases(tmp_path_factory):
+    """Only the hand-made fixtures. The committed cases directory also holds the
+    mutation corpus (well over a hundred cases, tens of minutes of real analysis),
+    which these CLI tests must not run."""
+    cases = tmp_path_factory.mktemp("fixture-cases")
+    for case_id in CASE_IDS:
+        shutil.copytree(COMMITTED_CASES / case_id, cases / case_id)
+    return cases
+
+
+@pytest.fixture(scope="module")
+def two_runs(tmp_path_factory, fixture_cases):
     base = tmp_path_factory.mktemp("runs")
     out1, out2 = base / "one", base / "two"
-    first = run_cli("--arm", "A", "--cases", str(COMMITTED_CASES), "--out", str(out1))
-    second = run_cli("--arm", "A", "--cases", str(COMMITTED_CASES), "--out", str(out2))
+    first = run_cli("--arm", "A", "--cases", str(fixture_cases), "--out", str(out1))
+    second = run_cli("--arm", "A", "--cases", str(fixture_cases), "--out", str(out2))
     return first, second, out1, out2
 
 
@@ -78,7 +90,7 @@ def test_output_hash_is_identical_across_runs_and_matches_the_files(two_runs):
     assert hashlib.sha256(canonical).hexdigest() == run1["results_sha256"]
 
 
-def test_run_json_records_every_version_and_hash_needed_to_reproduce(two_runs):
+def test_run_json_records_every_version_and_hash_needed_to_reproduce(two_runs, fixture_cases):
     _, _, out1, _ = two_runs
     run = load(out1 / "run.json")
     tools = run["tools"]
@@ -88,7 +100,7 @@ def test_run_json_records_every_version_and_hash_needed_to_reproduce(two_runs):
         assert re.fullmatch(r"[0-9a-f]{64}", tools[key]), key
     assert tools["identity_version"] == 2
     assert re.fullmatch(r"[0-9a-f]{64}", run["case_manifest_sha256"])
-    assert run["case_manifest_sha256"] == manifest_sha256(discover_case_dirs(COMMITTED_CASES))
+    assert run["case_manifest_sha256"] == manifest_sha256(discover_case_dirs(fixture_cases))
     assert run["seed"] == 0
     assert run["case_count"] == len(CASE_IDS) == len(run["cases"])
     assert run["status_counts"] == {"completed": len(CASE_IDS)}

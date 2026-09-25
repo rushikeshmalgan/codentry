@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-ms-index-l07",
+  "stratum": "mutant:logic",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:logical-swap",
+    "seed": 3432517521032597195,
+    "origin": {
+      "url": "https://github.com/vercel/ms",
+      "commit": "4ff48cec099f0514c3e9bbca18706c9c21122bfb",
+      "path": "src/index.ts"
+    }
+  },
+  "files": [
+    {
+      "path": "src/index.ts",
+      "status": "modified",
+      "base": "base/src/index.ts",
+      "head": "head/src/index.ts"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "src/index.ts",
+      "start_line": 72,
+      "end_line": 72,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:logical-swap"
+        }
+      ],
+      "description": "logical-swap (|| -> &&) at line 72. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "mut-semver-coerce-r01",
+  "stratum": "mutant:rule-aligned",
+  "language": "javascript",
+  "license": "ISC",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:eval-usage",
+    "seed": 7740041681510363541,
+    "origin": {
+      "url": "https://github.com/npm/node-semver",
+      "commit": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+      "path": "functions/coerce.js"
+    }
+  },
+  "files": [
+    {
+      "path": "functions/coerce.js",
+      "status": "modified",
+      "base": "base/functions/coerce.js",
+      "head": "head/functions/coerce.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "functions/coerce.js",
+      "start_line": 55,
+      "end_line": 55,
+      "kind": "security",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:eval-usage"
+        }
+      ],
+      "description": "eval-usage (inserted eval-usage using parameter 'version') at line 55."
+    }
+  ]
+}

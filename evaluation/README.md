@@ -1,10 +1,14 @@
 # evaluation/
 
-The offline evaluation harness. **Status: Day 1 core only** — a deterministic
-pipeline from a case directory, through Arm A (static analysis), to a metrics
-record. There is **no AI arm, no real dataset, no aggregate report, and no
-measured result.** The two cases in `cases/` are hand-made harness fixtures
-(stratum `fixture:*`); running over them tests the harness, it is not evidence.
+The offline evaluation harness. **Status: Days 1–2 of the plan** — a
+deterministic pipeline from a case directory, through Arm A (static analysis), to
+a metrics record (Day 1), and a seeded generator of mutation cases over
+third-party open-source code (Day 2). There is **no AI arm, no aggregate report,
+no real-defect dataset, and no measured result.** `cases/` holds two hand-made
+harness fixtures (`fx-*`, stratum `fixture:*`: they test the harness and are not
+evidence) and 169 generated mutation cases (`mut-*`, strata `mutant:logic` and
+`mutant:rule-aligned`, reported separately). Nobody has run Arm A over the
+mutation corpus yet.
 
 Research question, arms, ground-truth rules and metrics:
 [`../docs/research-design.md`](../docs/research-design.md). What comes next:
@@ -35,8 +39,12 @@ already hold a run unless you pass `--overwrite`. A malformed case aborts the
 whole run (a silently skipped case would change every denominator).
 
 Expect roughly 15–20 seconds per case on a developer laptop: each case starts
-Semgrep twice (base and head). The harness tests take a few minutes because they
-run the real tools, including two full CLI runs that must match byte for byte.
+Semgrep twice (base and head). **Running Arm A over all 171 cases therefore takes
+on the order of 45–60 minutes as the CLI stands**; only 13 distinct original files
+underlie the mutation corpus, so analyzing each base once and batching heads is
+the obvious speed-up, left for when a full run is needed (plan Day 4). The harness
+tests take a few minutes because they run the real tools on the two fixtures,
+including two full CLI runs that must match byte for byte.
 
 ## Layout
 
@@ -45,14 +53,64 @@ evaluation/
   schema/case.schema.json   the case format (JSON Schema, draft 2020-12)
   case.py                   load + validate a case; CaseInputs (what an arm may see) vs ground truth
   cases/<case-id>/          case.json, base/…, head/…   (bytes pinned by cases/.gitattributes)
+                              fx-*  hand-made fixtures     mut-*  generated (never edit by hand)
   runners/arm_a_static.py   Arm A: runs analysis.snapshot_analysis on a case (the production code path)
   record.py                 per-case result record: findings + how they score
   metrics/matching.py       finding ↔ defect matching, ±k tolerance, duplicates
   metrics/stats.py          Wilson interval, exact McNemar, seeded bootstrap
   run.py                    the CLI
+  datasets/manifest.json    the pinned third-party sources: repo, commit, license, SHA-256 per file
+  datasets/sources/         the vendored originals;  datasets/licenses/  their license texts
+  datasets/fetch_sources.py the ONLY network use: one-time download at the pinned commits
+  generators/sites.js       Node helper: finds mutation sites with the pinned TypeScript parser
+  generators/mutate.py      the seeded mutation engine (8 logic operators + 4 injections)
+  generators/build_cases.py manifest + sources -> cases/mut-*   (--verify proves regeneration)
+  THIRD_PARTY_NOTICES.md    license texts that must accompany the redistributed code
   tests/                    harness tests
   reports/                  (created by you) run outputs; never hand-edited
 ```
+
+## The mutation corpus (Day 2)
+
+Thirteen files from seven permissively licensed open-source projects
+(validator.js, node-semver, ms, minimist, uuid, p-retry, p-limit; MIT/ISC), each
+pinned to a commit and SHA-256 in `datasets/manifest.json` (see
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)). From each file the generator
+makes up to 10 `mutant:logic` cases and 3 `mutant:rule-aligned` cases; a case is
+the original file (`base/`) and the same file with **one** edit (`head/`), and the
+edit's line is the ground truth.
+
+```bash
+PYTHONPATH=services/ai-review python -m evaluation.generators.build_cases            # regenerate
+PYTHONPATH=services/ai-review python -m evaluation.generators.build_cases --verify   # byte-identical?
+```
+
+- **Logic operators (8):** relational flip (`<`↔`<=`, `>`↔`>=`), equality flip
+  (`==`/`===` ↔ `!=`/`!==`), `&&`↔`||`, negate a condition, drop an early-exit
+  guard, remove an `await`, off-by-one (index `i`→`i + 1`, `x.length`→`x.length - 1`),
+  change an integer constant by 1.
+- **Rule-aligned injections (4):** one inserted line of `eval(p)`, SQL string
+  concatenation, a hardcoded secret, or `innerHTML = p`. These are patterns Arm A's
+  six Semgrep rules target, so this stratum is **expected to favor Arm A and must
+  never be pooled** with the logic stratum.
+- **Determinism:** the RNG is seeded from (global seed, file, stratum); the same
+  manifest, seed and TypeScript version reproduce every case byte for byte. No
+  language model is involved anywhere in generation.
+- **Validity:** every mutant parses (TypeScript syntactic check) and its recorded
+  line range equals the range of an independent line diff, or it is discarded.
+
+What this corpus **cannot** tell you, stated here so no number is over-read:
+
+- Mutants are a **proxy** for real faults. Equivalence is recorded as `unchecked`:
+  some mutants may not change behavior, so "defects" here may not be defects.
+- Mutants are checked for **syntax only**, not types or tests; a mutant a type
+  checker would reject instantly still counts.
+- **Contamination:** these are popular public libraries a model may have seen.
+- The operator mix is uneven by construction of the source files: `remove-await`
+  has a single mutant (only two source files use `await`), so per-operator results
+  would be meaningless; report the stratum as a whole.
+- Thirteen files is a small, clustered sample (one file yields 10 mutants), so
+  mutants from one file are not independent observations.
 
 ## What a run writes
 
@@ -122,5 +180,5 @@ compares every byte.) Latency, when it is measured, will go in a separate file.
   those files, re-check them out.
 - **`seed` is recorded but Arm A consumes no randomness.** It is there so later
   arms and the bootstrap share one field.
-- Verified only on the developer's Windows machine so far; the CI step for this
-  harness has not yet run.
+- Verified on one Windows machine and, for the Day 1 harness, on Linux CI. The
+  Day 2 additions have not run in CI yet.

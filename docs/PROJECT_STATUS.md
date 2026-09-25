@@ -1,6 +1,6 @@
 # Codentry — Current Project Status & Implementation Documentation
 
-**As of:** 24 September 2026, after Phase 0 (foundation hardening) and Day 1 of the 8-day plan (the offline evaluation harness core). Nothing else has been implemented since Phase 0.
+**As of:** 25 September 2026, after Phase 0 (foundation hardening) and Days 1–2 of the 8-day plan (the offline evaluation harness core, then the mutation-seeded case corpus). Nothing else has been implemented since Phase 0, apart from a TypeScript-analysis bug fix found during Day 2 (§28).
 **Audience:** team members, project guides, reviewers, and future developers. Assumes no prior knowledge.
 **Source of truth for implemented behavior:** the repository. Where this document and the code disagree, the code wins; please fix the document.
 
@@ -14,7 +14,7 @@ Status vocabulary used throughout: **IMPLEMENTED**, **PARTIALLY IMPLEMENTED**, *
 
 Codentry is a GitHub App backend that receives pull-request webhooks, fetches the exact base and head commits of the pull request, runs deterministic static analysis (ESLint and a small Semgrep ruleset) on both, and works out which findings the pull request **introduced**, as opposed to findings that were already in the code. The results are stored in a database.
 
-What exists today is a hardened, tested **static-analysis pipeline** with durable webhook and job handling. What does **not** exist today: any AI/LLM review, any comment posted back to GitHub, any evaluation harness, any dashboard, and any verification against real GitHub, Supabase, Render, or Vercel.
+What exists today is a hardened, tested **static-analysis pipeline** with durable webhook and job handling. What does **not** exist today: any AI/LLM review, any comment posted back to GitHub, any measured evaluation result (an offline evaluation harness and a mutation-seeded case corpus exist, but nothing has been scored), any dashboard, and any verification against real GitHub, Supabase, Render, or Vercel.
 
 The project's stated research direction is *evidence-first*: an AI reviewer, when added, is one optional signal whose accuracy, overlap with static analysis, and noise are to be measured against defensible ground truth — not assumed to be good.
 
@@ -111,7 +111,7 @@ codentry/
 │  └─ tests/                      34 Python files (incl. helpers)
 ├─ packages/schemas/              Finding JSON Schema (review.schema.json) + README
 ├─ supabase/migrations/           0001 … 0004 (+ README)
-├─ evaluation/                    offline harness core (Day 1): case format, Arm A runner, matching, statistics, CLI, tests, 2 fixture cases
+├─ evaluation/                    offline harness (Days 1–2): case format, Arm A runner, matching, statistics, CLI, mutation generator, 13 vendored sources, 171 cases, tests
 ├─ docs/                          this document set; PRD (docx); original literature survey (pdf); backup/
 ├─ render.yaml, .env.example, .github/workflows/ci.yml
 └─ README.md
@@ -231,12 +231,14 @@ See the status table below. In one line: Phase 0's hardened static-analysis pipe
 
 ## 27. What is not implemented
 
-AI/LLM review of any kind; posting comments or reviews to GitHub; approve/merge (deliberately never); evaluation datasets and ground-truth tooling (mutation generator, labeling), aggregate metric reports, and any AI arm (only the harness core exists: case format, Arm A runner, matching, statistics); a dashboard; RAG; multi-agent review; multiple LLM providers; a Vercel-side webhook inbox; containerized/network-isolated analysis; billing; multi-language analysis beyond JavaScript/TypeScript.
+AI/LLM review of any kind; posting comments or reviews to GitHub; approve/merge (deliberately never); a real-defect dataset, human labeling, aggregate metric reports, and any AI arm (what exists: case format, Arm A runner, matching, statistics, and a mutation-seeded case corpus with no results computed on it); a dashboard; RAG; multi-agent review; multiple LLM providers; a Vercel-side webhook inbox; containerized/network-isolated analysis; billing; multi-language analysis beyond JavaScript/TypeScript.
 
 ## 28. Known limitations
 
 - Semgrep runs **six hand-written rules**, not Semgrep's registry coverage; results must never be labeled "Semgrep's accuracy" ([semgrep-rules/README.md](../services/ai-review/analysis/semgrep-rules/README.md)).
 - ESLint runs its baseline (`eslint:recommended` + `@typescript-eslint/recommended`); parse errors appear as `eslint-fatal-error` findings.
+- **TypeScript regression, found and fixed 25 September 2026 (during plan Day 2).** From Phase 0 until then, any change batch containing a `.ts`/`.tsx` file made ESLint fail entirely (`Failed to load parser … Cannot find module`), because the baseline config's `parser` had been rewritten to the parser package's directory and `@typescript-eslint/parser` has no `main`. It went unnoticed because every earlier test fixture was JavaScript, and the 388-test backend suite and CI passed with the bug present. Fixed by pointing at the parser's entry file; covered by `tests/test_typescript_analysis.py` (real ESLint; four of its five tests fail without the fix). TypeScript analysis is **verified locally only**, on Windows; not yet in CI.
+- Semgrep is given 30 s per call; on a slow or loaded machine a batch of about a dozen files can exceed it, in which case the run is `partial`/`failed`, never silently clean.
 - Secret redaction is pattern-based.
 - One worker thread handles one PR at a time.
 - More than 200 analyzable changed files fails the run (`too_many_files`) rather than being partially reviewed.
@@ -257,7 +259,7 @@ AI/LLM review of any kind; posting comments or reviews to GitHub; approve/merge 
 
 ## 31. Current research/evaluation readiness
 
-The **offline harness core exists** (Day 1 of [8_DAY_IMPLEMENTATION_PLAN.md](8_DAY_IMPLEMENTATION_PLAN.md)): a case format with a JSON Schema, an Arm A runner that reuses the production differential analysis, location-based matching with ±k sensitivity, Wilson/McNemar/bootstrap helpers, and reproducible run records (`python -m evaluation.run`). It has been run on two hand-made **fixture** cases only; those test the harness and are not evidence. **VERIFIED LOCALLY** (Windows, real ESLint and Semgrep); not yet run in CI. **Not** ready to use the deployed pipeline's data as evidence, and no measurement has been made. Nothing in this repository is a result. Still missing: ground-truth sources at scale (plan Days 2–3), aggregate reporting with limitations (Day 4), any AI arm (Day 5+).
+The **offline harness exists** (Days 1–2 of [8_DAY_IMPLEMENTATION_PLAN.md](8_DAY_IMPLEMENTATION_PLAN.md)): a case format with a JSON Schema, an Arm A runner that reuses the production differential analysis, location-based matching with ±k sensitivity, Wilson/McNemar/bootstrap helpers, and reproducible run records (`python -m evaluation.run`). Day 2 added a seeded mutation generator and 169 cases (130 `mutant:logic`, 39 `mutant:rule-aligned`) over 13 vendored files from 7 MIT/ISC projects; regenerating them is byte-identical. Arm A has been run only on two hand-made **fixture** cases, which test the harness and are not evidence; it has **not** been run over the mutation corpus, and nothing has been scored. **VERIFIED LOCALLY** (Windows, real ESLint and Semgrep); not yet run in CI. **Not** ready to use the deployed pipeline's data as evidence, and no measurement has been made. Nothing in this repository is a result. Still missing: verified real defects and noise-measurement PRs (plan Day 3), aggregate reporting with limitations (Day 4), any AI arm (Day 5+).
 
 ## 32. Glossary
 
@@ -302,6 +304,6 @@ The **offline harness core exists** (Day 1 of [8_DAY_IMPLEMENTATION_PLAN.md](8_D
 | Container/network sandbox for analysis | NOT IMPLEMENTED | [architecture.md](architecture.md) gap #2 | |
 | AI / LLM review (any provider) | NOT IMPLEMENTED | [test_scope_guards.py](../services/ai-review/tests/test_scope_guards.py) enforces absence | Planned only after an evaluation harness exists. |
 | Posting comments / reviews to GitHub | NOT IMPLEMENTED | same test | Approve/merge deliberately never. |
-| Evaluation harness, datasets, metrics | PARTIALLY IMPLEMENTED (Day 1 core, VERIFIED LOCALLY) | [evaluation/README.md](../evaluation/README.md), [8_DAY_IMPLEMENTATION_PLAN.md](8_DAY_IMPLEMENTATION_PLAN.md) | Core only: no datasets, no aggregate report, no AI arm; two hand-made fixture cases; nothing measured. |
+| Evaluation harness, mutation corpus, metrics | PARTIALLY IMPLEMENTED (Days 1–2, VERIFIED LOCALLY) | [evaluation/README.md](../evaluation/README.md), [8_DAY_IMPLEMENTATION_PLAN.md](8_DAY_IMPLEMENTATION_PLAN.md) | Harness + mutation corpus only: no real-defect dataset, no aggregate report, no AI arm; nothing measured. Mutants are a proxy for real faults and equivalence is unchecked. |
 | Dashboard, billing, RAG, multi-agent, second LLM | NOT IMPLEMENTED | — | Explicitly out of scope for now. |
 | GitHub Actions CI | IMPLEMENTED; PASSED on the pushed Phase 0 commit `11114d9` | [ci.yml](../.github/workflows/ci.yml) | Both jobs (web: lint/typecheck/test/build; ai-review: ruff/pytest) succeeded on `ubuntu-latest` with Node 22 and Python 3.13 (queried from the public GitHub Actions API, 24 Sep 2026). The evaluation-harness step added after that commit has not run yet. |

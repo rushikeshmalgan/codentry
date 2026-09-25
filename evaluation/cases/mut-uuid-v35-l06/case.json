@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-uuid-v35-l06",
+  "stratum": "mutant:logic",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:drop-guard",
+    "seed": 4001448635762432450,
+    "origin": {
+      "url": "https://github.com/uuidjs/uuid",
+      "commit": "dd8c173521bb3faacb11ff244233df4a0dcde545",
+      "path": "src/v35.ts"
+    }
+  },
+  "files": [
+    {
+      "path": "src/v35.ts",
+      "status": "modified",
+      "base": "base/src/v35.ts",
+      "head": "head/src/v35.ts"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "src/v35.ts",
+      "start_line": 40,
+      "end_line": 40,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:drop-guard"
+        }
+      ],
+      "description": "drop-guard (guard removed) at line 40. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

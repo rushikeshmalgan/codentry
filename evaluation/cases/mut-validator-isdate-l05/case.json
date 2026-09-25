@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-validator-isdate-l05",
+  "stratum": "mutant:logic",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:negate-condition",
+    "seed": 8363297600688285175,
+    "origin": {
+      "url": "https://github.com/validatorjs/validator.js",
+      "commit": "9ff342479591ca5a43cb30000195bcf55c1bbed9",
+      "path": "src/lib/isDate.js"
+    }
+  },
+  "files": [
+    {
+      "path": "src/lib/isDate.js",
+      "status": "modified",
+      "base": "base/src/lib/isDate.js",
+      "head": "head/src/lib/isDate.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "src/lib/isDate.js",
+      "start_line": 76,
+      "end_line": 76,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:negate-condition"
+        }
+      ],
+      "description": "negate-condition (C -> !(C)) at line 76. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

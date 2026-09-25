@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-plimit-index-l08",
+  "stratum": "mutant:logic",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:negate-condition",
+    "seed": 6480058005095090806,
+    "origin": {
+      "url": "https://github.com/sindresorhus/p-limit",
+      "commit": "a8a6fbec4e0e866d6d779b10889bb4f5567e70eb",
+      "path": "index.js"
+    }
+  },
+  "files": [
+    {
+      "path": "index.js",
+      "status": "modified",
+      "base": "base/index.js",
+      "head": "head/index.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "index.js",
+      "start_line": 61,
+      "end_line": 61,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:negate-condition"
+        }
+      ],
+      "description": "negate-condition (C -> !(C)) at line 61. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

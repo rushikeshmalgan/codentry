@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-semver-coerce-l07",
+  "stratum": "mutant:logic",
+  "language": "javascript",
+  "license": "ISC",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:off-by-one",
+    "seed": 3234775211362984131,
+    "origin": {
+      "url": "https://github.com/npm/node-semver",
+      "commit": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+      "path": "functions/coerce.js"
+    }
+  },
+  "files": [
+    {
+      "path": "functions/coerce.js",
+      "status": "modified",
+      "base": "base/functions/coerce.js",
+      "head": "head/functions/coerce.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "functions/coerce.js",
+      "start_line": 38,
+      "end_line": 38,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:off-by-one"
+        }
+      ],
+      "description": "off-by-one (length -> length - 1) at line 38. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

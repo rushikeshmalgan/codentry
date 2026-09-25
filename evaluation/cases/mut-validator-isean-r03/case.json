@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "mut-validator-isean-r03",
+  "stratum": "mutant:rule-aligned",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:sql-string-concatenation",
+    "seed": 86780623560311266,
+    "origin": {
+      "url": "https://github.com/validatorjs/validator.js",
+      "commit": "9ff342479591ca5a43cb30000195bcf55c1bbed9",
+      "path": "src/lib/isEAN.js"
+    }
+  },
+  "files": [
+    {
+      "path": "src/lib/isEAN.js",
+      "status": "modified",
+      "base": "base/src/lib/isEAN.js",
+      "head": "head/src/lib/isEAN.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "src/lib/isEAN.js",
+      "start_line": 57,
+      "end_line": 57,
+      "kind": "security",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:sql-string-concatenation"
+        }
+      ],
+      "description": "sql-string-concatenation (inserted sql-string-concatenation using parameter 'ean') at line 57."
+    }
+  ]
+}

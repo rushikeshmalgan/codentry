@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-validator-isstrongpassword-l09",
+  "stratum": "mutant:logic",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:off-by-one",
+    "seed": 875064447989936195,
+    "origin": {
+      "url": "https://github.com/validatorjs/validator.js",
+      "commit": "9ff342479591ca5a43cb30000195bcf55c1bbed9",
+      "path": "src/lib/isStrongPassword.js"
+    }
+  },
+  "files": [
+    {
+      "path": "src/lib/isStrongPassword.js",
+      "status": "modified",
+      "base": "base/src/lib/isStrongPassword.js",
+      "head": "head/src/lib/isStrongPassword.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "src/lib/isStrongPassword.js",
+      "start_line": 92,
+      "end_line": 92,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:off-by-one"
+        }
+      ],
+      "description": "off-by-one (length -> length - 1) at line 92. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

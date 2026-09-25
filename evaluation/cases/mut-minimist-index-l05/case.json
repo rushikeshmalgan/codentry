@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-minimist-index-l05",
+  "stratum": "mutant:logic",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:negate-condition",
+    "seed": 3613631169550216605,
+    "origin": {
+      "url": "https://github.com/minimistjs/minimist",
+      "commit": "ecfdaea23e7931c0d529c52b743c711c3278a8ce",
+      "path": "index.js"
+    }
+  },
+  "files": [
+    {
+      "path": "index.js",
+      "status": "modified",
+      "base": "base/index.js",
+      "head": "head/index.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "index.js",
+      "start_line": 89,
+      "end_line": 89,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:negate-condition"
+        }
+      ],
+      "description": "negate-condition (C -> !(C)) at line 89. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

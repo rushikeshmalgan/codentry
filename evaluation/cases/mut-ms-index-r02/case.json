@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "mut-ms-index-r02",
+  "stratum": "mutant:rule-aligned",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:sql-string-concatenation",
+    "seed": 7184661454734909644,
+    "origin": {
+      "url": "https://github.com/vercel/ms",
+      "commit": "4ff48cec099f0514c3e9bbca18706c9c21122bfb",
+      "path": "src/index.ts"
+    }
+  },
+  "files": [
+    {
+      "path": "src/index.ts",
+      "status": "modified",
+      "base": "base/src/index.ts",
+      "head": "head/src/index.ts"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "src/index.ts",
+      "start_line": 54,
+      "end_line": 54,
+      "kind": "security",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:sql-string-concatenation"
+        }
+      ],
+      "description": "sql-string-concatenation (inserted sql-string-concatenation using parameter 'value') at line 54."
+    }
+  ]
+}

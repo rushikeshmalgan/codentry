@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "mut-minimist-index-r02",
+  "stratum": "mutant:rule-aligned",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:innerhtml-assignment",
+    "seed": 5585463680464634645,
+    "origin": {
+      "url": "https://github.com/minimistjs/minimist",
+      "commit": "ecfdaea23e7931c0d529c52b743c711c3278a8ce",
+      "path": "index.js"
+    }
+  },
+  "files": [
+    {
+      "path": "index.js",
+      "status": "modified",
+      "base": "base/index.js",
+      "head": "head/index.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "index.js",
+      "start_line": 59,
+      "end_line": 59,
+      "kind": "security",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:innerhtml-assignment"
+        }
+      ],
+      "description": "innerhtml-assignment (inserted innerhtml-assignment using parameter 'key') at line 59."
+    }
+  ]
+}

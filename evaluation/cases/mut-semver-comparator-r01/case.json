@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "mut-semver-comparator-r01",
+  "stratum": "mutant:rule-aligned",
+  "language": "javascript",
+  "license": "ISC",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:innerhtml-assignment",
+    "seed": 5212461409467562988,
+    "origin": {
+      "url": "https://github.com/npm/node-semver",
+      "commit": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+      "path": "classes/comparator.js"
+    }
+  },
+  "files": [
+    {
+      "path": "classes/comparator.js",
+      "status": "modified",
+      "base": "base/classes/comparator.js",
+      "head": "head/classes/comparator.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "classes/comparator.js",
+      "start_line": 128,
+      "end_line": 128,
+      "kind": "security",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:innerhtml-assignment"
+        }
+      ],
+      "description": "innerhtml-assignment (inserted innerhtml-assignment using parameter 'comp') at line 128."
+    }
+  ]
+}

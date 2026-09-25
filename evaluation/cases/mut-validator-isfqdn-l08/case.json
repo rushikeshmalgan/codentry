@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-validator-isfqdn-l08",
+  "stratum": "mutant:logic",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:relational-flip",
+    "seed": 8658853090039866099,
+    "origin": {
+      "url": "https://github.com/validatorjs/validator.js",
+      "commit": "9ff342479591ca5a43cb30000195bcf55c1bbed9",
+      "path": "src/lib/isFQDN.js"
+    }
+  },
+  "files": [
+    {
+      "path": "src/lib/isFQDN.js",
+      "status": "modified",
+      "base": "base/src/lib/isFQDN.js",
+      "head": "head/src/lib/isFQDN.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "src/lib/isFQDN.js",
+      "start_line": 52,
+      "end_line": 52,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:relational-flip"
+        }
+      ],
+      "description": "relational-flip (> -> >=) at line 52. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

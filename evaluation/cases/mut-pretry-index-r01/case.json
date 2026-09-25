@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "mut-pretry-index-r01",
+  "stratum": "mutant:rule-aligned",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:sql-string-concatenation",
+    "seed": 1212672860835753963,
+    "origin": {
+      "url": "https://github.com/sindresorhus/p-retry",
+      "commit": "1472907affe8d6107aba5884abc36d6361b3042e",
+      "path": "index.js"
+    }
+  },
+  "files": [
+    {
+      "path": "index.js",
+      "status": "modified",
+      "base": "base/index.js",
+      "head": "head/index.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "index.js",
+      "start_line": 225,
+      "end_line": 225,
+      "kind": "security",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:sql-string-concatenation"
+        }
+      ],
+      "description": "sql-string-concatenation (inserted sql-string-concatenation using parameter 'input') at line 225."
+    }
+  ]
+}

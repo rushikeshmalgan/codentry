@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-semver-comparator-l03",
+  "stratum": "mutant:logic",
+  "language": "javascript",
+  "license": "ISC",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:drop-guard",
+    "seed": 4100421573108212523,
+    "origin": {
+      "url": "https://github.com/npm/node-semver",
+      "commit": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+      "path": "classes/comparator.js"
+    }
+  },
+  "files": [
+    {
+      "path": "classes/comparator.js",
+      "status": "modified",
+      "base": "base/classes/comparator.js",
+      "head": "head/classes/comparator.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "classes/comparator.js",
+      "start_line": 123,
+      "end_line": 123,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:drop-guard"
+        }
+      ],
+      "description": "drop-guard (guard removed) at line 123. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

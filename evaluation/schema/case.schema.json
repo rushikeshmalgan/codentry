@@ -47,7 +47,18 @@
           "properties": {
             "kind": { "const": "generated" },
             "generator": { "type": "string", "minLength": 1 },
-            "seed": { "type": "integer" }
+            "seed": { "type": "integer" },
+            "origin": {
+              "description": "The real file the generator started from.",
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["url", "commit", "path"],
+              "properties": {
+                "url": { "type": "string", "pattern": "^https://" },
+                "commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+                "path": { "$ref": "#/$defs/relative_path" }
+              }
+            }
           }
         },
         {
@@ -140,6 +151,10 @@
               "ref": { "type": "string", "minLength": 1 }
             }
           }
+        },
+        "equivalence": {
+          "description": "Mutation-seeded defects only: whether the mutant is known to change behavior. `unchecked` means nobody has shown it is not semantically equivalent to the original, so some of these 'defects' may not be defects.",
+          "enum": ["unchecked"]
         },
         "description": { "type": "string", "maxLength": 500 }
       }

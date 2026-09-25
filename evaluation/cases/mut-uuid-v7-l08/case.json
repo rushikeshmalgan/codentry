@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-uuid-v7-l08",
+  "stratum": "mutant:logic",
+  "language": "typescript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:equality-flip",
+    "seed": 8570202702821329925,
+    "origin": {
+      "url": "https://github.com/uuidjs/uuid",
+      "commit": "dd8c173521bb3faacb11ff244233df4a0dcde545",
+      "path": "src/v7.ts"
+    }
+  },
+  "files": [
+    {
+      "path": "src/v7.ts",
+      "status": "modified",
+      "base": "base/src/v7.ts",
+      "head": "head/src/v7.ts"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "src/v7.ts",
+      "start_line": 68,
+      "end_line": 68,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:equality-flip"
+        }
+      ],
+      "description": "equality-flip (=== -> !==) at line 68. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

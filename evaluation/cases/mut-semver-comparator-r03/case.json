@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "mut-semver-comparator-r03",
+  "stratum": "mutant:rule-aligned",
+  "language": "javascript",
+  "license": "ISC",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:sql-string-concatenation",
+    "seed": 5212461409467562988,
+    "origin": {
+      "url": "https://github.com/npm/node-semver",
+      "commit": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+      "path": "classes/comparator.js"
+    }
+  },
+  "files": [
+    {
+      "path": "classes/comparator.js",
+      "status": "modified",
+      "base": "base/classes/comparator.js",
+      "head": "head/classes/comparator.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "classes/comparator.js",
+      "start_line": 80,
+      "end_line": 80,
+      "kind": "security",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:sql-string-concatenation"
+        }
+      ],
+      "description": "sql-string-concatenation (inserted sql-string-concatenation using parameter 'comp') at line 80."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "mut-validator-isdate-r01",
+  "stratum": "mutant:rule-aligned",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:innerhtml-assignment",
+    "seed": 3719272347656656693,
+    "origin": {
+      "url": "https://github.com/validatorjs/validator.js",
+      "commit": "9ff342479591ca5a43cb30000195bcf55c1bbed9",
+      "path": "src/lib/isDate.js"
+    }
+  },
+  "files": [
+    {
+      "path": "src/lib/isDate.js",
+      "status": "modified",
+      "base": "base/src/lib/isDate.js",
+      "head": "head/src/lib/isDate.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "src/lib/isDate.js",
+      "start_line": 89,
+      "end_line": 89,
+      "kind": "security",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:innerhtml-assignment"
+        }
+      ],
+      "description": "innerhtml-assignment (inserted innerhtml-assignment using parameter 'input') at line 89."
+    }
+  ]
+}

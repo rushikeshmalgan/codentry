@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-semver-outside-l10",
+  "stratum": "mutant:logic",
+  "language": "javascript",
+  "license": "ISC",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:off-by-one",
+    "seed": 1907226847427675413,
+    "origin": {
+      "url": "https://github.com/npm/node-semver",
+      "commit": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+      "path": "ranges/outside.js"
+    }
+  },
+  "files": [
+    {
+      "path": "ranges/outside.js",
+      "status": "modified",
+      "base": "base/ranges/outside.js",
+      "head": "head/ranges/outside.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "ranges/outside.js",
+      "start_line": 45,
+      "end_line": 45,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:off-by-one"
+        }
+      ],
+      "description": "off-by-one (length -> length - 1) at line 45. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

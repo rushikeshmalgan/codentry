@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "mut-minimist-index-l03",
+  "stratum": "mutant:logic",
+  "language": "javascript",
+  "license": "MIT",
+  "source": {
+    "kind": "generated",
+    "generator": "codentry-mutate/1:equality-flip",
+    "seed": 3613631169550216605,
+    "origin": {
+      "url": "https://github.com/minimistjs/minimist",
+      "commit": "ecfdaea23e7931c0d529c52b743c711c3278a8ce",
+      "path": "index.js"
+    }
+  },
+  "files": [
+    {
+      "path": "index.js",
+      "status": "modified",
+      "base": "base/index.js",
+      "head": "head/index.js"
+    }
+  ],
+  "ground_truth": [
+    {
+      "file": "index.js",
+      "start_line": 32,
+      "end_line": 32,
+      "kind": "logic",
+      "provenance": "mutation",
+      "verified_by": [
+        {
+          "method": "construction",
+          "ref": "codentry-mutate/1:equality-flip"
+        }
+      ],
+      "description": "equality-flip (=== -> !==) at line 32. Equivalence unchecked.",
+      "equivalence": "unchecked"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+# Vendored third-party files are hashed byte for byte (manifest.json). Never let git
+# convert their line endings: a Windows checkout with core.autocrlf=true would
+# otherwise change the bytes and break the recorded SHA-256.
+* -text
