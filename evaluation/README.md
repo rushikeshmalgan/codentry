@@ -1,15 +1,28 @@
 # evaluation/
 
-The offline evaluation harness. **Status: Days 1–3 of the plan.**
+The offline evaluation harness. **Status: Days 1–4 complete; Day 5's gate checked
+(did not open); first real numbers exist.**
 
 - **Day 1** — a deterministic pipeline from a case directory, through Arm A (static
   analysis), to a metrics record.
 - **Day 2** — a seeded generator of mutation cases over third-party open-source code.
 - **Day 3** — real-defect cases (BugsJS fixes, reversed), pull requests for noise
   measurement, and a labeling protocol with a calibration round ready for two people.
+- **Day 4** — the full Arm A run over all 237 cases, the identity-stability experiment,
+  and the first report: [`reports/2026-10-02-arm-a.md`](reports/2026-10-02-arm-a.md)
+  (+ `.json`). Headline: recall at k=2 is **1.6%** on mutation-seeded logic defects and
+  **3.3%** on real BugsJS bugs (both as the plan predicted for a six-rule ruleset);
+  **100%** on rule-aligned injections (by construction, reported separately); identity
+  survived a line shift and a whitespace edit on **877/877** real findings. The 30-item
+  adjudication sample is built (`labeling/calibration/main-01.*`) but **not labeled**.
+- **Day 5** — the AI-arm gate was checked: it did not open (no labels in use yet, no
+  spending-capped API key). [`../docs/AI_ARM_DESIGN_AND_COST.md`](../docs/AI_ARM_DESIGN_AND_COST.md)
+  is the alternative deliverable the plan asks for instead: the full Arm B design and a
+  cost estimate.
 
-There is **no AI arm, no aggregate report, and no measured result.** `cases/` holds
-237 cases in four families, always reported separately, never pooled:
+There is **no AI arm and no precision/false-positive number yet** — both need the
+labeling in `labeling/` to actually happen. `cases/` holds 237 cases in four families,
+always reported separately, never pooled:
 
 | Prefix | Stratum | Count | What it is | Ground truth |
 |---|---|---|---|---|
@@ -68,6 +81,9 @@ evaluation/
   record.py                 per-case result record: findings + how they score
   metrics/matching.py       finding ↔ defect matching, ±k tolerance, duplicates
   metrics/stats.py          Wilson interval, exact McNemar, Cohen's kappa, seeded bootstrap
+  metrics/report.py         Day 4: aggregates a run into reports/<name>.md + .json
+  identity_stability.py     Day 4: does identity survive a line shift / whitespace edit?
+  repro.py                  Day 4: does a run, and its report, still reproduce?
   run.py                    the CLI
   datasets/                 provenance — see below (manifests, vendored sources, license texts)
   generators/               the seeded mutation engine (Day 2)
@@ -188,6 +204,53 @@ PYTHONPATH=services/ai-review python -m evaluation.labeling.agreement \
     --b evaluation/labeling/labels/calibration-01.labeler-b.csv
 ```
 
+## Day 4 — full run, report, identity stability, reproducibility
+
+```bash
+# the full run (≈ 1-1.5 hours on a laptop: 237 cases, Semgrep starts twice per case)
+PYTHONPATH=services/ai-review python -m evaluation.run --arm A \
+    --cases evaluation/cases --out evaluation/reports/runs/<name> --timing
+
+# the identity-stability experiment (real bug-*/pr-* files; a few minutes)
+PYTHONPATH=services/ai-review python -m evaluation.identity_stability \
+    --cases evaluation/cases --out evaluation/reports/runs/<name>/identity-stability.json
+
+# the report: Markdown + JSON, a pure function of the two files above
+PYTHONPATH=services/ai-review python -m evaluation.metrics.report \
+    --run evaluation/reports/runs/<name> \
+    --identity-stability evaluation/reports/runs/<name>/identity-stability.json \
+    --out-dir evaluation/reports --name <date>-arm-a
+
+# does it all still reproduce?
+PYTHONPATH=services/ai-review python -m evaluation.repro \
+    --run evaluation/reports/runs/<name> --cases evaluation/cases \
+    --report-md evaluation/reports/<date>-arm-a.md \
+    --report-json evaluation/reports/<date>-arm-a.json \
+    --identity-stability evaluation/reports/runs/<name>/identity-stability.json
+```
+
+`report.py` groups by stratum (never pooled), prints every proportion with its 95%
+Wilson interval, excludes `fixture:*` cases from evidence, and ends with a dated
+limitations block and the exact case list behind every number. It computes **no
+precision and no false-positives-per-pull-request**: those need the adjudication in
+`labeling/`, which is not done (see above). `repro.py` re-runs Arm A into a temporary
+directory and diffs it against a recorded `run.json`, then checks the report
+regenerates byte for byte from the recorded files — two independent reproducibility
+checks, either of which can be skipped (`--no-rerun`, or omit `--report-md`).
+
+**Status: run for real on 2 October 2026.** `evaluation/reports/runs/arm-a-2026-10-02`
+is the recorded run (236/237 cases completed; `mut-plimit-index-l10` hit a Semgrep
+timeout and is excluded from every metric); `evaluation/reports/2026-10-02-arm-a.md` +
+`.json` is the report. The cheap reproducibility check (`--no-rerun`, report only)
+passes. The expensive one (re-running Arm A over all 237 cases a second time, another
+~75–90 minutes) was **not** run against this full corpus — it is exercised by the test
+suite on the two fast fixtures, where it passes; running it on the full corpus is a
+documented gap, not a skipped step nobody mentions. (An earlier attempt at the full run
+was interrupted by the host session ending mid-run — the analysis subprocesses were
+killed uncleanly, a teardown artifact, not a code bug — and was redone from scratch.)
+`evaluation/reports/runs/` and other dated reports under `evaluation/reports/` may
+appear from later or partial runs; **only a run this README names by date is evidence.**
+
 ## What a run writes
 
 - `<out>/<case-id>/result.json` — the arm's findings (every `new` / `existing` /
@@ -196,11 +259,14 @@ PYTHONPATH=services/ai-review python -m evaluation.labeling.agreement \
   baseline-config SHA-256, case-manifest hash, seed, git commit and whether the
   working tree was dirty, per-case result hashes, and `results_sha256` over all
   results.
+- `<out>/timing.json` — **only with `--timing`**: wall-clock seconds per case. Never
+  affects the bytes of the two files above; latency varies between runs by nature,
+  so it is kept outside everything the byte-identity guarantee covers.
 
-Both are canonical JSON with **no timestamps, durations or absolute paths**, so
-two runs on one machine are byte-identical and `results_sha256` is the one number
-to compare. (Verified: the test suite runs the CLI twice as a subprocess and
-compares every byte.) Latency, when it is measured, will go in a separate file.
+`result.json` and `run.json` are canonical JSON with **no timestamps, durations or
+absolute paths**, so two runs on one machine are byte-identical and `results_sha256`
+is the one number to compare. (Verified: the test suite runs the CLI twice as a
+subprocess and compares every byte, with and without `--timing`.)
 
 ## Definitions
 

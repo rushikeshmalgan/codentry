@@ -1,0 +1,213 @@
+{
+  "analysis_meta": {
+    "base": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "differential": {
+      "diff_sources": {
+        "difflib": 1
+      },
+      "existing": 3,
+      "fixed": 0,
+      "moved": 0,
+      "new": 0,
+      "unclassified": 0
+    },
+    "head": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "incomplete_reasons": [],
+    "snapshot": {
+      "base_sha": "d50553e7f20181645465c5f1ceed6c9fba356528",
+      "changed_files_total": 1,
+      "files_selected": 1,
+      "head_sha": "36545fb147f554ccc303b2a2d41ba7e533bd3020",
+      "merge_base_sha": "d50553e7f20181645465c5f1ceed6c9fba356528",
+      "skipped_by_reason": {}
+    }
+  },
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "case_id": "bug-hexo-12",
+  "counts": {
+    "changed_lines": 2,
+    "existing": 3,
+    "findings": 3,
+    "fixed": 0,
+    "ground_truth_defects": 1,
+    "ground_truth_locations": 2,
+    "new": 0,
+    "reported": 0,
+    "reported_duplicates": 0,
+    "unclassified": 0
+  },
+  "error_code": null,
+  "findings": [
+    {
+      "base_start_line": 22,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "39a78ec5b7f8c2c2d9f1df96d536841015d8ecc11a492fc1f56aa4ac9f5716b2",
+      "description": "Unnecessary escape character: \\!.",
+      "end_line": 22,
+      "evidence_span": null,
+      "file_path": "lib/hexo/post.js",
+      "identity_key": "b3c673ce05f496d809f31d13ef76a13ab5cf7b6e38318b6a0c849a04adef2bc4",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 22,
+      "suggestion": null,
+      "title": "no-useless-escape"
+    },
+    {
+      "base_start_line": 98,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "76cb6dc2426754aa3d60bab4da9299c5910704d2bec2cce639f66c01d711b1a1",
+      "description": "Do not access Object.prototype method 'hasOwnProperty' from target object.",
+      "end_line": 98,
+      "evidence_span": null,
+      "file_path": "lib/hexo/post.js",
+      "identity_key": "37d0cbd2040b5dcd705e7a9b0d37e949bb8a0e056b7a5ccf3d6181f9a01993c4",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 98,
+      "suggestion": null,
+      "title": "no-prototype-builtins"
+    },
+    {
+      "base_start_line": 259,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "b4b52be78032ff462fb69a892b7c1377442788cb97f336533432f09c5692bdee",
+      "description": "'callback' is defined but never used.",
+      "end_line": 259,
+      "evidence_span": null,
+      "file_path": "lib/hexo/post.js",
+      "identity_key": "57c5165ba3c551ae74faf498ba19d16618927bc01f1b47b46a4dea007f96ffcd",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 259,
+      "suggestion": null,
+      "title": "no-unused-vars"
+    }
+  ],
+  "findings_per_changed_line": 0.0,
+  "ground_truth": [
+    {
+      "end_line": 50,
+      "file": "lib/hexo/post.js",
+      "group": "bugsjs-hexo-12",
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "start_line": 50
+    },
+    {
+      "end_line": 207,
+      "file": "lib/hexo/post.js",
+      "group": "bugsjs-hexo-12",
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "start_line": 207
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "match": {
+    "0": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 2,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "bugsjs-hexo-12"
+      ],
+      "precision": null,
+      "recall": 0.0,
+      "reported": 0,
+      "tolerance": 0,
+      "unmatched_finding_indices": []
+    },
+    "2": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 2,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "bugsjs-hexo-12"
+      ],
+      "precision": null,
+      "recall": 0.0,
+      "reported": 0,
+      "tolerance": 2,
+      "unmatched_finding_indices": []
+    },
+    "5": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 2,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "bugsjs-hexo-12"
+      ],
+      "precision": null,
+      "recall": 0.0,
+      "reported": 0,
+      "tolerance": 5,
+      "unmatched_finding_indices": []
+    }
+  },
+  "reported_policy": "change_status == 'new'",
+  "schema": "codentry.eval.result/2",
+  "status": "completed",
+  "stratum": "real:bugsjs"
+}

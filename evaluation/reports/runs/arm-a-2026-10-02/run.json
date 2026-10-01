@@ -1,0 +1,2407 @@
+{
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "case_count": 237,
+  "case_manifest_sha256": "b16cd386b05049afb5d3249987cefa83def6889a6ffd78f60d791748f0857e5e",
+  "cases": [
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-bower-2",
+      "reported": 0,
+      "result_sha256": "f2e7c766e6d6233b8541b25f84b92c85fefa4c88e8a4e5372a5dfd92242d6cc4",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-bower-3",
+      "reported": 0,
+      "result_sha256": "f050b715c0ce603a2b66700cef8c5e6ad064800e1947d475906f18d6292a217d",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-eslint-212",
+      "reported": 0,
+      "result_sha256": "4641383e12928bc2707c147c1a66090cc1f6b3b300833f6b215a05f11396999f",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-eslint-290",
+      "reported": 0,
+      "result_sha256": "797d238a80097bd5181de5ccc234432cfd3085755225a08177488156577a83dd",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-eslint-3",
+      "reported": 0,
+      "result_sha256": "9b86d4b7c74b4be65104547a109f28e4d97fa10ea5bb73227ed1fc69a6105908",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-eslint-311",
+      "reported": 0,
+      "result_sha256": "a0c123c3fcb98d1af3d6c80ed32ac28e3eba837decfda18ee4305e011a672874",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-eslint-39",
+      "reported": 0,
+      "result_sha256": "8be925209c55d09b3f22ea5aba601c9dabf21c99f0cf7be7d53c9b92189ed3c7",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-eslint-67",
+      "reported": 0,
+      "result_sha256": "d949da1280a665fdd38a80d1a7da2cdbe51d332e8af9a6813329c0cbc9a39d57",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-express-15",
+      "reported": 0,
+      "result_sha256": "f737ef0368b21c2d53d801eeb44cf4a0b5679bd97f3ce84e2feaea05da94d345",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-express-16",
+      "reported": 0,
+      "result_sha256": "ab93862a217d982dbcf082647048b9c555a1fc5efad4a3fe24637e634e578990",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-express-17",
+      "reported": 0,
+      "result_sha256": "6df6a691b37c106a38dff62d99775208705fe26b8d1cfb55865e2e1eedd5cd2c",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-express-24",
+      "reported": 0,
+      "result_sha256": "d0361db30b33f0a5e0b84522a2f7b0fe6ad987bbe1e956f4df2d124b34d667c2",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-express-26",
+      "reported": 0,
+      "result_sha256": "1b632a3b236a0e5f3028a38d7a547e8ba64c90bc6559032430086584169a6cdd",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-express-4",
+      "reported": 0,
+      "result_sha256": "9918a40e3a1c4f50f04a9ec3658346dc9b2c58d726d66f96040499434b440194",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-express-5",
+      "reported": 0,
+      "result_sha256": "95b6708d40436a96bc36aa526bae5a2cda6beb81b36413206bd27e1e03a2f00c",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-express-9",
+      "reported": 0,
+      "result_sha256": "bd102bbf290ba625a4d173e9fb0c74bff21c56389a066c4a606c0831f95ba194",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-hessian.js-4",
+      "reported": 0,
+      "result_sha256": "898783bd05d3d83b49e24064cc73afff053e370b134476e99ab2ca512a81aa62",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-hessian.js-9",
+      "reported": 0,
+      "result_sha256": "5af0e3070856d77008abf034c205cf34642581e99a96542b1338499f15ecb64d",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-hexo-1",
+      "reported": 0,
+      "result_sha256": "879ed3775c9b9b5ebc81f107befa591dda5059f00389d4b407c789ecf6270d5a",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-hexo-12",
+      "reported": 0,
+      "result_sha256": "52770f1bf19803f8cc5dd3b25001017389c46e9e23eb3570517d088525df8a7f",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-hexo-4",
+      "reported": 0,
+      "result_sha256": "e4f0a5211abc015290a88da156370854dd36b119e5ff594f7fa3fe891a807ac5",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-hexo-7",
+      "reported": 0,
+      "result_sha256": "c5985faff2b74bf3ceb190ec62415942c28333e92bbd49722a55591eeac81bf1",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-hexo-8",
+      "reported": 0,
+      "result_sha256": "7827cdf239580e746c5b26bbafe968fb730359c0e0177f3948053b21a4b0f152",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-karma-14",
+      "reported": 0,
+      "result_sha256": "2b062908640ca9485f3bfcd4f5eabe15fce66a65a3efd43d12892c8fb10fd6a4",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-karma-20",
+      "reported": 0,
+      "result_sha256": "7ebbbe5ad4d4497dbdebb22c9b3d6285d965b392e0ac3755103e589ca48ffbf7",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-karma-21",
+      "reported": 0,
+      "result_sha256": "84230555f97d39804b97371d80958ade878c66ac76dbae0d7eab257752a3facc",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-karma-4",
+      "reported": 0,
+      "result_sha256": "a12b0fb7b939233e946d883e30120bc09de9116afa4964081b808e2d2258b761",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-karma-6",
+      "reported": 0,
+      "result_sha256": "921b194674e10e0bfd6e0377f88cc5d57e1e6d35c004cbf682804a232b4972fb",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-karma-9",
+      "reported": 3,
+      "result_sha256": "0fb784b66145ef341028837c8a327b272e5e1096a89c274d3e571ca9fef4708d",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "bug-shields-1",
+      "reported": 0,
+      "result_sha256": "b4b9abcf06c31cff4fa1fb4a2efa235e7c434e320c5984368db15bc94da84174",
+      "status": "completed",
+      "stratum": "real:bugsjs"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 2,
+      "ground_truth_status": "labeled",
+      "id": "fx-001-new-eval-with-existing-noise",
+      "reported": 2,
+      "result_sha256": "0c73553fd62a4fc4c711d2fc7aeba5e0494f964540c288215fa7a931bcd9e063",
+      "status": "completed",
+      "stratum": "fixture:new-and-existing"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "labeled",
+      "id": "fx-002-renamed-shifted-preexisting-eval",
+      "reported": 0,
+      "result_sha256": "3c39426d17685288f60198cd014d174cbedf80a3e98f611a9c6477e2084f3b7e",
+      "status": "completed",
+      "stratum": "fixture:clean-change"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-l01",
+      "reported": 0,
+      "result_sha256": "127b588dfb14ff6eb1d6f1f4b8ad014dd42abf7311b68e0e5912db272a49735d",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-l02",
+      "reported": 0,
+      "result_sha256": "155c0f6ce057909b020411d6d0852dd90e0923e6a9fa9103698c9d8e88c444e2",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-l03",
+      "reported": 0,
+      "result_sha256": "b8254bc48c62a3d7a9ce5f8fd930b734a7921985199725004d250da30ab3e2e5",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-l04",
+      "reported": 0,
+      "result_sha256": "b7546e87522355af4b08e90d0fe2a9cd6c1b66cb471d78977f18d50614132bc4",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-l05",
+      "reported": 0,
+      "result_sha256": "c643fccca07c98327a39926d726512bae60066858bbbf74797e06466456d1400",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-l06",
+      "reported": 0,
+      "result_sha256": "fef54d00f73cbf9baec988686b9b8043e9f7a65d0d8d7f1951dd7e35fe183635",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-l07",
+      "reported": 0,
+      "result_sha256": "bf193d69d8b2fac70fc24aa4005436230077de8b396eb1a82b8d7cf9218bdc57",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-l08",
+      "reported": 0,
+      "result_sha256": "3463d968b3ca1ce7238312d0d704348b4e6e7431a4ff0ef370773cc2627c06d8",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-l09",
+      "reported": 0,
+      "result_sha256": "d70ca02ed72a672d0b8f43d58ad45c543a4a8664fd074745c5291f15c7abe087",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-l10",
+      "reported": 0,
+      "result_sha256": "3f2d5594917a25bd1c0ce270a02a464ded978f88e678c384ea9dc963d45ad5fa",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-r01",
+      "reported": 1,
+      "result_sha256": "70e0e2a8386d267cbcc7c57d28073c5c2ca60dd9fdffa296ce9dc8d95ef206d7",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-r02",
+      "reported": 1,
+      "result_sha256": "cab38b88bd83025cf52dc626b8c91c3b0ce4342f7b2ec98f64effda3e8cc27d5",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-minimist-index-r03",
+      "reported": 1,
+      "result_sha256": "ccfe2ca698e3ed15045ff4766846a4b960594f9f4fba30cc2d86e5747965c19c",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-l01",
+      "reported": 0,
+      "result_sha256": "19fae6c094e1ece6dde8bb579e790c21587aa682d1af263e574f07e43dfd218c",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-l02",
+      "reported": 0,
+      "result_sha256": "cfa4bc428f8d74de8198e7cee05e976cb8f04a52145a43fc0c7f6f7fbdd654e2",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-l03",
+      "reported": 0,
+      "result_sha256": "852e2c2044d2268c640a20379f98f7b51a2c775ab0bde1e4f9d82f0eb8d0a9ec",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-l04",
+      "reported": 0,
+      "result_sha256": "d91a89f511b5dabe84f6b7faca06996baa1921280e7729cf2ed3f56a4807c4a2",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-l05",
+      "reported": 0,
+      "result_sha256": "03f47c146e1ac6362886173e2b87a5373954fb6e1f10f6ec3cd166bf02304e9b",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-l06",
+      "reported": 0,
+      "result_sha256": "3d3bb9a98f2db6f4afb77774844803d1655408758b2b9cbb174ee377b8466617",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-l07",
+      "reported": 0,
+      "result_sha256": "365642c4a16b3a0fc98d66e34f41acc7b2ab563682431d0401ffa61a99e1091b",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-l08",
+      "reported": 0,
+      "result_sha256": "bda4b12fca0f4ee6fb949bf6e1e07c17d94c0444d56fa8d2a85f903e1cfaa176",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-l09",
+      "reported": 0,
+      "result_sha256": "9b6245eed83f1d37f0b5511f40b9615a0eba53e300657e2fc81e25be6c313a32",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-l10",
+      "reported": 0,
+      "result_sha256": "61818e32be85a9456091d1dbb3ef415562069094f7feb999dbaf112bdb770643",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-r01",
+      "reported": 1,
+      "result_sha256": "dfef15d34b2a2f2fb492d9e62161e8cd3c29c7edde0fc76fa2e50736369f54cf",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-r02",
+      "reported": 1,
+      "result_sha256": "9d7d693f6b8a60adde2a8979192247e9cf6b8228030c63c6450a34b65a8a2f7c",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-ms-index-r03",
+      "reported": 1,
+      "result_sha256": "b8e619c78fa502c18e2813b0f2dd4d83962862f04215548577cf5baf17642267",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-l01",
+      "reported": 0,
+      "result_sha256": "7953b0414ee0eca35e2823bd634559d3a111473a3ba78251730d7a29a7cf564d",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-l02",
+      "reported": 0,
+      "result_sha256": "b13a401b2911b141786c0e13dd494756e2c7e2c3da83b6986aef42d069a0f4d8",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-l03",
+      "reported": 0,
+      "result_sha256": "960da10e397b46073838f4ee86c3ece488f7b79edecc7ec7ea904d6af8d6382e",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-l04",
+      "reported": 0,
+      "result_sha256": "3a762d4531a44e3f3885b09eeff8aa8c83dfcecf981a48f672d9b5945118654c",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-l05",
+      "reported": 0,
+      "result_sha256": "d098e656d5556f1dfe1ec392285e52604d8ed0fa44df5d312c45444c82faf0de",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-l06",
+      "reported": 0,
+      "result_sha256": "e255b54235f6dc5f43c0d695c140dda586250bec67850c8a50ea6920aedacd77",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-l07",
+      "reported": 1,
+      "result_sha256": "9a8765e2ae29360f341bd81683f350abdee3ca9523a8cb0a7188dad03938c3f1",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-l08",
+      "reported": 0,
+      "result_sha256": "dd36941fd6cc133d30353b8d62109e727074b016dff4acfc9bfedfeaf4715057",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-l09",
+      "reported": 0,
+      "result_sha256": "a2fb857cd901ae3e0d9cdde9f91a213685e0d2adf282291450ba531f69e499fc",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-l10",
+      "reported": 0,
+      "result_sha256": "3849e76bd28955b663e498672075121cefb28e5501f05075577d0aab03d3c02a",
+      "status": "partial",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-r01",
+      "reported": 1,
+      "result_sha256": "c99746cb33a66cc0076868e220dcb2e4814db35dece2648a0deb1269634f298b",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-r02",
+      "reported": 1,
+      "result_sha256": "dd2a5eb486fb6489f14a4961875a3a9e7474ad3d0e2f24c76a85b847e52ae778",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-plimit-index-r03",
+      "reported": 1,
+      "result_sha256": "781d46b0b92931f95ed6b8b8fe32d718fa8c68a24a585c9176a390770c5ebecb",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-l01",
+      "reported": 0,
+      "result_sha256": "e9b9501872767da752c0de09771da7b4e0e7d120e232a097ded10766708f3abe",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-l02",
+      "reported": 0,
+      "result_sha256": "c0b63c3827e76b8e3f4a7fc922cc5a2655f2f337c324c394ecdc756c8ca0da9f",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-l03",
+      "reported": 0,
+      "result_sha256": "fe6c3b643e2a3a451967dc3f33c6a18b4e3997c592c3593eee3832a5ebfdd40a",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-l04",
+      "reported": 0,
+      "result_sha256": "2959ec7ccd8777fd0c88400cfbcd83a610f605eefa4de05d5dab45cd3cc541c6",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-l05",
+      "reported": 0,
+      "result_sha256": "8f4eaf9ce9e8447b39d2e3dd65492245c6e88c314a782fb25234a1e5957547d5",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-l06",
+      "reported": 0,
+      "result_sha256": "89aec7344726e64831a4386cadb6d14a9f4b7a14b5ed08b57f906841908c0f1b",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-l07",
+      "reported": 0,
+      "result_sha256": "6f7f0d5b25ef1161eb93c024d5b29d4d88501e297d21463762e694d0dc1cc52e",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-l08",
+      "reported": 0,
+      "result_sha256": "23f733919bf1d73c8f6601e5ad23843b0a83ad94613bca1d0a637a90509a093c",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-l09",
+      "reported": 0,
+      "result_sha256": "3e107d4fc63e039cbc538e168e3c3acb8cfbfaf22ec4a08db36e36aad79177a7",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-l10",
+      "reported": 0,
+      "result_sha256": "67b9ed6659e61fc861c0b7672f35b1ba0559f2bbdb573ac9fe5d267cbbd5acc9",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-r01",
+      "reported": 1,
+      "result_sha256": "3cb8752ea2e817a07f09b9ce133dba44b371d2658e55de200645e0f08f06ca3f",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-r02",
+      "reported": 1,
+      "result_sha256": "147941c34b1bc30c7b21065756edf0715371328c80091f5a532b3152d1a5d601",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-pretry-index-r03",
+      "reported": 1,
+      "result_sha256": "817d89627480ded449e7ba57965cb352bb5903077cbecc882f8aa0158d3265da",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-l01",
+      "reported": 0,
+      "result_sha256": "a4c2532ce39f4dfc2be09ef6a064321e76cd34906f94a99e60e4d8b5fdfb7c5b",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-l02",
+      "reported": 0,
+      "result_sha256": "b664f944eacadf8a4efe97a500c20095fe4294325fdcb82ddff608b6fb3c8b13",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-l03",
+      "reported": 0,
+      "result_sha256": "c90deaff30264ed627a0dba80800b180c93e27ffa93599682542f5415ab70e0f",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-l04",
+      "reported": 0,
+      "result_sha256": "bbdb122b127a018259ce45a63b7f0f3decb3abfaa561f8bc683b4b36c4e3068f",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-l05",
+      "reported": 0,
+      "result_sha256": "a363da1f772267d3d141405c2cf57d954d9b2989b117976252af727bfcdb4d1e",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-l06",
+      "reported": 0,
+      "result_sha256": "8f5468ff70344cfe0e0d3fda12337bb7d60c0c0e3bbf7030696b2312585ceb41",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-l07",
+      "reported": 0,
+      "result_sha256": "ab6e24c4d945b636b9d472ce643de650db2a51f95cd72ea0ebafd7e7d27e8ad8",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-l08",
+      "reported": 0,
+      "result_sha256": "506d2e403e79993bbd57e8aa03f37eb40f031d37d8820dac234fff7ba0bd98b7",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-l09",
+      "reported": 0,
+      "result_sha256": "2572bdd442e48c1061be7fa77a264171c50e034114f40a92f36218022cec50c1",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-l10",
+      "reported": 0,
+      "result_sha256": "75efcb5f9dacf60bffedb2d9736bb9221e83805a947d9a3d778d9548494f8662",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-r01",
+      "reported": 1,
+      "result_sha256": "5486e8272b21a0b8d3b0b82dd35f1a425f71ab43a684ea1372299210381f3dc8",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-r02",
+      "reported": 1,
+      "result_sha256": "905db4832dee6e8191a7072f39db3d76b6f987e952d91edadb5af9d987a321fa",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-coerce-r03",
+      "reported": 1,
+      "result_sha256": "369ba4e51a8ba027e1d3c30d63d9a9c013370f68b05f4b34d5cb6e7884782d5a",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-l01",
+      "reported": 0,
+      "result_sha256": "1e267fc44853acf2e0d22f15fc1d21272bd0c5b2678d19fcff69a820525690e1",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-l02",
+      "reported": 0,
+      "result_sha256": "ce167592b1af198aea609ea33784c652bf992d34da7ef1e9f61589faed8cda8f",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-l03",
+      "reported": 0,
+      "result_sha256": "0c595c1d2c8df4f68d89c68ef2308230562097fb1bc285bd45918fe350609580",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-l04",
+      "reported": 0,
+      "result_sha256": "ac7c899823b16c7cef0a513c455f2cc81c28945f646bcc2d90eccec61be5bb33",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-l05",
+      "reported": 0,
+      "result_sha256": "1bb167bbecd7a6aa75cc0512de144ee3d772e3bd30754e862839d3b663a74844",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-l06",
+      "reported": 0,
+      "result_sha256": "d905ef98f61cdb5ed61f2347e758ce1b24e1c88e51875530e21f69e9a65e79b7",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-l07",
+      "reported": 0,
+      "result_sha256": "c4e4d1a65f3adcb1520e0e66c6086e4ab0418bae9e8743ccbb4f3c7fb0191189",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-l08",
+      "reported": 0,
+      "result_sha256": "ced9f7ad0d5f1386e02330a9926dfb96693f8cf94e1fc4d62ffa7cb2441fcb1e",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-l09",
+      "reported": 0,
+      "result_sha256": "a56ffcfffd3d249722a258fad000ae8e16491c9cb9a69ca17d73d5a0d5c05410",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-l10",
+      "reported": 0,
+      "result_sha256": "6b2bfbd19ba5c38c75bc2860274a067aefc3f31e149e38852623ea7985630c27",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-r01",
+      "reported": 1,
+      "result_sha256": "787232e4e040b272343ffed124b73ee9c38f50f933047212381bedde67989016",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-r02",
+      "reported": 1,
+      "result_sha256": "ff33cd4330e4774a439e0580da3187b2f511db224f1472287994e08c3c96b36c",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-comparator-r03",
+      "reported": 1,
+      "result_sha256": "e3560c43830154950c8a8d9039d8d2e7b575817bc7aeda38b7391f97f1842b7a",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-l01",
+      "reported": 0,
+      "result_sha256": "e863da86236d012e4e761a6164c271153d588c4c76f8faefbe7f77019a2822f1",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-l02",
+      "reported": 0,
+      "result_sha256": "ffb92c43aae46901054590f16cf90a64a3a73a0a8cb2872e41b183d274d4b6fb",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-l03",
+      "reported": 0,
+      "result_sha256": "5b494a2a1edbca6cc0809d7a346411acee2b77d0a9b385ffbcb8b10df7f119ef",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-l04",
+      "reported": 0,
+      "result_sha256": "cf3108374ea9786faaeee9d902ce7de911ae57ae6f7b09640aa92f98cf95832a",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-l05",
+      "reported": 0,
+      "result_sha256": "d5c5f19cf7e35f04260398ecf76d02cab41d76640c848415ce600640bcf105dd",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-l06",
+      "reported": 0,
+      "result_sha256": "2c2b36738f8ff7a35317c012b73a7ae37e369fa68725fd7e025c5bcc9cada855",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-l07",
+      "reported": 0,
+      "result_sha256": "ecd650138d1da5871f5888003482bb254d4662c39d661b82d25d678824502cb4",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-l08",
+      "reported": 0,
+      "result_sha256": "628907b44fff32eb612528c6262643831090a6c8bb1c188846fb5f9e95b54864",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-l09",
+      "reported": 0,
+      "result_sha256": "56cbe607ebd5efc25dcda02758470351481781e4bc8355643d5511a8207af9fd",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-l10",
+      "reported": 0,
+      "result_sha256": "db71d9483566122d1109cdf0265303b51ebfcc8d975486473668d80ffa15476a",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-r01",
+      "reported": 1,
+      "result_sha256": "67e8b1b1fdde891e0109a24673dfe5ecc1ca00607d2fc11c5c2f21c8797695e0",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-r02",
+      "reported": 1,
+      "result_sha256": "c2e0c1f5038feffb858ad1f48013bd8fb6deb2b01e63789c38cf5651dc55acc1",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-semver-outside-r03",
+      "reported": 1,
+      "result_sha256": "036d9e626d38eb625d13f46085e574956701c9d7fa086787d16c9d4bfc79b5cc",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-l01",
+      "reported": 0,
+      "result_sha256": "39ad2446f7fe6361629861bfdee76c755f02f097ae5960e64ecca021b9c3c46d",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-l02",
+      "reported": 0,
+      "result_sha256": "7902a58d4d0017a0f179eee3581a014ad31510e62792d8146f5e79ca854c8004",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-l03",
+      "reported": 0,
+      "result_sha256": "30378700b2eba2ff6e9b68b958169ad5543d20da30a72698ba6c621758b39c65",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-l04",
+      "reported": 0,
+      "result_sha256": "fa462a8603556430a21b4b9b80c4bfb239638fece9fb950050ba4e93ecb23f85",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-l05",
+      "reported": 0,
+      "result_sha256": "eecef92c81240de792ab52510ba6f0e24b190f0364f65e58637ebb32ce7493bd",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-l06",
+      "reported": 0,
+      "result_sha256": "9afa95511a89701cb332721f107adb49a01688b071eeef2e18773ecc6ba849a5",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-l07",
+      "reported": 0,
+      "result_sha256": "7f58a2a40b7b952c4ac2e8959d55ced2559e0fb6f016cd268b31154228bbe99f",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-l08",
+      "reported": 0,
+      "result_sha256": "d2b0b5ba83069461d5493df741e5295edd88f838c3613722b744afec9f57779e",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-l09",
+      "reported": 0,
+      "result_sha256": "a3519e371ec0d4cd80fe619baddc384064f0024d3eff9ab3cf3fe3bcfec778e3",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-l10",
+      "reported": 0,
+      "result_sha256": "7a261923e2597a018860481a86828f6dbc4f9fd0c1953047101706da5d131832",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-r01",
+      "reported": 1,
+      "result_sha256": "ca9f9a3b88e4db609c5ac6f16795aff4bd37324ba1dd4b65ff7371d9e64796bb",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-r02",
+      "reported": 1,
+      "result_sha256": "9a2716bd88ef16f76614c7740ca16cd03ff34e92e59724334e0269c391e75f88",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v35-r03",
+      "reported": 1,
+      "result_sha256": "2892e4ae4ea51ab4733f832d7ad8bb49f67b8246317ce94d83614fb3dd69f421",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-l01",
+      "reported": 1,
+      "result_sha256": "6dc0e1600456a950ac39fffcbf36ac18a82ce967174b6293a59e3932cec2b7aa",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-l02",
+      "reported": 0,
+      "result_sha256": "de8aa3e942aefec71ac69093ea7eacef9678be46d1f5b9c017ea37eaddf7fa27",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-l03",
+      "reported": 0,
+      "result_sha256": "0783debf00288dba9c77e8e33fe0a16f38884a8077f667286ecebda522cdb1b5",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-l04",
+      "reported": 0,
+      "result_sha256": "9c6815f5e0abd56ead9c385eff538781e3cf794a34df913b1fb73d4045c83d95",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-l05",
+      "reported": 0,
+      "result_sha256": "b0fda9c96febe7563ae0bd31e48b0b6ee92b3e52377f85519a49cd27c11ae522",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-l06",
+      "reported": 0,
+      "result_sha256": "5843b8b8819d4b19ba3b43d6ec6ac085ab8a110035239c286308c0a9ab8adb5c",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-l07",
+      "reported": 0,
+      "result_sha256": "5fee1e622416b3b709e0a16aca4c72acd0d80b9c0c3c28ac7a1bcd3d99d038ba",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-l08",
+      "reported": 0,
+      "result_sha256": "8e1e117013e152a387fd3f6fa1d10c63458ec5d0ec3180bff110a7b318b57e70",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-l09",
+      "reported": 0,
+      "result_sha256": "f8a3960be722782a08e6ce52bc0877cce1a8292d4e670772767063329aa086cd",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-l10",
+      "reported": 0,
+      "result_sha256": "f8668ed9f3fa5583f45f61b44d546498cca67e2e44626e600b5ffca34e81a94d",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-r01",
+      "reported": 1,
+      "result_sha256": "f070fb4a403e0451eae281263995dd03d3ffb5ff90742d5001bc3f02fc0187c2",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-r02",
+      "reported": 1,
+      "result_sha256": "d588e25bfd4029966adcf716a8f12cc21664fdaada327b0b95e51120e7276b03",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-uuid-v7-r03",
+      "reported": 1,
+      "result_sha256": "a47cf550b9f37d7c4cd53924f62aaecf5833d9e7e85e7cf65ba67b68a7c6ff13",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-l01",
+      "reported": 0,
+      "result_sha256": "76f99b2ef9dbb0a3d8ab2a2e355381123fb652337d127774e3d203969fc2f509",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-l02",
+      "reported": 0,
+      "result_sha256": "c1593eaea177a97db1daae4645a6013cbb458a3eb4f8bfad16e91a95265ac71d",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-l03",
+      "reported": 0,
+      "result_sha256": "686a748575281fea052b85e7d95b8af777e323a70b6626bf09d0060543784bea",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-l04",
+      "reported": 0,
+      "result_sha256": "1a78979cd204d0ccb5e2991314bc9b14933846f62a0d88d27f013583c0e313d9",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-l05",
+      "reported": 0,
+      "result_sha256": "faaa4ddda8a79e2cef521a552c206c7bfca3e8aca2a3268f9e8274790ec18f7e",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-l06",
+      "reported": 0,
+      "result_sha256": "f6f3fc2005c4cdad7bb0f23de879023e1ead9a8f7cc1d21b6cc4da53663bacf3",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-l07",
+      "reported": 0,
+      "result_sha256": "568a48d222f6c9625d0f99222b65330c1b60f9f62979450d7b850a3661b3fd68",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-l08",
+      "reported": 0,
+      "result_sha256": "8f95e3e801f546101dcaf874b5b4bbc01ce81ead7c8c2360c16ad6ec9d93ba77",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-l09",
+      "reported": 0,
+      "result_sha256": "a953d172c2e80db50cddf76f7b9b7dca3eec9853405bd16f1cca24c9f87202e8",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-l10",
+      "reported": 0,
+      "result_sha256": "d8f2dc0d97bf8242997ca893f99e8b0c77a9c1d7bfdfd6c071cd83a5cdf1535c",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-r01",
+      "reported": 1,
+      "result_sha256": "3e4a8c1d862d50f78d8549c865d6e7695d21d14c4dbf3beb7f7aca2b2b59b6cd",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-r02",
+      "reported": 1,
+      "result_sha256": "0a23f958e24a27ff6a72bde86aad93e1b01e45cc11d2f04807e8b49138dfa9e7",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isdate-r03",
+      "reported": 1,
+      "result_sha256": "89a38f5b81f8b000a54b392a27ed1fdc54fcbe935279fbab287f92105ce3c154",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-l01",
+      "reported": 0,
+      "result_sha256": "3db914bccbca16f678ee81174a0875c495a1d17947642d6244e8c75fbe26356a",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-l02",
+      "reported": 0,
+      "result_sha256": "5defd5ae48ddabe53a036b7c3c2fbdb657d166a01b951dc977c33cc63ddae015",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-l03",
+      "reported": 0,
+      "result_sha256": "e0db80f733618a6e8772ed6381c5da8d4cb826582c06b0fd9adfecf5db5c55a0",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-l04",
+      "reported": 0,
+      "result_sha256": "8dec952bb036bb06e695c35aa8fc988f2d3aea08a3f09b33b851f458bf2184a4",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-l05",
+      "reported": 0,
+      "result_sha256": "b39df39a48ba081ec98aeb30edc4865d635ebec81196431f55b30aa35e2bd5f5",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-l06",
+      "reported": 0,
+      "result_sha256": "b1117994837ebb9060993bd0d468a3ec9f8062c873857fe000bc3216fa593a0f",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-l07",
+      "reported": 0,
+      "result_sha256": "f2ecc0ebd7a32ecbf8b7729a2968352e73d703ca2601db65e8fcb4036fae514a",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-l08",
+      "reported": 2,
+      "result_sha256": "ef68ac456cc9eb1268b883be4b7ddecb9268c85df7173399bd2979e0fe3f746b",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-l09",
+      "reported": 0,
+      "result_sha256": "dfee529ac4ea15bcfb5e59e6e1befc73dc59b0d75917ebba002ba5750d337e9c",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-l10",
+      "reported": 0,
+      "result_sha256": "7dca04990854501d8c4c97e6c212588c6b0563a11ed6103737b1b0631af4d842",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-r01",
+      "reported": 1,
+      "result_sha256": "fe3bd7837a33f1865401150ac53a66c2477595a3efd4c433dbb44fcac27c6a07",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-r02",
+      "reported": 1,
+      "result_sha256": "7d5341ee8130ad7418c79812ea129094c5b74038e3134c63ec9cda60ea224df7",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isean-r03",
+      "reported": 1,
+      "result_sha256": "b4a090b22ecee740e1903cdf24313043d84825bc1c76e9648bc698527570f189",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-l01",
+      "reported": 0,
+      "result_sha256": "ad1aee833dd6d345cae4ef2297beb86640fbf8dfd979214d650616930f7759e3",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-l02",
+      "reported": 0,
+      "result_sha256": "4685d1cdd31e780b0b4ebcbc85557a4bd3916bfea457577abf5db67b1a27ee0c",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-l03",
+      "reported": 0,
+      "result_sha256": "dcd91002549c8beae296c701e973eb11a9378d4d175831e546269f62e2992851",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-l04",
+      "reported": 0,
+      "result_sha256": "8a565d4de0025ca2606a9518ec7584aacb950f54fa2b1eaab0f28b5f0b4f3ceb",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-l05",
+      "reported": 0,
+      "result_sha256": "dcff81c198af1878ee564b1499cbb27201245a7bcf8a0253635ed173a8fe0acf",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-l06",
+      "reported": 0,
+      "result_sha256": "22bdc471a76148e7fb5ac38ce57f2145e5141ff84f40c8aabaf3be0132b97d16",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-l07",
+      "reported": 0,
+      "result_sha256": "b7f1a83ac01aa47ef314c3ad1d0d316e988aa24d21ee26d11316813f1544cb73",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-l08",
+      "reported": 0,
+      "result_sha256": "f42a75ccf9188982178c524788265c21ecd29ddc2b7435c9c87057c84220f179",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-l09",
+      "reported": 0,
+      "result_sha256": "7c006053118b6f8a3fe99357b8110a82387529932ee4b9f501cad398a315d196",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-l10",
+      "reported": 0,
+      "result_sha256": "9915689c3d0b428e4f20ff5d76dfe3045160eeca39f995686e10f25da701de70",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-r01",
+      "reported": 1,
+      "result_sha256": "73bec2511bc815277f1412cfab897a211255e9416df1e858483b45f3bf300895",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-r02",
+      "reported": 1,
+      "result_sha256": "d49a720ee958579949673e575938f44323ff413b9b11589e947541573b91fbed",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isfqdn-r03",
+      "reported": 1,
+      "result_sha256": "0a89c72ec9e889cea9f40bc493df5634765e158285db3f46f6d477fa5305b25b",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-l01",
+      "reported": 0,
+      "result_sha256": "23a3b83b7baaac26ccfa6d75d91eb95cca4766473a9543c76ce8f249cb7ca902",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-l02",
+      "reported": 0,
+      "result_sha256": "96f36617ea963ca87b8b7b4ee6ce2c15ff8dabc70d5ef811b6e6cb2378989c9c",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-l03",
+      "reported": 0,
+      "result_sha256": "f45a90889f3e0496261cb599fc83afe2c062753ce18377dd7ce3d84ee3a29bb1",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-l04",
+      "reported": 0,
+      "result_sha256": "b12555c3c7fc19006737a404654cf6e25d8b560b4522c4ec9992e102f0d3dad4",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-l05",
+      "reported": 1,
+      "result_sha256": "9d4b5511cf456d804f788a21fa80acab3e162c4092f7d26a69372fe8bea86564",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-l06",
+      "reported": 0,
+      "result_sha256": "55d0f0b1d34e91275f6fc7f1e26b4086378fd8a3f77b878eebd3f52cca96d859",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-l07",
+      "reported": 0,
+      "result_sha256": "f3e9c147bd6c261de0442803cb0a11c9cdc1fcca24b44bbf39663baefd2b9ff7",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-l08",
+      "reported": 0,
+      "result_sha256": "9f60f1764758a8dffd608b542abe415941be43893d581305fb9665d7f8707f4b",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-l09",
+      "reported": 0,
+      "result_sha256": "8f0b9ce1b85e34e9bcab8626a1a8aed2acdd9ecaaf15438548b7a27d1c05e8bf",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-l10",
+      "reported": 0,
+      "result_sha256": "eaa25168fe92b047c875a81a3391762f2f00f08580f00fe0e4533da9ac8dae20",
+      "status": "completed",
+      "stratum": "mutant:logic"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-r01",
+      "reported": 1,
+      "result_sha256": "87b4aca8c7432a9de0b164603623b853f8a852a5670d102952f0c58c6ba3d743",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-r02",
+      "reported": 1,
+      "result_sha256": "d1c727f6190a670fdeb19e1ecfc1e7ec9ac1b0ab1e44e1f1f633991a04bebedf",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 1,
+      "ground_truth_defects": 1,
+      "ground_truth_status": "labeled",
+      "id": "mut-validator-isstrongpassword-r03",
+      "reported": 1,
+      "result_sha256": "c54e8534999b91c5d1ed8174d10d9654a510e268d32f7a45b9eaec94e2b573b9",
+      "status": "completed",
+      "stratum": "mutant:rule-aligned"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-axios-11082",
+      "reported": 4,
+      "result_sha256": "3fda4b2d9ac71562d31a46949a92816745422ce6e7d49237f5ebae0eccd02f4f",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-axios-11087",
+      "reported": 0,
+      "result_sha256": "a3d07fe8e6d3fd67ac802fb85c6dd30a39a17bf891c8b8d84e6939b5163cbaf9",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-axios-11094",
+      "reported": 0,
+      "result_sha256": "09dbc8ec95f35f5f46b61b539cc89d22f0657aeaab957588112573aff49e64bb",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-axios-11095",
+      "reported": 0,
+      "result_sha256": "91d8a5610d7056dbc2f7994bd4b39c0b4a6b2a6300b57482b582bb7f335374c6",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-axios-11097",
+      "reported": 0,
+      "result_sha256": "f4b02d6c7d003eb3f3fbd088c8a3508320bab3b71a685c4c8d542a4e28ef6011",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-axios-11109",
+      "reported": 0,
+      "result_sha256": "068d884efaaf0cbdfb4d5b2559c88c4e6f7a5dc5ff8a0b3494a6310fad6afe8c",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-axios-11118",
+      "reported": 0,
+      "result_sha256": "a6379fa519914d55d8ce51b6742570661a09fe6656826be9f3a8ccb901717810",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-axios-11125",
+      "reported": 0,
+      "result_sha256": "6fcf76791a3f450b6bd62ef4861e02f155f96c2e1bb32237ec874517a4c57c9b",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-axios-11136",
+      "reported": 0,
+      "result_sha256": "62bdc8881d4507b8aae235e6300b92f647ee68879c1b4d0822cb1c5d4bd27fa4",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-axios-11152",
+      "reported": 0,
+      "result_sha256": "00fc0b0369973761c77dec30568d03008de1625c5f61853f03ad0306fbac2d25",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-axios-11222",
+      "reported": 0,
+      "result_sha256": "8b96a70ab5d01753ae8b6bd9b064d1a2e8fce76ca5cfddc4cd8411936be5cd4e",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-axios-11249",
+      "reported": 0,
+      "result_sha256": "6e86587520eb13d08089000965d0609cef9cf23eeb5c10e9008fe0af6d084df3",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-fastify-6719",
+      "reported": 0,
+      "result_sha256": "6ae63302be2ad38f85d3735ce071975e70c90bbfdc562d95acfb083a21706a2a",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-fastify-6875",
+      "reported": 0,
+      "result_sha256": "550e54f9f90292a6bd30455c278178164cb6abff27c7e77c3d4d7fc198451fbd",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-fastify-6901",
+      "reported": 0,
+      "result_sha256": "019f0e9b9ba1cdb5460e12427e509c72deb3f7cbec5015b00681cc59ea401c44",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-fastify-6940",
+      "reported": 0,
+      "result_sha256": "c864cd3da60afb95f2445f158b31f2877d0a195263270215241cf0c605adc411",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-fastify-6949",
+      "reported": 0,
+      "result_sha256": "1906242241c19a4e9498ba246978fc5506ce9a2e603e5591a71626782d68b5f9",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-fastify-6963",
+      "reported": 0,
+      "result_sha256": "cc5a264bc5d112df9d093478843ad40d065da6e8a1d0cba15cbfffba5d36d55e",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-fastify-6965",
+      "reported": 0,
+      "result_sha256": "62046d10c0ed5d844dbc262900d83af26d4262a175d720a11942828109f2d116",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-fastify-6975",
+      "reported": 0,
+      "result_sha256": "66cc35c1b4b96262fcb08a040247898a9c5513a2c6e19ca6d71dcb72ee84a9a8",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-fastify-7012",
+      "reported": 1,
+      "result_sha256": "3f9d34e1461131f518b7b1ff6b5e902215d950c00311b6f5b46ef20d063013af",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-fastify-7018",
+      "reported": 1,
+      "result_sha256": "b846da97b9f46369ac9a0be53820f9062201e1c051b0dacc0348ee871a19fe50",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-fastify-7039",
+      "reported": 0,
+      "result_sha256": "1615da8f801973f5f57e976de137482760a44a73187fa42b92f2c530278fb9a6",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-fastify-7049",
+      "reported": 0,
+      "result_sha256": "b8b36b503589fe401ab25899a3da0a58bb0344b8aa631dcfeb067319b11cc174",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-zod-5946",
+      "reported": 0,
+      "result_sha256": "0a7f28a4558ad045513d76f470c7e28bbb66d23e4ebca88c2018db9b2d3836d7",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-zod-6520",
+      "reported": 0,
+      "result_sha256": "79a843db9836100cddf926cbb1c0e5db497c4509361c971fc3255fa5583591c4",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-zod-6533",
+      "reported": 0,
+      "result_sha256": "358e293288251add80e7542ed00973bdd377d9e7392a5c32c6e79d0675b281c9",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-zod-6539",
+      "reported": 2,
+      "result_sha256": "60c66ca4316322b78b37be04ef67b673befb7133d0f6243e97142f7012cf9cb2",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-zod-6541",
+      "reported": 24,
+      "result_sha256": "f2c17eda4c89a4956de270fd5d57e39b0826bc275f3f9093d72c24d601d6c0e7",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-zod-6543",
+      "reported": 4,
+      "result_sha256": "1f95a3f8efc660a14b51c8eb471393277b509c0cdff7d34855e38ba436a41df1",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-zod-6548",
+      "reported": 0,
+      "result_sha256": "600c4cbaa5135455d603a634baa946a5d99b805f04ce62480ba87c23bb12e463",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-zod-6551",
+      "reported": 0,
+      "result_sha256": "affc3d2d594147d642725969f5730f9615c96e7140de64c4a20389c86f5b1e85",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-zod-6572",
+      "reported": 1,
+      "result_sha256": "7a74c1454e5f2fda9ed0fc98cd55bdbc7f16555fe5331fabd96911e317c49eb2",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-zod-6576",
+      "reported": 0,
+      "result_sha256": "f1c92b065b0352e65588c0194ddda6891762dc1b49af05afd28ea79d98eb1da3",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-zod-6579",
+      "reported": 0,
+      "result_sha256": "ec26d73936dcfe0b61bda6a8f533619d03e5eb49eeace1f50641395b108082a1",
+      "status": "completed",
+      "stratum": "noise:pr"
+    },
+    {
+      "detected_at_default_tolerance": 0,
+      "ground_truth_defects": 0,
+      "ground_truth_status": "unlabeled",
+      "id": "pr-zod-6620",
+      "reported": 0,
+      "result_sha256": "1e5e5955dd679ecf8d6614baf061ff8087f15a4e46fc36c57219092bb68aefba",
+      "status": "completed",
+      "stratum": "noise:pr"
+    }
+  ],
+  "cases_dir": "evaluation/cases",
+  "default_tolerance": 2,
+  "git": {
+    "commit": "7a500eae69e7645af4d83c836213034535b31572",
+    "dirty": true
+  },
+  "reported_policy": "change_status == 'new'",
+  "results_sha256": "157afe6b1fbf0f1ec266c5e2527eabb5c5c7eda56b76e794ffeb41251cab6ac0",
+  "schema": "codentry.eval.run/2",
+  "seed": 0,
+  "status_counts": {
+    "completed": 236,
+    "partial": 1
+  },
+  "tolerances": [
+    0,
+    2,
+    5
+  ],
+  "tools": {
+    "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+    "eslint_version": "8.57.1",
+    "identity_version": 2,
+    "node_version": "v22.14.0",
+    "platform": "win32",
+    "python_version": "3.13.7",
+    "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+    "semgrep_version": "1.177.0"
+  }
+}

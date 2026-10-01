@@ -1,0 +1,323 @@
+{
+  "analysis_meta": {
+    "base": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "differential": {
+      "diff_sources": {
+        "difflib": 1
+      },
+      "existing": 0,
+      "fixed": 5,
+      "moved": 0,
+      "new": 3,
+      "unclassified": 0
+    },
+    "head": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "incomplete_reasons": [],
+    "snapshot": {
+      "base_sha": "4794c6e0f451aaa4662424977de85b3c64e19a87",
+      "changed_files_total": 1,
+      "files_selected": 1,
+      "head_sha": "4858f39e121348764b094c8966579f5d05f3defc",
+      "merge_base_sha": "4794c6e0f451aaa4662424977de85b3c64e19a87",
+      "skipped_by_reason": {}
+    }
+  },
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "case_id": "bug-karma-9",
+  "counts": {
+    "changed_lines": 1,
+    "existing": 0,
+    "findings": 8,
+    "fixed": 5,
+    "ground_truth_defects": 1,
+    "ground_truth_locations": 1,
+    "new": 3,
+    "reported": 3,
+    "reported_duplicates": 0,
+    "unclassified": 0
+  },
+  "error_code": null,
+  "findings": [
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "new",
+      "confidence": null,
+      "dedup_hash": "069265acc7d9cdb6926ed1676929db10c495b6360edbeb2fe77a8e97bf81603e",
+      "description": "Unnecessary escape character: \\(.",
+      "end_line": 11,
+      "evidence_span": null,
+      "file_path": "lib/watcher.js",
+      "identity_key": "2d2fa3128023ccf6dd1bca5b96451c52ca93d0d24e3877d605fd0d90e6b46c4e",
+      "in_diff": true,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 11,
+      "suggestion": null,
+      "title": "no-useless-escape"
+    },
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "new",
+      "confidence": null,
+      "dedup_hash": "20cff0917133f0d0e8d5514da9d90a975b83fef2a6e3fcae86df90d2a92571fe",
+      "description": "Unnecessary escape character: \\/.",
+      "end_line": 11,
+      "evidence_span": null,
+      "file_path": "lib/watcher.js",
+      "identity_key": "2ca2c2793c4a36fbc5b9fe3cf11b88c874ac809f0c98ea184e605f78e3f388b9",
+      "in_diff": true,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 11,
+      "suggestion": null,
+      "title": "no-useless-escape"
+    },
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "fixed",
+      "confidence": null,
+      "dedup_hash": "6b456e1568547dd6e967a1f62ca83c53df0868e128a21552b45b4d744ce1fffa",
+      "description": "Unnecessary escape character: \\/.",
+      "end_line": 11,
+      "evidence_span": null,
+      "file_path": "lib/watcher.js",
+      "identity_key": "b555d892eef83e864ebac906bcd878011204549f88c26ccaf72339992baaa751",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 11,
+      "suggestion": null,
+      "title": "no-useless-escape"
+    },
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "new",
+      "confidence": null,
+      "dedup_hash": "9cdce4ff5020a796f77638699d3758fcb00d48c05f9bb123596ba72dec2ffc0d",
+      "description": "Unnecessary escape character: \\*.",
+      "end_line": 11,
+      "evidence_span": null,
+      "file_path": "lib/watcher.js",
+      "identity_key": "2c228ac6f05624afdf1a3541ab92c84281c23568147148b79edb575632cdae67",
+      "in_diff": true,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 11,
+      "suggestion": null,
+      "title": "no-useless-escape"
+    },
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "fixed",
+      "confidence": null,
+      "dedup_hash": "46afb2c766dd2bdf8452015e9f8def312701ea616e9e65ff384284ff6488b5f8",
+      "description": "Unnecessary escape character: \\!.",
+      "end_line": 12,
+      "evidence_span": null,
+      "file_path": "lib/watcher.js",
+      "identity_key": "5fc14ccee6b0dada890e0da6df978082159a8af78ec16de7dbb07f37394965c6",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 12,
+      "suggestion": null,
+      "title": "no-useless-escape"
+    },
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "fixed",
+      "confidence": null,
+      "dedup_hash": "6bfbc7d8a14f4a1549dee4a7ca083f1feda9178f44ef9637139d52d88f51eb18",
+      "description": "Unnecessary escape character: \\+.",
+      "end_line": 12,
+      "evidence_span": null,
+      "file_path": "lib/watcher.js",
+      "identity_key": "cfa7cd1b2ca1bcfac391c467dbe589f2323e3f6b45cc68dbcaee33a3af1e2b48",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 12,
+      "suggestion": null,
+      "title": "no-useless-escape"
+    },
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "fixed",
+      "confidence": null,
+      "dedup_hash": "e5eac7053bee40d8c3c45638b29ed2acb95e055ab461f532551ca504380b9618",
+      "description": "Unnecessary escape character: \\/.",
+      "end_line": 12,
+      "evidence_span": null,
+      "file_path": "lib/watcher.js",
+      "identity_key": "823155e083fbe9c7ec9004faaac5d3a34fdde1c6cf8638c9bce5db117e9cd4c2",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 12,
+      "suggestion": null,
+      "title": "no-useless-escape"
+    },
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "fixed",
+      "confidence": null,
+      "dedup_hash": "0ca3d2d91068626b06442089b1df2143dd20f2bc1535f4a59af5e881a5d7446b",
+      "description": "Unnecessary escape character: \\/.",
+      "end_line": 13,
+      "evidence_span": null,
+      "file_path": "lib/watcher.js",
+      "identity_key": "16ceb3306bd04073ff1f06f23f0682a9ae168f1c0272818d37fe7a9f67f93ff5",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 13,
+      "suggestion": null,
+      "title": "no-useless-escape"
+    }
+  ],
+  "findings_per_changed_line": 3.0,
+  "ground_truth": [
+    {
+      "end_line": 11,
+      "file": "lib/watcher.js",
+      "group": "bugsjs-karma-9",
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "start_line": 11
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "match": {
+    "0": {
+      "defects": 1,
+      "detected": 1,
+      "detected_groups": [
+        "bugsjs-karma-9"
+      ],
+      "detected_location_indices": [
+        0
+      ],
+      "exactly_located": 3,
+      "location_accuracy": 1.0,
+      "locations": 1,
+      "matched_finding_indices": [
+        0,
+        1,
+        3
+      ],
+      "missed_groups": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "reported": 3,
+      "tolerance": 0,
+      "unmatched_finding_indices": []
+    },
+    "2": {
+      "defects": 1,
+      "detected": 1,
+      "detected_groups": [
+        "bugsjs-karma-9"
+      ],
+      "detected_location_indices": [
+        0
+      ],
+      "exactly_located": 3,
+      "location_accuracy": 1.0,
+      "locations": 1,
+      "matched_finding_indices": [
+        0,
+        1,
+        3
+      ],
+      "missed_groups": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "reported": 3,
+      "tolerance": 2,
+      "unmatched_finding_indices": []
+    },
+    "5": {
+      "defects": 1,
+      "detected": 1,
+      "detected_groups": [
+        "bugsjs-karma-9"
+      ],
+      "detected_location_indices": [
+        0
+      ],
+      "exactly_located": 3,
+      "location_accuracy": 1.0,
+      "locations": 1,
+      "matched_finding_indices": [
+        0,
+        1,
+        3
+      ],
+      "missed_groups": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "reported": 3,
+      "tolerance": 5,
+      "unmatched_finding_indices": []
+    }
+  },
+  "reported_policy": "change_status == 'new'",
+  "schema": "codentry.eval.result/2",
+  "status": "completed",
+  "stratum": "real:bugsjs"
+}

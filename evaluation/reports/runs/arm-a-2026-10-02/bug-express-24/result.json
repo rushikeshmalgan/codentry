@@ -1,0 +1,193 @@
+{
+  "analysis_meta": {
+    "base": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "differential": {
+      "diff_sources": {
+        "difflib": 1
+      },
+      "existing": 2,
+      "fixed": 0,
+      "moved": 0,
+      "new": 0,
+      "unclassified": 0
+    },
+    "head": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "incomplete_reasons": [],
+    "snapshot": {
+      "base_sha": "33508e0c756094f3cf465e29f78782102fa59bfb",
+      "changed_files_total": 1,
+      "files_selected": 1,
+      "head_sha": "4070dabe532ecb799445920cf9756eb6625a0254",
+      "merge_base_sha": "33508e0c756094f3cf465e29f78782102fa59bfb",
+      "skipped_by_reason": {}
+    }
+  },
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "case_id": "bug-express-24",
+  "counts": {
+    "changed_lines": 3,
+    "existing": 2,
+    "findings": 2,
+    "fixed": 0,
+    "ground_truth_defects": 1,
+    "ground_truth_locations": 2,
+    "new": 0,
+    "reported": 0,
+    "reported_duplicates": 0,
+    "unclassified": 0
+  },
+  "error_code": null,
+  "findings": [
+    {
+      "base_start_line": 101,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "b39d0b09161fd7dd286592e47609de9bd32a9690950d5bee588575d6c580a185",
+      "description": "Expected a conditional expression and instead saw an assignment.",
+      "end_line": 101,
+      "evidence_span": null,
+      "file_path": "lib/router/index.js",
+      "identity_key": "25676d662a01c5c734b691cb3c4c77c7e929e35f20b59c5a34a3975f27332b7b",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 101,
+      "suggestion": null,
+      "title": "no-cond-assign"
+    },
+    {
+      "base_start_line": 562,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "1372324d4fa1b06c8278b9ea90851414bd329e115e69f1ae85c8f74b314d99b7",
+      "description": "'err' is defined but never used.",
+      "end_line": 564,
+      "evidence_span": null,
+      "file_path": "lib/router/index.js",
+      "identity_key": "e520d7b20426048cdb18a6868f62f04adfd6af85fe783de55e90f8592e0289e3",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 564,
+      "suggestion": null,
+      "title": "no-unused-vars"
+    }
+  ],
+  "findings_per_changed_line": 0.0,
+  "ground_truth": [
+    {
+      "end_line": 157,
+      "file": "lib/router/index.js",
+      "group": "bugsjs-express-24",
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "start_line": 155
+    },
+    {
+      "end_line": 574,
+      "file": "lib/router/index.js",
+      "group": "bugsjs-express-24",
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "start_line": 574
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "match": {
+    "0": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 2,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "bugsjs-express-24"
+      ],
+      "precision": null,
+      "recall": 0.0,
+      "reported": 0,
+      "tolerance": 0,
+      "unmatched_finding_indices": []
+    },
+    "2": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 2,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "bugsjs-express-24"
+      ],
+      "precision": null,
+      "recall": 0.0,
+      "reported": 0,
+      "tolerance": 2,
+      "unmatched_finding_indices": []
+    },
+    "5": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 2,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "bugsjs-express-24"
+      ],
+      "precision": null,
+      "recall": 0.0,
+      "reported": 0,
+      "tolerance": 5,
+      "unmatched_finding_indices": []
+    }
+  },
+  "reported_policy": "change_status == 'new'",
+  "schema": "codentry.eval.result/2",
+  "status": "completed",
+  "stratum": "real:bugsjs"
+}

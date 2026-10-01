@@ -1,0 +1,211 @@
+{
+  "analysis_meta": {
+    "base": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "differential": {
+      "diff_sources": {
+        "difflib": 1
+      },
+      "existing": 2,
+      "fixed": 0,
+      "moved": 0,
+      "new": 1,
+      "unclassified": 0
+    },
+    "head": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "incomplete_reasons": [],
+    "snapshot": {
+      "base_sha": "n/a",
+      "changed_files_total": 1,
+      "files_selected": 1,
+      "head_sha": "n/a",
+      "merge_base_sha": "n/a",
+      "skipped_by_reason": {}
+    }
+  },
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "case_id": "mut-validator-isstrongpassword-l05",
+  "counts": {
+    "changed_lines": 0,
+    "existing": 2,
+    "findings": 3,
+    "fixed": 0,
+    "ground_truth_defects": 1,
+    "ground_truth_locations": 1,
+    "new": 1,
+    "reported": 1,
+    "reported_duplicates": 0,
+    "unclassified": 0
+  },
+  "error_code": null,
+  "findings": [
+    {
+      "base_start_line": 7,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "023c2a046335d351d8c49f3c4e34d88e9425e9fbb78f017af7f71455e53d8f26",
+      "description": "Unnecessary escape character: \\[.",
+      "end_line": 7,
+      "evidence_span": null,
+      "file_path": "src/lib/isStrongPassword.js",
+      "identity_key": "66f035774faf18b1f53266b646f4f86484be0df02c36222298f9c37d511d2f3c",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 7,
+      "suggestion": null,
+      "title": "no-useless-escape"
+    },
+    {
+      "base_start_line": 7,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "faea8bd15553ccb68f5475b662b1e92489ef5517048b835f8c658d53848a25ab",
+      "description": "Unnecessary escape character: \\/.",
+      "end_line": 7,
+      "evidence_span": null,
+      "file_path": "src/lib/isStrongPassword.js",
+      "identity_key": "018ea197921fbd9c67f864d7af48bdee4c1d00ffc7cf975ade78790b6771a8bd",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 7,
+      "suggestion": null,
+      "title": "no-useless-escape"
+    },
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "new",
+      "confidence": null,
+      "dedup_hash": "0445f5e75dc6e738b6346c63c1372299ed8b682c0d777b39af29bae1a62a73b7",
+      "description": "'scorePassword' is defined but never used.",
+      "end_line": 66,
+      "evidence_span": null,
+      "file_path": "src/lib/isStrongPassword.js",
+      "identity_key": "389445740a224f23804d052931c7afd215cc89cb2d5a76f54e1b1db02aa8a134",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 66,
+      "suggestion": null,
+      "title": "no-unused-vars"
+    }
+  ],
+  "findings_per_changed_line": null,
+  "ground_truth": [
+    {
+      "end_line": 89,
+      "file": "src/lib/isStrongPassword.js",
+      "group": "#0",
+      "kind": "logic",
+      "provenance": "mutation",
+      "start_line": 89
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "match": {
+    "0": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "#0"
+      ],
+      "precision": 0.0,
+      "recall": 0.0,
+      "reported": 1,
+      "tolerance": 0,
+      "unmatched_finding_indices": [
+        2
+      ]
+    },
+    "2": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "#0"
+      ],
+      "precision": 0.0,
+      "recall": 0.0,
+      "reported": 1,
+      "tolerance": 2,
+      "unmatched_finding_indices": [
+        2
+      ]
+    },
+    "5": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "#0"
+      ],
+      "precision": 0.0,
+      "recall": 0.0,
+      "reported": 1,
+      "tolerance": 5,
+      "unmatched_finding_indices": [
+        2
+      ]
+    }
+  },
+  "reported_policy": "change_status == 'new'",
+  "schema": "codentry.eval.result/2",
+  "status": "completed",
+  "stratum": "mutant:logic"
+}

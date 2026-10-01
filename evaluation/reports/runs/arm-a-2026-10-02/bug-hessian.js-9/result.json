@@ -1,0 +1,185 @@
+{
+  "analysis_meta": {
+    "base": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "differential": {
+      "diff_sources": {
+        "difflib": 1
+      },
+      "existing": 2,
+      "fixed": 0,
+      "moved": 0,
+      "new": 0,
+      "unclassified": 0
+    },
+    "head": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "incomplete_reasons": [],
+    "snapshot": {
+      "base_sha": "6772d3ca45b437b2a8c5c5d27e4419d46f7ec688",
+      "changed_files_total": 1,
+      "files_selected": 1,
+      "head_sha": "68dd5347b54e4702f6a2f43bea862abc784a9f6c",
+      "merge_base_sha": "6772d3ca45b437b2a8c5c5d27e4419d46f7ec688",
+      "skipped_by_reason": {}
+    }
+  },
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "case_id": "bug-hessian.js-9",
+  "counts": {
+    "changed_lines": 1,
+    "existing": 2,
+    "findings": 2,
+    "fixed": 0,
+    "ground_truth_defects": 1,
+    "ground_truth_locations": 1,
+    "new": 0,
+    "reported": 0,
+    "reported_duplicates": 0,
+    "unclassified": 0
+  },
+  "error_code": null,
+  "findings": [
+    {
+      "base_start_line": 538,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "6e9952cd0fb132b89230ef2b0a71ea13517b9733cc670f74a16c110434d0d129",
+      "description": "Do not access Object.prototype method 'hasOwnProperty' from target object.",
+      "end_line": 538,
+      "evidence_span": null,
+      "file_path": "lib/v1/decoder.js",
+      "identity_key": "20303d6ca50543d7385dca7f0f4c2b331ff13a1e74de307897318d2f619701ea",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 538,
+      "suggestion": null,
+      "title": "no-prototype-builtins"
+    },
+    {
+      "base_start_line": 552,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "345af596591062268e682898515794126700d0d47001bfe4ae015c282c6a560c",
+      "description": "'withType' is defined but never used.",
+      "end_line": 552,
+      "evidence_span": null,
+      "file_path": "lib/v1/decoder.js",
+      "identity_key": "cd97f81477033f2df07e8f78524f087afdb8787d0b84201e4e3f09506e8d363a",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 552,
+      "suggestion": null,
+      "title": "no-unused-vars"
+    }
+  ],
+  "findings_per_changed_line": 0.0,
+  "ground_truth": [
+    {
+      "end_line": 415,
+      "file": "lib/v1/decoder.js",
+      "group": "bugsjs-hessian.js-9",
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "start_line": 415
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "match": {
+    "0": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "bugsjs-hessian.js-9"
+      ],
+      "precision": null,
+      "recall": 0.0,
+      "reported": 0,
+      "tolerance": 0,
+      "unmatched_finding_indices": []
+    },
+    "2": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "bugsjs-hessian.js-9"
+      ],
+      "precision": null,
+      "recall": 0.0,
+      "reported": 0,
+      "tolerance": 2,
+      "unmatched_finding_indices": []
+    },
+    "5": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "bugsjs-hessian.js-9"
+      ],
+      "precision": null,
+      "recall": 0.0,
+      "reported": 0,
+      "tolerance": 5,
+      "unmatched_finding_indices": []
+    }
+  },
+  "reported_policy": "change_status == 'new'",
+  "schema": "codentry.eval.result/2",
+  "status": "completed",
+  "stratum": "real:bugsjs"
+}

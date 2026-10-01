@@ -1,0 +1,1287 @@
+[
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 439,
+      "flagged": [
+        447,
+        447
+      ],
+      "lines": [
+        "    json.oneOf = options;",
+        "  } else {",
+        "    json.anyOf = options;",
+        "  }",
+        "};",
+        "",
+        "export const intersectionProcessor: Processor<schemas.$ZodIntersection> = (schema, ctx, json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodIntersectionDef;",
+        "  const a = processSchema(def.left, ctx as any, {",
+        "    ...params,",
+        "    path: [...params.path, \"allOf\", 0],",
+        "  });",
+        "  const b = processSchema(def.right, ctx as any, {",
+        "    ...params,",
+        "    path: [...params.path, \"allOf\", 1],",
+        "  });",
+        ""
+      ]
+    },
+    "end_line": 447,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "61d49ba548a05343710571f5d69e73c519b532b7ac1867af0effe82bd7916b5d",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-01",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 447,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 289,
+      "flagged": [
+        297,
+        297
+      ],
+      "lines": [
+        "export const arrayProcessor: Processor<schemas.$ZodArray> = (schema, ctx, _json, params) => {",
+        "  const json = _json as JSONSchema.ArraySchema;",
+        "  const def = schema._zod.def as schemas.$ZodArrayDef;",
+        "  const { minimum, maximum } = schema._zod.bag;",
+        "  if (typeof minimum === \"number\") json.minItems = minimum;",
+        "  if (typeof maximum === \"number\") json.maxItems = maximum;",
+        "",
+        "  json.type = \"array\";",
+        "  json.items = processSchema(def.element, ctx as any, {",
+        "    ...params,",
+        "    path: [...params.path, \"items\"],",
+        "  });",
+        "};",
+        "",
+        "// Transform and catch set `optin = \"optional\"` at runtime so the parser lets them observe an",
+        "// absent key, but their declared input type stays required. An input JSON Schema describes the",
+        "// declared type, so resolve past them to the schema that actually carries the optionality."
+      ]
+    },
+    "end_line": 297,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "2487fdcd1d25509b4c92bdcb9af3912d339cdcf30b76c47c0068fde9a04cbee3",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-02",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 297,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6539",
+    "context": {
+      "first_line": 97,
+      "flagged": [
+        105,
+        105
+      ],
+      "lines": [
+        "type ToZodKeyMismatch<Expected, Received> = schemas.$ZodType & {",
+        "  \"types do not match\": { expected: Expected; received: Received };",
+        "};",
+        "",
+        "// An enum reference and the union of exactly its members are mutually assignable but not identical, so `AssertEqual` alone rejects `z.enum(SomeEnum)` against a `SomeEnum` target. Unioning each side with a private dummy forces the union to be rebuilt, which collapses that one difference and nothing else \u2014 plain literals against an enum, member subsets, brands and `any` all still fail. The symbol is not exported, so no user type can smuggle it in and cancel a real difference.",
+        "declare const toZodDummy: unique symbol;",
+        "",
+        "// Homomorphic, so `readonly` and optional modifiers survive the rebuild and only leaves are normalized. An intersection flattens here, which is why an intersection target and the flat object with the same keys match each other. A callable stops the walk because `keyof` a function is `never`, so mapping one would erase its signature and make every function compare equal.",
+        "type ToZodNormalize<T> = [T] extends [(...args: any[]) => any]",
+        "  ? T",
+        "  : [T] extends [object]",
+        "    ? { [K in keyof T]: ToZodNormalize<T[K]> }",
+        "    : T | typeof toZodDummy;",
+        "",
+        "type ToZodEqual<Output, T> = AssertEqual<Output, T> extends true",
+        "  ? true",
+        "  : IsAny<Output> extends true"
+      ]
+    },
+    "end_line": 105,
+    "file": "packages/zod/src/v4/core/util.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "fe25e13bcfa98884e7db5be796820530bb5e82192732eb1b17b15c925a061831",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-03",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 105,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "mut-validator-isstrongpassword-l05",
+    "context": {
+      "first_line": 58,
+      "flagged": [
+        66,
+        66
+      ],
+      "lines": [
+        "      analysis.numberCount += charMap[char];",
+        "    } else if (symbolRegex.test(char)) {",
+        "      analysis.symbolCount += charMap[char];",
+        "    }",
+        "  });",
+        "  return analysis;",
+        "}",
+        "",
+        "function scorePassword(analysis, scoringOptions) {",
+        "  let points = 0;",
+        "  points += analysis.uniqueChars * scoringOptions.pointsPerUnique;",
+        "  points += (analysis.length - analysis.uniqueChars) * scoringOptions.pointsPerRepeat;",
+        "  if (analysis.lowercaseCount > 0) {",
+        "    points += scoringOptions.pointsForContainingLower;",
+        "  }",
+        "  if (analysis.uppercaseCount > 0) {",
+        "    points += scoringOptions.pointsForContainingUpper;"
+      ]
+    },
+    "end_line": 66,
+    "file": "src/lib/isStrongPassword.js",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "389445740a224f23804d052931c7afd215cc89cb2d5a76f54e1b1db02aa8a134",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-04",
+    "message": "'scorePassword' is defined but never used.",
+    "rule": "no-unused-vars",
+    "start_line": 66,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 772,
+      "flagged": [
+        780,
+        780
+      ],
+      "lines": [
+        "  const def = schema._zod.def as schemas.$ZodOptionalDef;",
+        "  processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = def.innerType;",
+        "};",
+        "",
+        "export const lazyProcessor: Processor<schemas.$ZodLazy> = (schema, ctx, _json, params) => {",
+        "  const innerType = (schema as schemas.$ZodLazy)._zod.innerType;",
+        "  processSchema(innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = innerType;",
+        "};",
+        "",
+        "// ==================== ALL PROCESSORS ====================",
+        "",
+        "export const allProcessors: Record<string, Processor<any>> = {",
+        "  string: stringProcessor,"
+      ]
+    },
+    "end_line": 780,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "5e9ba6afe26ee94fc05cb5edce11e16571434c1baa12534ceb705490e2c3351d",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-05",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 780,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-fastify-7012",
+    "context": {
+      "first_line": 47,
+      "flagged": [
+        55,
+        55
+      ],
+      "lines": [
+        "    t.assert.deepStrictEqual(storage.getStore(), { id: request.headers['x-request-id'] })",
+        "    t.assert.ok(resources.has(executionAsyncId()))",
+        "  }",
+        "",
+        "  app.setErrorHandler((error, request, reply) => {",
+        "    assertContext(request)",
+        "    reply.code(400).send({ error: error.message, id: storage.getStore().id })",
+        "  })",
+        "  app.post('/', (request, reply) => {",
+        "    assertContext(request)",
+        "    return { body: request.body, id: storage.getStore().id }",
+        "  })",
+        "",
+        "  const responses = await Promise.all(['first', 'second', 'error'].map(id => app.inject({",
+        "    method: 'POST',",
+        "    url: '/',",
+        "    headers: { 'content-type': 'application/custom', 'x-request-id': id },"
+      ]
+    },
+    "end_line": 55,
+    "file": "test/content-type-parser-async-context.test.js",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "d232eb6a271e52f79a6c5bd034dbdd537b143828ed7bed062dd9d9692e13ef79",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-06",
+    "message": "'reply' is defined but never used.",
+    "rule": "no-unused-vars",
+    "start_line": 55,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 716,
+      "flagged": [
+        724,
+        724
+      ],
+      "lines": [
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = def.innerType;",
+        "  const value = serializeDefaultValue(def.defaultValue, schema, ctx as ToJSONSchemaContext, json, params);",
+        "  if (value !== UNREPRESENTABLE_DEFAULT) json.default = value;",
+        "};",
+        "",
+        "export const prefaultProcessor: Processor<schemas.$ZodPrefault> = (schema, ctx, json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodPrefaultDef;",
+        "  processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = def.innerType;",
+        "  if (ctx.io !== \"input\") return;",
+        "  const value = serializeDefaultValue(def.defaultValue, schema, ctx as ToJSONSchemaContext, json, params);",
+        "  if (value !== UNREPRESENTABLE_DEFAULT) json._prefault = value;",
+        "};",
+        "",
+        "export const catchProcessor: Processor<schemas.$ZodCatch> = (schema, ctx, json, params) => {"
+      ]
+    },
+    "end_line": 724,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "11554a5a912c4a879f719825b4f8694bead58a8fce1baa2cd0a7041c2f713010",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-07",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 724,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 750,
+      "flagged": [
+        758,
+        758
+      ],
+      "lines": [
+        "  const innerType = ctx.io === \"input\" ? (inIsTransform ? def.out : def.in) : def.out;",
+        "  processSchema(innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = innerType;",
+        "};",
+        "",
+        "export const readonlyProcessor: Processor<schemas.$ZodReadonly> = (schema, ctx, json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodReadonlyDef;",
+        "  processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = def.innerType;",
+        "  json.readOnly = true;",
+        "};",
+        "",
+        "export const promiseProcessor: Processor<schemas.$ZodPromise> = (schema, ctx, _json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodPromiseDef;",
+        "  processSchema(def.innerType, ctx as any, params);"
+      ]
+    },
+    "end_line": 758,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "11554a5a912c4a879f719825b4f8694bead58a8fce1baa2cd0a7041c2f713010",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-08",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 758,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 877,
+      "flagged": [
+        885,
+        885
+      ],
+      "lines": [
+        "      };",
+        "    }",
+        "",
+        "    return { schemas };",
+        "  }",
+        "",
+        "  // Single schema case",
+        "  const ctx = initializeContext({ ...params, processors: allProcessors });",
+        "  processSchema(input, ctx as any);",
+        "  extractDefs(ctx as any, input);",
+        "  return finalize(ctx as any, input);",
+        "}"
+      ]
+    },
+    "end_line": 885,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "621f9ee2cea8f7505d135b937680723606a3a2498822c6642021ca00289cec4e",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-09",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 885,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-axios-11082",
+    "context": {
+      "first_line": 44,
+      "flagged": [
+        52,
+        52
+      ],
+      "lines": [
+        ");",
+        "const cancelFlag: boolean | undefined = cancel.__CANCEL__;",
+        "const cancelCtor: typeof CanceledError = axios.Cancel;",
+        "const cancelFromAlias = new cancelCtor('from alias');",
+        "",
+        "const status: HttpStatusCode = HttpStatusCode.WebServerIsDown;",
+        "const unknownErrorStatus: HttpStatusCode = HttpStatusCode.WebServerReturnsAnUnknownError;",
+        "const contentTooLargeStatus: HttpStatusCode = HttpStatusCode.ContentTooLarge;",
+        "const unprocessableContentStatus: HttpStatusCode = HttpStatusCode.UnprocessableContent;",
+        "",
+        "class CustomBlob {",
+        "  constructor(_parts?: any[]) {}",
+        "}",
+        "",
+        "const serializerOptions: FormSerializerOptions = {",
+        "  maxDepth: 2,",
+        "  Blob: CustomBlob,"
+      ]
+    },
+    "end_line": 52,
+    "file": "tests/module/esm/tests/helpers/esm-added-types.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "23d21f6b25ec0ae764bb16e6028dd5877bef859b140a5f2d6a276dd128c5b6cf",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-10",
+    "message": "'unprocessableContentStatus' is assigned a value but never used.",
+    "rule": "@typescript-eslint/no-unused-vars",
+    "start_line": 52,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 425,
+      "flagged": [
+        433,
+        433
+      ],
+      "lines": [
+        "  if (required.length > 0) json.required = required;",
+        "};",
+        "",
+        "export const unionProcessor: Processor<schemas.$ZodUnion> = (schema, ctx, json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodUnionDef;",
+        "  // Exclusive unions (inclusive === false) use oneOf (exactly one match) instead of anyOf (one or more matches). This includes both z.xor() and discriminated unions",
+        "  const isExclusive = def.inclusive === false;",
+        "  const options = def.options.map((x, i) =>",
+        "    processSchema(x, ctx as any, {",
+        "      ...params,",
+        "      path: [...params.path, isExclusive ? \"oneOf\" : \"anyOf\", i],",
+        "    })",
+        "  );",
+        "  if (isExclusive) {",
+        "    json.oneOf = options;",
+        "  } else {",
+        "    json.anyOf = options;"
+      ]
+    },
+    "end_line": 433,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "8dce1efc8e4210f798821c8d4ec9a20f78ea6a4360e94286ac3c218b4975eaa8",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-11",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 433,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "mut-validator-isean-l08",
+    "context": {
+      "first_line": 15,
+      "flagged": [
+        23,
+        23
+      ],
+      "lines": [
+        "import assertString from './util/assertString';",
+        "",
+        "/**",
+        " * Define EAN Lengths; 8 for EAN-8; 13 for EAN-13; 14 for EAN-14",
+        " * and Regular Expression for valid EANs (EAN-8, EAN-13, EAN-14),",
+        " * with exact numeric matching of 8 or 13 or 14 digits [0-9]",
+        " */",
+        "const LENGTH_EAN_8 = 8;",
+        "const LENGTH_EAN_14 = 14;",
+        "const validEanRegex = /^(\\d{8}|\\d{13}|\\d{14})$/;",
+        "",
+        "",
+        "/**",
+        " * Get position weight given:",
+        " * EAN length and digit index/position",
+        " *",
+        " * @param {number} length"
+      ]
+    },
+    "end_line": 23,
+    "file": "src/lib/isEAN.js",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "f2a66fa0619acedee5861392253822c5fd8a140c90d477b5467dc2c338f631ef",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-12",
+    "message": "'LENGTH_EAN_14' is assigned a value but never used.",
+    "rule": "no-unused-vars",
+    "start_line": 23,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 365,
+      "flagged": [
+        373,
+        373
+      ],
+      "lines": [
+        "  // catchall",
+        "  if (def.catchall?._zod.def.type === \"never\") {",
+        "    // strict",
+        "    json.additionalProperties = false;",
+        "  } else if (!def.catchall) {",
+        "    // regular",
+        "    if (ctx.io === \"output\") json.additionalProperties = false;",
+        "  } else if (def.catchall) {",
+        "    json.additionalProperties = processSchema(def.catchall, ctx as any, {",
+        "      ...params,",
+        "      path: [...params.path, \"additionalProperties\"],",
+        "    });",
+        "  }",
+        "};",
+        "",
+        "// asserts named properties in place and passes everything else through, so no additionalProperties constraint is emitted",
+        "export const propertiesProcessor: Processor<schemas.$ZodProperties> = (schema, ctx, _json, params) => {"
+      ]
+    },
+    "end_line": 373,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "125269959f2d4200cbb2c63d2efff2218003c354e2cde5c5f01dd63c371451bd",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-13",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 373,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "mut-validator-isean-l08",
+    "context": {
+      "first_line": 14,
+      "flagged": [
+        22,
+        22
+      ],
+      "lines": [
+        "",
+        "import assertString from './util/assertString';",
+        "",
+        "/**",
+        " * Define EAN Lengths; 8 for EAN-8; 13 for EAN-13; 14 for EAN-14",
+        " * and Regular Expression for valid EANs (EAN-8, EAN-13, EAN-14),",
+        " * with exact numeric matching of 8 or 13 or 14 digits [0-9]",
+        " */",
+        "const LENGTH_EAN_8 = 8;",
+        "const LENGTH_EAN_14 = 14;",
+        "const validEanRegex = /^(\\d{8}|\\d{13}|\\d{14})$/;",
+        "",
+        "",
+        "/**",
+        " * Get position weight given:",
+        " * EAN length and digit index/position",
+        " *"
+      ]
+    },
+    "end_line": 22,
+    "file": "src/lib/isEAN.js",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "4da9d9fe88138f56326a08dd9798bbf509af81e439737717796b7d2cadae8d6f",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-14",
+    "message": "'LENGTH_EAN_8' is assigned a value but never used.",
+    "rule": "no-unused-vars",
+    "start_line": 22,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 758,
+      "flagged": [
+        766,
+        766
+      ],
+      "lines": [
+        "  processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = def.innerType;",
+        "  json.readOnly = true;",
+        "};",
+        "",
+        "export const promiseProcessor: Processor<schemas.$ZodPromise> = (schema, ctx, _json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodPromiseDef;",
+        "  processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = def.innerType;",
+        "};",
+        "",
+        "export const optionalProcessor: Processor<schemas.$ZodOptional> = (schema, ctx, _json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodOptionalDef;",
+        "  processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;"
+      ]
+    },
+    "end_line": 766,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "11554a5a912c4a879f719825b4f8694bead58a8fce1baa2cd0a7041c2f713010",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-15",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 766,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 468,
+      "flagged": [
+        476,
+        476
+      ],
+      "lines": [
+        "  const def = schema._zod.def as schemas.$ZodTupleDef;",
+        "  json.type = \"array\";",
+        "",
+        "  const prefixPath = ctx.target === \"draft-2020-12\" ? \"prefixItems\" : \"items\";",
+        "  const restPath =",
+        "    ctx.target === \"draft-2020-12\" ? \"items\" : ctx.target === \"openapi-3.0\" ? \"items\" : \"additionalItems\";",
+        "",
+        "  const prefixItems = def.items.map((x, i) =>",
+        "    processSchema(x, ctx as any, {",
+        "      ...params,",
+        "      path: [...params.path, prefixPath, i],",
+        "    })",
+        "  );",
+        "  const rest = def.rest",
+        "    ? processSchema(def.rest, ctx as any, {",
+        "        ...params,",
+        "        path: [...params.path, restPath, ...(ctx.target === \"openapi-3.0\" ? [def.items.length] : [])],"
+      ]
+    },
+    "end_line": 476,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "8dce1efc8e4210f798821c8d4ec9a20f78ea6a4360e94286ac3c218b4975eaa8",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-16",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 476,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 474,
+      "flagged": [
+        482,
+        482
+      ],
+      "lines": [
+        "",
+        "  const prefixItems = def.items.map((x, i) =>",
+        "    processSchema(x, ctx as any, {",
+        "      ...params,",
+        "      path: [...params.path, prefixPath, i],",
+        "    })",
+        "  );",
+        "  const rest = def.rest",
+        "    ? processSchema(def.rest, ctx as any, {",
+        "        ...params,",
+        "        path: [...params.path, restPath, ...(ctx.target === \"openapi-3.0\" ? [def.items.length] : [])],",
+        "      })",
+        "    : null;",
+        "",
+        "  let minItems = def.items.length;",
+        "  while (minItems > 0) {",
+        "    const item = def.items[minItems - 1] as schemas.$ZodType;"
+      ]
+    },
+    "end_line": 482,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "d65eece17fe694c5dc0543c35c1d41545a4355228b527a66e814cd1655c2b994",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-17",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 482,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 765,
+      "flagged": [
+        773,
+        773
+      ],
+      "lines": [
+        "  const def = schema._zod.def as schemas.$ZodPromiseDef;",
+        "  processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = def.innerType;",
+        "};",
+        "",
+        "export const optionalProcessor: Processor<schemas.$ZodOptional> = (schema, ctx, _json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodOptionalDef;",
+        "  processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = def.innerType;",
+        "};",
+        "",
+        "export const lazyProcessor: Processor<schemas.$ZodLazy> = (schema, ctx, _json, params) => {",
+        "  const innerType = (schema as schemas.$ZodLazy)._zod.innerType;",
+        "  processSchema(innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;"
+      ]
+    },
+    "end_line": 773,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "11554a5a912c4a879f719825b4f8694bead58a8fce1baa2cd0a7041c2f713010",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-18",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 773,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 643,
+      "flagged": [
+        651,
+        651
+      ],
+      "lines": [
+        "      let pending = pendingRecords.get(ctx);",
+        "      if (!pending) {",
+        "        pending = [];",
+        "        pendingRecords.set(ctx, pending);",
+        "        ctx.deferred.push(() => rewriteKeyNames(ctx));",
+        "      }",
+        "      pending.push(schema);",
+        "    }",
+        "    json.additionalProperties = processSchema(def.valueType, ctx as any, {",
+        "      ...params,",
+        "      path: [...params.path, \"additionalProperties\"],",
+        "    });",
+        "  }",
+        "",
+        "  // Add required for keys with discrete values (enum, literal, etc.)",
+        "  const keyValues = keyType._zod.values;",
+        "  // Every key shares one value schema, so an optional-in value makes the whole key set omittable on input. Output keeps them: the exhaustive branch assigns every key, even one whose value came back undefined."
+      ]
+    },
+    "end_line": 651,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "8bb083a56cfdbc91385d8e4d3adbe3251b12e32233667977ae523cc2eb063365",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-19",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 651,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 443,
+      "flagged": [
+        451,
+        451
+      ],
+      "lines": [
+        "};",
+        "",
+        "export const intersectionProcessor: Processor<schemas.$ZodIntersection> = (schema, ctx, json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodIntersectionDef;",
+        "  const a = processSchema(def.left, ctx as any, {",
+        "    ...params,",
+        "    path: [...params.path, \"allOf\", 0],",
+        "  });",
+        "  const b = processSchema(def.right, ctx as any, {",
+        "    ...params,",
+        "    path: [...params.path, \"allOf\", 1],",
+        "  });",
+        "",
+        "  const isSimpleIntersection = (val: any) => \"allOf\" in val && Object.keys(val).length === 1;",
+        "  const allOf = [",
+        "    ...(isSimpleIntersection(a) ? (a.allOf as any[]) : [a]),",
+        "    ...(isSimpleIntersection(b) ? (b.allOf as any[]) : [b]),"
+      ]
+    },
+    "end_line": 451,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "895a5bcf856c2e946e2f7ff50d43197ef9524bcdee80512b3ac6d270800265d4",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-20",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 451,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 631,
+      "flagged": [
+        639,
+        639
+      ],
+      "lines": [
+        "    });",
+        "    json.patternProperties = {};",
+        "    for (const pattern of patterns) {",
+        "      assignProp(json.patternProperties, exactPattern(pattern).source, valueSchema);",
+        "    }",
+        "  } else {",
+        "    // Default behavior: use propertyNames + additionalProperties",
+        "    if (ctx.target === \"draft-07\" || ctx.target === \"draft-2020-12\") {",
+        "      json.propertyNames = processSchema(def.keyType, ctx as any, {",
+        "        ...params,",
+        "        path: [...params.path, \"propertyNames\"],",
+        "      });",
+        "      let pending = pendingRecords.get(ctx);",
+        "      if (!pending) {",
+        "        pending = [];",
+        "        pendingRecords.set(ctx, pending);",
+        "        ctx.deferred.push(() => rewriteKeyNames(ctx));"
+      ]
+    },
+    "end_line": 639,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "2495344fdc7d7bcdcb2d85db780eaabf014ec17f624cce13d23f9d168a85b2e9",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-21",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 639,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 743,
+      "flagged": [
+        751,
+        751
+      ],
+      "lines": [
+        "  }",
+        "  json.default = catchValue;",
+        "};",
+        "",
+        "export const pipeProcessor: Processor<schemas.$ZodPipe> = (schema, ctx, _json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodPipeDef;",
+        "  const inIsTransform = def.in._zod.traits.has(\"$ZodTransform\");",
+        "  const innerType = ctx.io === \"input\" ? (inIsTransform ? def.out : def.in) : def.out;",
+        "  processSchema(innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = innerType;",
+        "};",
+        "",
+        "export const readonlyProcessor: Processor<schemas.$ZodReadonly> = (schema, ctx, json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodReadonlyDef;",
+        "  processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;"
+      ]
+    },
+    "end_line": 751,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "5e9ba6afe26ee94fc05cb5edce11e16571434c1baa12534ceb705490e2c3351d",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-22",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 751,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 666,
+      "flagged": [
+        674,
+        674
+      ],
+      "lines": [
+        "    if (validKeyValues.length > 0) {",
+        "      json.required = validKeyValues.map(String);",
+        "    }",
+        "  }",
+        "};",
+        "",
+        "export const nullableProcessor: Processor<schemas.$ZodNullable> = (schema, ctx, json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodNullableDef;",
+        "  const inner = processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  if (ctx.target === \"openapi-3.0\") {",
+        "    seen.ref = def.innerType;",
+        "    json.nullable = true;",
+        "  } else {",
+        "    json.anyOf = [inner, { type: \"null\" }];",
+        "  }",
+        "};"
+      ]
+    },
+    "end_line": 674,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "9fbe61b9193c9ad31b7d0efe7ea9d636fe588b6fd4c1a910a6b90b02fc64a8fe",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-23",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 674,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6539",
+    "context": {
+      "first_line": 97,
+      "flagged": [
+        105,
+        105
+      ],
+      "lines": [
+        "type ToZodKeyMismatch<Expected, Received> = schemas.$ZodType & {",
+        "  \"types do not match\": { expected: Expected; received: Received };",
+        "};",
+        "",
+        "// An enum reference and the union of exactly its members are mutually assignable but not identical, so `AssertEqual` alone rejects `z.enum(SomeEnum)` against a `SomeEnum` target. Unioning each side with a private dummy forces the union to be rebuilt, which collapses that one difference and nothing else \u2014 plain literals against an enum, member subsets, brands and `any` all still fail. The symbol is not exported, so no user type can smuggle it in and cancel a real difference.",
+        "declare const toZodDummy: unique symbol;",
+        "",
+        "// Homomorphic, so `readonly` and optional modifiers survive the rebuild and only leaves are normalized. An intersection flattens here, which is why an intersection target and the flat object with the same keys match each other. A callable stops the walk because `keyof` a function is `never`, so mapping one would erase its signature and make every function compare equal.",
+        "type ToZodNormalize<T> = [T] extends [(...args: any[]) => any]",
+        "  ? T",
+        "  : [T] extends [object]",
+        "    ? { [K in keyof T]: ToZodNormalize<T[K]> }",
+        "    : T | typeof toZodDummy;",
+        "",
+        "type ToZodEqual<Output, T> = AssertEqual<Output, T> extends true",
+        "  ? true",
+        "  : IsAny<Output> extends true"
+      ]
+    },
+    "end_line": 105,
+    "file": "packages/zod/src/v4/core/util.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "fe25e13bcfa98884e7db5be796820530bb5e82192732eb1b17b15c925a061831",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-24",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 105,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6543",
+    "context": {
+      "first_line": 83,
+      "flagged": [
+        91,
+        91
+      ],
+      "lines": [
+        "function failure(Err: $ZodErrorClass, issues: errors.$ZodRawIssue[], ctx: schemas.ParseContextInternal): any {",
+        "  let error: errors.$ZodError | undefined;",
+        "  return {",
+        "    success: false,",
+        "    get error() {",
+        "      if (!error) {",
+        "        error = new Err(issues.map((iss) => util.finalizeIssue(iss, ctx, core.config())));",
+        "        // finalizeIssue drops `input`, so the built error holds nothing; keeping the raw issues past this point pins the parsed value for the life of the result",
+        "        issues = undefined as any;",
+        "        ctx = undefined as any;",
+        "      }",
+        "      return error;",
+        "    },",
+        "    set error(e: errors.$ZodError) {",
+        "      error = e;",
+        "      // a replacement makes the getter's branch unreachable, so the captures have to go here too",
+        "      issues = undefined as any;"
+      ]
+    },
+    "end_line": 91,
+    "file": "packages/zod/src/v4/core/parse.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "96b1d817fd52efe0c2ad0bdd348d2a54ebf7d45d67c3999ec88e3650230ba660",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-25",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 91,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 707,
+      "flagged": [
+        715,
+        715
+      ],
+      "lines": [
+        "  });",
+        "  if (!unrepresentable) return JSON.parse(serialized);",
+        "  handleUnrepresentable(schema, ctx, json, params, \"BigInt defaults cannot be represented in JSON Schema\");",
+        "  return UNREPRESENTABLE_DEFAULT;",
+        "}",
+        "",
+        "export const defaultProcessor: Processor<schemas.$ZodDefault> = (schema, ctx, json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodDefaultDef;",
+        "  processSchema(def.innerType, ctx as any, params);",
+        "  const seen = ctx.seen.get(schema)!;",
+        "  seen.ref = def.innerType;",
+        "  const value = serializeDefaultValue(def.defaultValue, schema, ctx as ToJSONSchemaContext, json, params);",
+        "  if (value !== UNREPRESENTABLE_DEFAULT) json.default = value;",
+        "};",
+        "",
+        "export const prefaultProcessor: Processor<schemas.$ZodPrefault> = (schema, ctx, json, params) => {",
+        "  const def = schema._zod.def as schemas.$ZodPrefaultDef;"
+      ]
+    },
+    "end_line": 715,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "11554a5a912c4a879f719825b4f8694bead58a8fce1baa2cd0a7041c2f713010",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-26",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 715,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 845,
+      "flagged": [
+        853,
+        853
+      ],
+      "lines": [
+        "    // Registry case",
+        "    const registry = input as $ZodRegistry<{ id?: string | undefined }>;",
+        "    const ctx = initializeContext({ ...params, processors: allProcessors });",
+        "    const defs: any = {};",
+        "",
+        "    // First pass: process all schemas to build the seen map",
+        "    for (const entry of registry._idmap.entries()) {",
+        "      const [_, schema] = entry;",
+        "      processSchema(schema, ctx as any);",
+        "    }",
+        "",
+        "    const schemas: Record<string, JSONSchema.BaseSchema> = {};",
+        "    const external = {",
+        "      registry,",
+        "      uri: (params as RegistryToJSONSchemaParams)?.uri,",
+        "      defs,",
+        "    };"
+      ]
+    },
+    "end_line": 853,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "f494f617dc92e929134d651a89e9376334855ef6c124c8e66e1997fb30230579",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-27",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 853,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 620,
+      "flagged": [
+        628,
+        628
+      ],
+      "lines": [
+        "",
+        "  // For looseRecord with regex patterns, use patternProperties. This correctly represents \"only validate keys matching the pattern\" semantics and composes well with allOf (intersections)",
+        "  const keyType = def.keyType as schemas.$ZodTypes;",
+        "  const keyBag = keyType._zod.bag as schemas.$ZodStringInternals<unknown>[\"bag\"] | undefined;",
+        "  const patterns = keyBag?.patterns;",
+        "",
+        "  if (def.mode === \"loose\" && patterns && patterns.size > 0) {",
+        "    // Use patternProperties for looseRecord with regex patterns",
+        "    const valueSchema = processSchema(def.valueType, ctx as any, {",
+        "      ...params,",
+        "      path: [...params.path, \"patternProperties\", \"*\"],",
+        "    });",
+        "    json.patternProperties = {};",
+        "    for (const pattern of patterns) {",
+        "      assignProp(json.patternProperties, exactPattern(pattern).source, valueSchema);",
+        "    }",
+        "  } else {"
+      ]
+    },
+    "end_line": 628,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "1125331cc85a04c4262c380705f4fb9b43ffa4bb4b4e86e26f9f29612b110db0",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-28",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 628,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-zod-6541",
+    "context": {
+      "first_line": 409,
+      "flagged": [
+        417,
+        417
+      ],
+      "lines": [
+        "  }",
+        "",
+        "  json.type = \"object\";",
+        "  json.properties = {};",
+        "  for (const key in def.shape) {",
+        "    assignProp(",
+        "      json.properties,",
+        "      key,",
+        "      processSchema(def.shape[key]!, ctx as any, {",
+        "        ...params,",
+        "        path: [...params.path, \"properties\", key],",
+        "      })",
+        "    );",
+        "  }",
+        "  // input-side optionality in both modes: the parsed value is the input, so a defaulted key that stays absent must not be required of the output either",
+        "  const required = Object.keys(def.shape).filter((key) => inputOptin(def.shape[key]!) === undefined);",
+        "  if (required.length > 0) json.required = required;"
+      ]
+    },
+    "end_line": 417,
+    "file": "packages/zod/src/v4/core/json-schema-processors.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "0a234e1d890736e9596f9f765a608df54a47f8b6dd3471f25ac1dd1d33f73943",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-29",
+    "message": "Unexpected any. Specify a different type.",
+    "rule": "@typescript-eslint/no-explicit-any",
+    "start_line": 417,
+    "tool": "ESLINT"
+  },
+  {
+    "case_id": "pr-axios-11082",
+    "context": {
+      "first_line": 27,
+      "flagged": [
+        35,
+        35
+      ],
+      "lines": [
+        "  {}",
+        ");",
+        "const cancelFlag: boolean | undefined = cancel.__CANCEL__;",
+        "const cancelCtor: typeof axios.CanceledError = axios.Cancel;",
+        "const cancelFromAlias = new cancelCtor('from alias');",
+        "",
+        "const status = axios.HttpStatusCode.WebServerIsDown;",
+        "const unknownErrorStatus = axios.HttpStatusCode.WebServerReturnsAnUnknownError;",
+        "const contentTooLargeStatus = axios.HttpStatusCode.ContentTooLarge;",
+        "const unprocessableContentStatus = axios.HttpStatusCode.UnprocessableContent;",
+        "",
+        "class CustomBlob {",
+        "  constructor(_parts?: any[]) {}",
+        "}",
+        "",
+        "const serializerOptions: axios.FormSerializerOptions = {",
+        "  maxDepth: 2,"
+      ]
+    },
+    "end_line": 35,
+    "file": "tests/module/cjs/tests/helpers/cjs-added-types.ts",
+    "hidden": {
+      "arm": "A",
+      "change_status": "new",
+      "identity_key": "d5c9bb2c239a9a3fc6ec76e14cdad01ac73edbc035f72dac12dd5b853d290fa5",
+      "sampled_with_seed": 2026,
+      "severity": "high"
+    },
+    "item_id": "main-01-30",
+    "message": "'contentTooLargeStatus' is assigned a value but never used.",
+    "rule": "@typescript-eslint/no-unused-vars",
+    "start_line": 35,
+    "tool": "ESLINT"
+  }
+]

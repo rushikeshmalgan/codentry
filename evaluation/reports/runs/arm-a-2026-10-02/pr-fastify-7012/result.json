@@ -1,0 +1,157 @@
+{
+  "analysis_meta": {
+    "base": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 2,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "differential": {
+      "diff_sources": {
+        "difflib": 2,
+        "new_file": 1
+      },
+      "existing": 0,
+      "fixed": 0,
+      "moved": 0,
+      "new": 1,
+      "unclassified": 0
+    },
+    "head": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 3,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "incomplete_reasons": [],
+    "snapshot": {
+      "base_sha": "ac28821df11d7862694900326a6cc8c831dc8bf6",
+      "changed_files_total": 3,
+      "files_selected": 3,
+      "head_sha": "d1dd8902ad972703b81a6f0e8395bb10dfd80b5f",
+      "merge_base_sha": "ac28821df11d7862694900326a6cc8c831dc8bf6",
+      "skipped_by_reason": {}
+    }
+  },
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "case_id": "pr-fastify-7012",
+  "counts": {
+    "changed_lines": 123,
+    "existing": 0,
+    "findings": 1,
+    "fixed": 0,
+    "ground_truth_defects": 0,
+    "ground_truth_locations": 0,
+    "new": 1,
+    "reported": 1,
+    "reported_duplicates": 0,
+    "unclassified": 0
+  },
+  "error_code": null,
+  "findings": [
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "new",
+      "confidence": null,
+      "dedup_hash": "a0cfb9d72b14ee924511926e14a86ac0c672b101410d3aef1b566b63ffc07ad4",
+      "description": "'reply' is defined but never used.",
+      "end_line": 55,
+      "evidence_span": null,
+      "file_path": "test/content-type-parser-async-context.test.js",
+      "identity_key": "d232eb6a271e52f79a6c5bd034dbdd537b143828ed7bed062dd9d9692e13ef79",
+      "in_diff": true,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 55,
+      "suggestion": null,
+      "title": "no-unused-vars"
+    }
+  ],
+  "findings_per_changed_line": 0.008130081300813009,
+  "ground_truth": [],
+  "ground_truth_status": "unlabeled",
+  "match": {
+    "0": {
+      "defects": 0,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 0,
+      "matched_finding_indices": [],
+      "missed_groups": [],
+      "precision": null,
+      "recall": null,
+      "reported": 1,
+      "tolerance": 0,
+      "unmatched_finding_indices": [
+        0
+      ]
+    },
+    "2": {
+      "defects": 0,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 0,
+      "matched_finding_indices": [],
+      "missed_groups": [],
+      "precision": null,
+      "recall": null,
+      "reported": 1,
+      "tolerance": 2,
+      "unmatched_finding_indices": [
+        0
+      ]
+    },
+    "5": {
+      "defects": 0,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 0,
+      "matched_finding_indices": [],
+      "missed_groups": [],
+      "precision": null,
+      "recall": null,
+      "reported": 1,
+      "tolerance": 5,
+      "unmatched_finding_indices": [
+        0
+      ]
+    }
+  },
+  "reported_policy": "change_status == 'new'",
+  "schema": "codentry.eval.result/2",
+  "status": "completed",
+  "stratum": "noise:pr"
+}

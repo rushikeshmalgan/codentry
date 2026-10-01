@@ -1,0 +1,177 @@
+{
+  "analysis_meta": {
+    "base": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "differential": {
+      "diff_sources": {
+        "difflib": 1
+      },
+      "existing": 0,
+      "fixed": 0,
+      "moved": 0,
+      "new": 1,
+      "unclassified": 0
+    },
+    "head": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "incomplete_reasons": [],
+    "snapshot": {
+      "base_sha": "n/a",
+      "changed_files_total": 1,
+      "files_selected": 1,
+      "head_sha": "n/a",
+      "merge_base_sha": "n/a",
+      "skipped_by_reason": {}
+    }
+  },
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "case_id": "mut-pretry-index-r03",
+  "counts": {
+    "changed_lines": 1,
+    "existing": 0,
+    "findings": 1,
+    "fixed": 0,
+    "ground_truth_defects": 1,
+    "ground_truth_locations": 1,
+    "new": 1,
+    "reported": 1,
+    "reported_duplicates": 0,
+    "unclassified": 0
+  },
+  "error_code": null,
+  "findings": [
+    {
+      "base_start_line": null,
+      "category": "security",
+      "change_status": "new",
+      "confidence": null,
+      "dedup_hash": "2a3204409368e6e59e5d1cf6d8581a4fc2c779073f7f5b257c4fdeb6717e35b9",
+      "description": "Assigning a non-literal value to innerHTML can lead to cross-site scripting; use textContent or a sanitizer.",
+      "end_line": 209,
+      "evidence_span": null,
+      "file_path": "index.js",
+      "identity_key": "cbdf2c264970e86dcf0c0604daea149e2645a681bd997c0e3ace324775555bc1",
+      "in_diff": true,
+      "moved": false,
+      "reasoning": null,
+      "severity": "medium",
+      "source": "SEMGREP",
+      "start_line": 209,
+      "suggestion": null,
+      "title": "innerhtml-assignment"
+    }
+  ],
+  "findings_per_changed_line": 1.0,
+  "ground_truth": [
+    {
+      "end_line": 209,
+      "file": "index.js",
+      "group": "#0",
+      "kind": "security",
+      "provenance": "mutation",
+      "start_line": 209
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "match": {
+    "0": {
+      "defects": 1,
+      "detected": 1,
+      "detected_groups": [
+        "#0"
+      ],
+      "detected_location_indices": [
+        0
+      ],
+      "exactly_located": 1,
+      "location_accuracy": 1.0,
+      "locations": 1,
+      "matched_finding_indices": [
+        0
+      ],
+      "missed_groups": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "reported": 1,
+      "tolerance": 0,
+      "unmatched_finding_indices": []
+    },
+    "2": {
+      "defects": 1,
+      "detected": 1,
+      "detected_groups": [
+        "#0"
+      ],
+      "detected_location_indices": [
+        0
+      ],
+      "exactly_located": 1,
+      "location_accuracy": 1.0,
+      "locations": 1,
+      "matched_finding_indices": [
+        0
+      ],
+      "missed_groups": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "reported": 1,
+      "tolerance": 2,
+      "unmatched_finding_indices": []
+    },
+    "5": {
+      "defects": 1,
+      "detected": 1,
+      "detected_groups": [
+        "#0"
+      ],
+      "detected_location_indices": [
+        0
+      ],
+      "exactly_located": 1,
+      "location_accuracy": 1.0,
+      "locations": 1,
+      "matched_finding_indices": [
+        0
+      ],
+      "missed_groups": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "reported": 1,
+      "tolerance": 5,
+      "unmatched_finding_indices": []
+    }
+  },
+  "reported_policy": "change_status == 'new'",
+  "schema": "codentry.eval.result/2",
+  "status": "completed",
+  "stratum": "mutant:rule-aligned"
+}

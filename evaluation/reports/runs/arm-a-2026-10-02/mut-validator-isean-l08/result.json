@@ -1,0 +1,194 @@
+{
+  "analysis_meta": {
+    "base": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "differential": {
+      "diff_sources": {
+        "difflib": 1
+      },
+      "existing": 0,
+      "fixed": 0,
+      "moved": 0,
+      "new": 2,
+      "unclassified": 0
+    },
+    "head": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "incomplete_reasons": [],
+    "snapshot": {
+      "base_sha": "n/a",
+      "changed_files_total": 1,
+      "files_selected": 1,
+      "head_sha": "n/a",
+      "merge_base_sha": "n/a",
+      "skipped_by_reason": {}
+    }
+  },
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "case_id": "mut-validator-isean-l08",
+  "counts": {
+    "changed_lines": 0,
+    "existing": 0,
+    "findings": 2,
+    "fixed": 0,
+    "ground_truth_defects": 1,
+    "ground_truth_locations": 1,
+    "new": 2,
+    "reported": 2,
+    "reported_duplicates": 0,
+    "unclassified": 0
+  },
+  "error_code": null,
+  "findings": [
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "new",
+      "confidence": null,
+      "dedup_hash": "dc778d054f70cb7756d1b743d1aeb0e507d44db216ed7cb65500107497b59a44",
+      "description": "'LENGTH_EAN_8' is assigned a value but never used.",
+      "end_line": 22,
+      "evidence_span": null,
+      "file_path": "src/lib/isEAN.js",
+      "identity_key": "4da9d9fe88138f56326a08dd9798bbf509af81e439737717796b7d2cadae8d6f",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 22,
+      "suggestion": null,
+      "title": "no-unused-vars"
+    },
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "new",
+      "confidence": null,
+      "dedup_hash": "68b16cbc5bb6b014762396c09533ea4185c25bbfb71f47e94158658d8b7f3ea6",
+      "description": "'LENGTH_EAN_14' is assigned a value but never used.",
+      "end_line": 23,
+      "evidence_span": null,
+      "file_path": "src/lib/isEAN.js",
+      "identity_key": "f2a66fa0619acedee5861392253822c5fd8a140c90d477b5467dc2c338f631ef",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 23,
+      "suggestion": null,
+      "title": "no-unused-vars"
+    }
+  ],
+  "findings_per_changed_line": null,
+  "ground_truth": [
+    {
+      "end_line": 36,
+      "file": "src/lib/isEAN.js",
+      "group": "#0",
+      "kind": "logic",
+      "provenance": "mutation",
+      "start_line": 36
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "match": {
+    "0": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "#0"
+      ],
+      "precision": 0.0,
+      "recall": 0.0,
+      "reported": 2,
+      "tolerance": 0,
+      "unmatched_finding_indices": [
+        0,
+        1
+      ]
+    },
+    "2": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "#0"
+      ],
+      "precision": 0.0,
+      "recall": 0.0,
+      "reported": 2,
+      "tolerance": 2,
+      "unmatched_finding_indices": [
+        0,
+        1
+      ]
+    },
+    "5": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "#0"
+      ],
+      "precision": 0.0,
+      "recall": 0.0,
+      "reported": 2,
+      "tolerance": 5,
+      "unmatched_finding_indices": [
+        0,
+        1
+      ]
+    }
+  },
+  "reported_policy": "change_status == 'new'",
+  "schema": "codentry.eval.result/2",
+  "status": "completed",
+  "stratum": "mutant:logic"
+}

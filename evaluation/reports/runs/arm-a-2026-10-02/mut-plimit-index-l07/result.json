@@ -1,0 +1,195 @@
+{
+  "analysis_meta": {
+    "base": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "differential": {
+      "diff_sources": {
+        "difflib": 1
+      },
+      "existing": 1,
+      "fixed": 0,
+      "moved": 0,
+      "new": 1,
+      "unclassified": 0
+    },
+    "head": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "incomplete_reasons": [],
+    "snapshot": {
+      "base_sha": "n/a",
+      "changed_files_total": 1,
+      "files_selected": 1,
+      "head_sha": "n/a",
+      "merge_base_sha": "n/a",
+      "skipped_by_reason": {}
+    }
+  },
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "case_id": "mut-plimit-index-l07",
+  "counts": {
+    "changed_lines": 0,
+    "existing": 1,
+    "findings": 2,
+    "fixed": 0,
+    "ground_truth_defects": 1,
+    "ground_truth_locations": 1,
+    "new": 1,
+    "reported": 1,
+    "reported_duplicates": 0,
+    "unclassified": 0
+  },
+  "error_code": null,
+  "findings": [
+    {
+      "base_start_line": 44,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "7b3ddc620283f2ece5632f0eb21bef326841433a1dd85379069ccb60c12c3828",
+      "description": "Empty block statement.",
+      "end_line": 44,
+      "evidence_span": null,
+      "file_path": "index.js",
+      "identity_key": "d891e5d32c2bc46d3b05437c02f39aee9d5e44d44d0989207c5136c9fe4804c0",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 44,
+      "suggestion": null,
+      "title": "no-empty"
+    },
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "new",
+      "confidence": null,
+      "dedup_hash": "8f6e7d496bdbb15d1b499e2bf8e5e5ad1b1ee85e52cea37c07742ce3ce6528a4",
+      "description": "'concurrency' is defined but never used.",
+      "end_line": 144,
+      "evidence_span": null,
+      "file_path": "index.js",
+      "identity_key": "d88e6e1186d6e5b98b7f7edb528f4b04bf253b037284235c80edddd35640e8ae",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 144,
+      "suggestion": null,
+      "title": "no-unused-vars"
+    }
+  ],
+  "findings_per_changed_line": null,
+  "ground_truth": [
+    {
+      "end_line": 145,
+      "file": "index.js",
+      "group": "#0",
+      "kind": "logic",
+      "provenance": "mutation",
+      "start_line": 145
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "match": {
+    "0": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "#0"
+      ],
+      "precision": 0.0,
+      "recall": 0.0,
+      "reported": 1,
+      "tolerance": 0,
+      "unmatched_finding_indices": [
+        1
+      ]
+    },
+    "2": {
+      "defects": 1,
+      "detected": 1,
+      "detected_groups": [
+        "#0"
+      ],
+      "detected_location_indices": [
+        0
+      ],
+      "exactly_located": 0,
+      "location_accuracy": 0.0,
+      "locations": 1,
+      "matched_finding_indices": [
+        1
+      ],
+      "missed_groups": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "reported": 1,
+      "tolerance": 2,
+      "unmatched_finding_indices": []
+    },
+    "5": {
+      "defects": 1,
+      "detected": 1,
+      "detected_groups": [
+        "#0"
+      ],
+      "detected_location_indices": [
+        0
+      ],
+      "exactly_located": 0,
+      "location_accuracy": 0.0,
+      "locations": 1,
+      "matched_finding_indices": [
+        1
+      ],
+      "missed_groups": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "reported": 1,
+      "tolerance": 5,
+      "unmatched_finding_indices": []
+    }
+  },
+  "reported_policy": "change_status == 'new'",
+  "schema": "codentry.eval.result/2",
+  "status": "completed",
+  "stratum": "mutant:logic"
+}

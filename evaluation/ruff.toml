@@ -15,3 +15,5 @@ known-first-party = ["analysis", "evaluation"]
 [lint.per-file-ignores]
 # Test tables read better on one line than wrapped.
 "tests/*" = ["E501"]
+# Long prose strings (report wording, limitations) read better unwrapped.
+"metrics/report.py" = ["E501"]

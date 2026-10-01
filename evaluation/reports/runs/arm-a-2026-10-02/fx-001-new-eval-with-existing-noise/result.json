@@ -1,0 +1,234 @@
+{
+  "analysis_meta": {
+    "base": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "differential": {
+      "diff_sources": {
+        "difflib": 1
+      },
+      "existing": 1,
+      "fixed": 0,
+      "moved": 0,
+      "new": 2,
+      "unclassified": 0
+    },
+    "head": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "incomplete_reasons": [],
+    "snapshot": {
+      "base_sha": "n/a",
+      "changed_files_total": 1,
+      "files_selected": 1,
+      "head_sha": "n/a",
+      "merge_base_sha": "n/a",
+      "skipped_by_reason": {}
+    }
+  },
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "case_id": "fx-001-new-eval-with-existing-noise",
+  "counts": {
+    "changed_lines": 5,
+    "existing": 1,
+    "findings": 3,
+    "fixed": 0,
+    "ground_truth_defects": 2,
+    "ground_truth_locations": 2,
+    "new": 2,
+    "reported": 2,
+    "reported_duplicates": 0,
+    "unclassified": 0
+  },
+  "error_code": null,
+  "findings": [
+    {
+      "base_start_line": 3,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "3d8951893d8b3462ed96df7b4f9b32c8b53f6d8b67f8b75e87ffa18ed1ab1301",
+      "description": "'leftover' is assigned a value but never used.",
+      "end_line": 3,
+      "evidence_span": null,
+      "file_path": "src/tasks.js",
+      "identity_key": "8d262e13c8cd3e1df35c02143a9ea042dfccc08fe279e90b56a204267a5c7fdb",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 3,
+      "suggestion": null,
+      "title": "no-unused-vars"
+    },
+    {
+      "base_start_line": null,
+      "category": "correctness",
+      "change_status": "new",
+      "confidence": null,
+      "dedup_hash": "8bf9e9d6d091a38cae4aabf349298c3d7dca4b90bfc237eb26036febabc2aa53",
+      "description": "'item' is defined but never used.",
+      "end_line": 16,
+      "evidence_span": null,
+      "file_path": "src/tasks.js",
+      "identity_key": "3e1828818e9b58a490a01e40fc565a4acc2ea9525beb7564082ed1c9833380be",
+      "in_diff": true,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 16,
+      "suggestion": null,
+      "title": "no-unused-vars"
+    },
+    {
+      "base_start_line": null,
+      "category": "security",
+      "change_status": "new",
+      "confidence": null,
+      "dedup_hash": "9c782e1234ad2bf79826db198d8eb79c9f4df98a2bde94509a8883e9c1f8e2ad",
+      "description": "eval() executes a string as code and can lead to remote code execution if the input is not fully trusted.",
+      "end_line": 16,
+      "evidence_span": null,
+      "file_path": "src/tasks.js",
+      "identity_key": "ef46216416ade38c37e73d5c7b816b01130c5e014cdb937eed853724c2d27af6",
+      "in_diff": true,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "SEMGREP",
+      "start_line": 16,
+      "suggestion": null,
+      "title": "eval-usage"
+    }
+  ],
+  "findings_per_changed_line": 0.4,
+  "ground_truth": [
+    {
+      "end_line": 9,
+      "file": "src/tasks.js",
+      "group": "#0",
+      "kind": "logic",
+      "provenance": "handmade",
+      "start_line": 9
+    },
+    {
+      "end_line": 16,
+      "file": "src/tasks.js",
+      "group": "#1",
+      "kind": "security",
+      "provenance": "handmade",
+      "start_line": 16
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "match": {
+    "0": {
+      "defects": 2,
+      "detected": 1,
+      "detected_groups": [
+        "#1"
+      ],
+      "detected_location_indices": [
+        1
+      ],
+      "exactly_located": 2,
+      "location_accuracy": 1.0,
+      "locations": 2,
+      "matched_finding_indices": [
+        1,
+        2
+      ],
+      "missed_groups": [
+        "#0"
+      ],
+      "precision": 1.0,
+      "recall": 0.5,
+      "reported": 2,
+      "tolerance": 0,
+      "unmatched_finding_indices": []
+    },
+    "2": {
+      "defects": 2,
+      "detected": 1,
+      "detected_groups": [
+        "#1"
+      ],
+      "detected_location_indices": [
+        1
+      ],
+      "exactly_located": 2,
+      "location_accuracy": 1.0,
+      "locations": 2,
+      "matched_finding_indices": [
+        1,
+        2
+      ],
+      "missed_groups": [
+        "#0"
+      ],
+      "precision": 1.0,
+      "recall": 0.5,
+      "reported": 2,
+      "tolerance": 2,
+      "unmatched_finding_indices": []
+    },
+    "5": {
+      "defects": 2,
+      "detected": 1,
+      "detected_groups": [
+        "#1"
+      ],
+      "detected_location_indices": [
+        1
+      ],
+      "exactly_located": 2,
+      "location_accuracy": 1.0,
+      "locations": 2,
+      "matched_finding_indices": [
+        1,
+        2
+      ],
+      "missed_groups": [
+        "#0"
+      ],
+      "precision": 1.0,
+      "recall": 0.5,
+      "reported": 2,
+      "tolerance": 5,
+      "unmatched_finding_indices": []
+    }
+  },
+  "reported_policy": "change_status == 'new'",
+  "schema": "codentry.eval.result/2",
+  "status": "completed",
+  "stratum": "fixture:new-and-existing"
+}

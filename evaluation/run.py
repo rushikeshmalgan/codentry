@@ -13,6 +13,10 @@ Writes, under --out:
                             versions, ruleset and baseline-config SHA-256, case
                             manifest hash, seed, git commit, and a hash of all
                             results. Also deterministic, by design.
+    timing.json             wall-clock seconds per case, ONLY with --timing.
+                            Never affects run.json/result.json bytes: latency
+                            varies between runs by nature, so it is kept out of
+                            everything the byte-identity guarantee covers.
 
 Only Arm A exists. Arms B/C (AI) are deliberately not implemented; asking for
 them is an error, not a silent fallback.
@@ -29,6 +33,7 @@ import platform
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -88,7 +93,9 @@ def git_state(exclude: list[Path]) -> dict[str, Any]:
     return {"commit": commit, "dirty": None if status is None else bool(status)}
 
 
-def run(cases_dir: Path, out_dir: Path, seed: int, overwrite: bool = False) -> dict[str, Any]:
+def run(
+    cases_dir: Path, out_dir: Path, seed: int, overwrite: bool = False, timing: bool = False
+) -> dict[str, Any]:
     case_dirs = discover_case_dirs(cases_dir)
     if not case_dirs:
         raise CaseError(f"no cases found under {cases_dir} (looking for */case.json)")
@@ -103,8 +110,12 @@ def run(cases_dir: Path, out_dir: Path, seed: int, overwrite: bool = False) -> d
     out_dir.mkdir(parents=True, exist_ok=True)
     entries: list[dict[str, Any]] = []
     tool_meta: dict[str, Any] = {}
+    seconds_per_case: dict[str, float] = {}
     for case in cases:
+        started = time.perf_counter() if timing else None
         result = run_arm_a(case.inputs)
+        if started is not None:
+            seconds_per_case[case.id] = time.perf_counter() - started
         record = build_result(case, result)
         payload = dumps(record)
         (out_dir / case.id).mkdir(parents=True, exist_ok=True)
@@ -167,6 +178,18 @@ def run(cases_dir: Path, out_dir: Path, seed: int, overwrite: bool = False) -> d
         ),
     }
     (out_dir / "run.json").write_bytes(dumps(run_record))
+    if timing:
+        # Not part of the byte-identity guarantee: wall-clock time varies between runs
+        # by nature (machine load, cache state), unlike everything else this CLI writes.
+        (out_dir / "timing.json").write_bytes(
+            dumps(
+                {
+                    "schema": "codentry.eval.timing/1",
+                    "seconds_per_case": seconds_per_case,
+                    "total_seconds": sum(seconds_per_case.values()),
+                }
+            )
+        )
     return run_record
 
 
@@ -183,10 +206,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--overwrite", action="store_true", help="allow --out to already hold a run"
     )
+    parser.add_argument(
+        "--timing",
+        action="store_true",
+        help="also write timing.json (seconds per case; never affects run.json/result.json)",
+    )
     args = parser.parse_args(argv)
 
     try:
-        record = run(args.cases, args.out, args.seed, args.overwrite)
+        record = run(args.cases, args.out, args.seed, args.overwrite, args.timing)
     except CaseError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2

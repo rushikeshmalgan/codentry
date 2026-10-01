@@ -1,6 +1,6 @@
 # Codentry — 8-Day Implementation Plan Before Review
 
-**Written:** 24 September 2026. **Status of this document:** a plan. **Days 1–3 have been implemented locally (see their status notes; Day 3's human labeling step is still open); Days 4–8 have not been started.** Current state: [PROJECT_STATUS.md](PROJECT_STATUS.md). Research design: [research-design.md](research-design.md). Cost/hosting context: [FINAL_PRODUCT_AND_PRICING.md](FINAL_PRODUCT_AND_PRICING.md), [NO_COST_ALTERNATIVES.md](NO_COST_ALTERNATIVES.md).
+**Written:** 24 September 2026. **Status of this document:** a plan. **Days 1–3 have been implemented locally (see their status notes; Day 3's human labeling step is still open); Day 4's tooling is implemented and Day 5's gate has been checked (see their status notes); Days 6–8 have not been started.** Current state: [PROJECT_STATUS.md](PROJECT_STATUS.md). Research design: [research-design.md](research-design.md). Cost/hosting context: [FINAL_PRODUCT_AND_PRICING.md](FINAL_PRODUCT_AND_PRICING.md), [NO_COST_ALTERNATIVES.md](NO_COST_ALTERNATIVES.md).
 
 ## 0. Ground rules
 
@@ -166,6 +166,15 @@ Direction of dependency: `evaluation` may import `analysis`; `app`/`analysis` mu
 
 **Must NOT attempt today:** tuning Semgrep rules to raise recall on these cases (that is training on the test set — if the team wants to improve rules, split cases first and freeze a held-out set).
 
+**Status — implemented and run locally on 2 October 2026; not yet run in CI.**
+- **Delivered:** the full Arm A run over all 237 cases (`evaluation/reports/runs/arm-a-2026-10-02`; results SHA-256 `157afe6b…`), the identity-stability experiment, and the first report (`evaluation/reports/2026-10-02-arm-a.md` + `.json`). 236 of 237 cases completed; one (`mut-plimit-index-l10`) hit a Semgrep timeout and is excluded from every metric, not hidden.
+- **The headline numbers, exactly as the plan predicted:** recall at k=2 is **2/129 (1.6%, 95% CI 0.4–5.5%)** on mutation-seeded logic defects and **1/30 (3.3%, 95% CI 0.6–16.7%)** on real BugsJS bugs — a six-rule hand-written ruleset essentially cannot see semantic defects, which the plan called in advance ("expect low recall… that is a finding, not a failure"). Rule-aligned injections are **39/39 (100%)**, as expected by construction, and are reported in a separate stratum, never pooled with the above. On the 36 noise pull requests, 95.7% of findings on touched files were pre-existing (`existing`, not `new`) — most of what a naive whole-file review would have blamed on the change was already there.
+- **Identity stability:** of 877 real findings (from the real-defect and pull-request corpora) re-analyzed after a 3-line shift and after adding trailing whitespace to every line, **100% kept the same `identity_key` under both transformations** (0 vanished, 0 appeared). Expected given the ruleset has no whitespace-sensitive rules, but now verified on real tool output rather than asserted.
+- **Adjudication (task 2) is set up, not done.** Across the full run there are only **40 unmatched `new` findings** (well under the 150 cap), so the protocol's "all of them" rule applies. Excluding the 10 already used for calibration (Day 3), **30 items** are ready in `evaluation/labeling/calibration/main-01.items.json` with blank sheets in `evaluation/labeling/labels/main-01.labeler-*.csv`. Like Day 3's calibration round, this needs two independent human labelers — not done here, and must never be done by a model.
+- **Reproducibility:** `python -m evaluation.repro --run … --no-rerun --report-md … --report-json …` passes — the report regenerates byte-for-byte from the recorded run files. The *other* repro check (`evaluation.repro` without `--no-rerun`, which re-runs Arm A over all 237 cases a second time, ~75–90 minutes) was **not exercised on the full corpus** this session for time; it is exercised by the automated test suite on the two fast fixtures (`evaluation/tests/test_repro.py`), where it passes.
+- **Files added beyond the plan's list:** `evaluation/identity_stability.py` (and its test), `--timing` on `evaluation.run` (writes `timing.json`, never affecting the byte-identity-checked files), and `evaluation/labeling/items.py` gained a `--main-round` mode (unmatched-only, no per-case cap, excludes calibration items) to build the adjudication sample above.
+- **Known weaknesses already visible in the data:** both of the mutation logic stratum's 2 detections are `drop-guard` mutants (an early-exit `if` removed) caught only because the missing guard left dead code behind — `no-unused-vars` in one case, `no-empty` in the other — not because any rule understands "a guard was dropped here." Neither of the other six operators (relational/equality flip, `&&`/`||` swap, negate-condition, remove-await, off-by-one, constant-change) was detected even once across 129 cases. This is exactly the "location-only matching can be a coincidence" limitation the report states, now shown concretely.
+
 ---
 
 ## Day 5 — Minimal AI arm (GATED)
@@ -195,6 +204,8 @@ Direction of dependency: `evaluation` may import `analysis`; `app`/`analysis` mu
 
 **Alternative Day 5 (if the gate fails):** enlarge and adjudicate the noise-PR set, extend mutation operators, write the Arm A results section, and prepare the AI arm design + cost note as *future work* with the literature (change log) as motivation.
 
+**Status — checked 2 October 2026: the gate did not open; Alternative Day 5's design-and-cost-note deliverable was produced instead.** Of the four gate conditions, two were met (≥100 mutant cases: 169; ≥20 real-defect cases: 30) and two were not: no adjudication protocol is *in use* (the Day 3 protocol and sheets exist; nobody has labeled anything) and no Anthropic API key with a spending limit exists (checked for presence only; none configured). The Arm A report condition is now met (Day 4 completed later the same day: `evaluation/reports/2026-10-02-arm-a.md`, reproduces); it does not change the outcome, since the other two conditions still fail. [`AI_ARM_DESIGN_AND_COST.md`](AI_ARM_DESIGN_AND_COST.md) covers the alternative deliverable: the full Arm B design (inputs, evidence check, repeated runs, injection fixtures, scope boundary), and a cost estimate for Haiku 4.5 / Sonnet 5 / Opus 5.5 at pilot (30 cases × 3 runs, $1–10) and full-corpus (235 × 3, $7–70) scale, built from measured case sizes rather than guesses. No AI code, API key, or network call to a model provider exists anywhere in this repository. The noise-PR set was not enlarged and mutation operators were not extended; those remain open if the team wants to strengthen the alternative path further. Opening the real gate needs: the team to label the Day 3 calibration round and at least the Day 4 main adjudication round, and someone to provision a spending-capped API key.
+
 ---
 
 ## Day 6 — Arm C analysis + real GitHub/Supabase verification (Track G)
@@ -217,6 +228,8 @@ Direction of dependency: `evaluation` may import `analysis`; `app`/`analysis` mu
 **Risks:** account/permission delays; Render cold start vs GitHub's 10-second timeout (warm the service first); migration `0004` SQL errors (first live execution); Supabase project paused. **Mitigation:** the mocked end-to-end test remains the fallback and must be labeled as mocked.
 
 **Must NOT attempt today:** fixing production bugs found by the real run beyond what is needed to complete it (log them; fix on Day 7 if time remains); Vercel-side inbox.
+
+**Status — checked 2 October 2026.** `evaluation/runners/arm_c_union.py` is implemented and tested (16 tests): it computes, from two `evaluation.run` directories over the same case set, the per-stratum overlap matrix (only-A/only-B/both/neither), recall of each arm and their union with Wilson intervals, the exact McNemar test on the discordant counts, a phi-coefficient independence estimate, and pooled unmatched-findings-per-case for the union — scoped per `(case_id, group)` so same-named defect groups in different cases are never conflated. Since Arm B does not exist, running it without `--arm-b-run` writes the documented analysis *plan* rather than inventing a second arm's numbers — exactly the fallback this task specifies. **Track G was not attempted**: no GitHub App, Supabase project, Render or Vercel deployment exists, and none can be created without account access this assistant does not have. `docs/REAL_RUN_LOG.md` is the explicit "not done, because …" the acceptance criteria allow in that case, with the runbook steps and the raw-evidence table left for the team to fill in.
 
 ---
 
@@ -242,6 +255,8 @@ Direction of dependency: `evaluation` may import `analysis`; `app`/`analysis` mu
 **Acceptance criteria:** clean-checkout reproduction works from the documented commands; two full demo rehearsals without an unplanned intervention.
 
 **Must NOT attempt today:** new features, new datasets, new metrics, refactors.
+
+**Status — checked 2 October 2026.** `docs/DEMO.md` is drafted (task 1), with the Track-G row left for the team per `docs/REAL_RUN_LOG.md`. The `repro` command is documented in `evaluation/README.md` (task 2, partial); it points at the dated, hashed run named there (`evaluation/reports/runs/arm-a-2026-10-02`, results SHA-256 `157afe6b…`) and the dataset manifests each carry their own hashes already (`evaluation/datasets/manifest.json`, `bugsjs.json`, `noise_prs.json`) — no separate "freeze" step was needed beyond naming the run the evidence. **Not done:** getting CI green requires the team to push (explicit USER ACTION in the plan); the demo rehearsals and the backup recording are a human activity, not something to simulate.
 
 ---
 

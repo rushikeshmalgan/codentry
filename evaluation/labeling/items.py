@@ -27,8 +27,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from evaluation.metrics.matching import DEFAULT_TOLERANCE
+
 CONTEXT_LINES = 8
 PER_CASE_CAP = 3
+MAIN_ROUND_MAX = 150  # protocol.md: all unmatched findings if <= 150, else a seeded sample of 150
 LABELERS = ("a", "b")
 CSV_HEADER = ("item_id", "label", "note")
 
@@ -37,18 +40,36 @@ class ItemsError(ValueError):
     pass
 
 
-def reported_findings(results_dir: Path) -> list[dict[str, Any]]:
-    """Every `new` finding across a run, in a stable order, with its case and result path."""
+def reported_findings(
+    results_dir: Path, only_unmatched: bool = False, tolerance: int = DEFAULT_TOLERANCE
+) -> list[dict[str, Any]]:
+    """Every `new` finding across a run, in a stable order, with its case and result path.
+
+    With `only_unmatched`, only findings that hit no known defect at `tolerance` (the
+    ones adjudication is needed for; a matched finding already has ground truth behind it).
+    Every reported finding of an unlabeled case is unmatched by definition.
+    """
     out: list[dict[str, Any]] = []
     for result_path in sorted(results_dir.glob("*/result.json")):
         result = json.loads(result_path.read_bytes().decode("utf-8"))
         if result.get("status", "completed") != "completed":
             continue  # an incomplete analysis (e.g. a tool timeout) is not a sound source
+        keep = (
+            set(result["match"][str(tolerance)]["unmatched_finding_indices"])
+            if only_unmatched
+            else None
+        )
         for index, finding in enumerate(result["findings"]):
-            if finding["change_status"] == "new":
-                out.append({"case_id": result["case_id"], "index": index, "finding": finding,
-                            "arm": result["arm"]})
+            if finding["change_status"] != "new" or (keep is not None and index not in keep):
+                continue
+            out.append({"case_id": result["case_id"], "index": index, "finding": finding,
+                        "arm": result["arm"]})
     return out
+
+
+def item_signature(case_id: str, file: str, start_line: int, end_line: int, rule: str) -> tuple:
+    """What identifies a finding across rounds (keeps calibration items out of the main round)."""
+    return (case_id, file, start_line, end_line, rule)
 
 
 def code_context(cases_dir: Path, case_id: str, finding: dict[str, Any]) -> dict[str, Any]:
@@ -69,10 +90,25 @@ def code_context(cases_dir: Path, case_id: str, finding: dict[str, Any]) -> dict
 
 
 def build_items(
-    results_dir: Path, cases_dir: Path, round_id: str, count: int, seed: int
+    results_dir: Path,
+    cases_dir: Path,
+    round_id: str,
+    count: int | None,
+    seed: int,
+    *,
+    only_unmatched: bool = False,
+    per_case_cap: int | None = PER_CASE_CAP,
+    exclude: frozenset[tuple] = frozenset(),
 ) -> list[dict[str, Any]]:
-    candidates = reported_findings(results_dir)
-    if len(candidates) < count:
+    """`count=None`: everything available up to MAIN_ROUND_MAX (a seeded sample beyond that)."""
+    candidates = [
+        c for c in reported_findings(results_dir, only_unmatched)
+        if item_signature(c["case_id"], c["finding"]["file_path"], c["finding"]["start_line"],
+                          c["finding"]["end_line"], c["finding"]["title"]) not in exclude
+    ]
+    if count is None:
+        count = min(MAIN_ROUND_MAX, len(candidates))
+    if len(candidates) < count or count == 0:
         raise ItemsError(f"only {len(candidates)} reported findings available, need {count}")
     rng = random.Random(seed)
     rng.shuffle(candidates)
@@ -81,18 +117,19 @@ def build_items(
     for c in candidates:
         if len(chosen) == count:
             break
-        if per_case.get(c["case_id"], 0) >= PER_CASE_CAP:
+        if per_case_cap is not None and per_case.get(c["case_id"], 0) >= per_case_cap:
             continue
         per_case[c["case_id"]] = per_case.get(c["case_id"], 0) + 1
         chosen.append(c)
     if len(chosen) < count:
-        raise ItemsError(f"per-case cap {PER_CASE_CAP} leaves only {len(chosen)} of {count} items")
+        raise ItemsError(f"per-case cap {per_case_cap} leaves only {len(chosen)} of {count} items")
 
+    width = max(2, len(str(len(chosen))))
     items = []
     for position, c in enumerate(chosen, start=1):
         f = c["finding"]
         items.append({
-            "item_id": f"{round_id}-{position:02d}",
+            "item_id": f"{round_id}-{position:0{width}d}",
             "case_id": c["case_id"],
             "tool": f["source"],
             "rule": f["title"],
@@ -173,12 +210,28 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--results", type=Path, required=True, help="an evaluation.run output dir")
     parser.add_argument("--cases", type=Path, required=True)
     parser.add_argument("--round", required=True, help="e.g. calibration-01")
-    parser.add_argument("--count", type=int, default=10)
+    parser.add_argument("--count", type=int, default=None,
+                        help="items to draw (default 10; with --main-round: all up to 150)")
     parser.add_argument("--seed", type=int, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument(
+        "--main-round", action="store_true",
+        help="adjudication round: only UNMATCHED findings, no per-case cap, calibration "
+             "items excluded, all of them up to 150 (a seeded sample beyond that)",
+    )
     args = parser.parse_args(argv)
     try:
-        items = build_items(args.results, args.cases, args.round, args.count, args.seed)
+        if args.main_round:
+            exclude = frozenset(
+                item_signature(i["case_id"], i["file"], i["start_line"], i["end_line"], i["rule"])
+                for path in sorted((args.out / "calibration").glob("calibration-*.items.json"))
+                for i in json.loads(path.read_bytes().decode("utf-8"))
+            )
+            items = build_items(args.results, args.cases, args.round, args.count, args.seed,
+                                only_unmatched=True, per_case_cap=None, exclude=exclude)
+        else:
+            items = build_items(args.results, args.cases, args.round,
+                                10 if args.count is None else args.count, args.seed)
         for path in write_round(args.out, args.round, items):
             print(path)
     except (ItemsError, OSError, KeyError) as exc:

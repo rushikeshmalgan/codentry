@@ -1,0 +1,185 @@
+{
+  "analysis_meta": {
+    "base": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "differential": {
+      "diff_sources": {
+        "difflib": 1
+      },
+      "existing": 2,
+      "fixed": 0,
+      "moved": 0,
+      "new": 0,
+      "unclassified": 0
+    },
+    "head": {
+      "analysis_complete": true,
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "config_source": "baseline",
+      "eslint_status": "ok",
+      "eslint_version": "8.57.1",
+      "files_analyzed": 1,
+      "identity_version": 2,
+      "incomplete_reasons": [],
+      "overlay_dropped": [],
+      "overlay_sha256": null,
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_status": "ok",
+      "semgrep_version": "1.177.0",
+      "skipped_by_reason": {}
+    },
+    "incomplete_reasons": [],
+    "snapshot": {
+      "base_sha": "63bb627b99267577e85c117008e8d896103b69c6",
+      "changed_files_total": 1,
+      "files_selected": 1,
+      "head_sha": "d996501c087a3cecc5ce3e470106ebdb90657ca9",
+      "merge_base_sha": "63bb627b99267577e85c117008e8d896103b69c6",
+      "skipped_by_reason": {}
+    }
+  },
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "case_id": "bug-hessian.js-4",
+  "counts": {
+    "changed_lines": 1,
+    "existing": 2,
+    "findings": 2,
+    "fixed": 0,
+    "ground_truth_defects": 1,
+    "ground_truth_locations": 1,
+    "new": 0,
+    "reported": 0,
+    "reported_duplicates": 0,
+    "unclassified": 0
+  },
+  "error_code": null,
+  "findings": [
+    {
+      "base_start_line": 159,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "3c6239bebb124e003f24649151110f88619ef0df591315227050e0126f7e2b9f",
+      "description": "'offset' is assigned a value but never used.",
+      "end_line": 159,
+      "evidence_span": null,
+      "file_path": "lib/v1/encoder.js",
+      "identity_key": "3ab99a0eb48a29584902e784e5f943a76b705206c2d2b481fd5aeed802cded42",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 159,
+      "suggestion": null,
+      "title": "no-unused-vars"
+    },
+    {
+      "base_start_line": 471,
+      "category": "correctness",
+      "change_status": "existing",
+      "confidence": null,
+      "dedup_hash": "a864e0d6df0eb453664c46489aed93dba2d64a30d12a2e222136d02405a8fa67",
+      "description": "Do not access Object.prototype method 'hasOwnProperty' from target object.",
+      "end_line": 469,
+      "evidence_span": null,
+      "file_path": "lib/v1/encoder.js",
+      "identity_key": "62559f7764fd0b30114b6fd4b8e635711c1a33063873b91353496644c4d6e557",
+      "in_diff": false,
+      "moved": false,
+      "reasoning": null,
+      "severity": "high",
+      "source": "ESLINT",
+      "start_line": 469,
+      "suggestion": null,
+      "title": "no-prototype-builtins"
+    }
+  ],
+  "findings_per_changed_line": 0.0,
+  "ground_truth": [
+    {
+      "end_line": 302,
+      "file": "lib/v1/encoder.js",
+      "group": "bugsjs-hessian.js-4",
+      "kind": "correctness",
+      "provenance": "real_defect",
+      "start_line": 302
+    }
+  ],
+  "ground_truth_status": "labeled",
+  "match": {
+    "0": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "bugsjs-hessian.js-4"
+      ],
+      "precision": null,
+      "recall": 0.0,
+      "reported": 0,
+      "tolerance": 0,
+      "unmatched_finding_indices": []
+    },
+    "2": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "bugsjs-hessian.js-4"
+      ],
+      "precision": null,
+      "recall": 0.0,
+      "reported": 0,
+      "tolerance": 2,
+      "unmatched_finding_indices": []
+    },
+    "5": {
+      "defects": 1,
+      "detected": 0,
+      "detected_groups": [],
+      "detected_location_indices": [],
+      "exactly_located": 0,
+      "location_accuracy": null,
+      "locations": 1,
+      "matched_finding_indices": [],
+      "missed_groups": [
+        "bugsjs-hessian.js-4"
+      ],
+      "precision": null,
+      "recall": 0.0,
+      "reported": 0,
+      "tolerance": 5,
+      "unmatched_finding_indices": []
+    }
+  },
+  "reported_policy": "change_status == 'new'",
+  "schema": "codentry.eval.result/2",
+  "status": "completed",
+  "stratum": "real:bugsjs"
+}
