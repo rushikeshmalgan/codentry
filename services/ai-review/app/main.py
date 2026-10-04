@@ -80,6 +80,14 @@ app = FastAPI(
 
 app.include_router(internal_router)
 
+if settings.is_loose_environment:
+    # Demo-only, read-only endpoints that run the real analysis engine against
+    # the checked-in fixtures. Never registered outside development/test — a
+    # production deployment has no such route at all.
+    from app.routes_demo import router as demo_router
+
+    app.include_router(demo_router)
+
 
 @app.get("/health")
 async def health() -> dict:

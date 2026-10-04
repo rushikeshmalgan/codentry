@@ -1,0 +1,357 @@
+{
+  "generated_at": "2026-10-04T20:34:22.439267+00:00",
+  "source": "tests/test_security_poc.py + tests/test_scope_guards.py (run via scripts/generate_security_report.py)",
+  "counts": {
+    "total": 43,
+    "passed": 42,
+    "failed": 0,
+    "skipped": 1
+  },
+  "duration_seconds": 80.53,
+  "scenarios": [
+    {
+      "name": "test_poc_repo_eslintrc_js_is_never_executed",
+      "label": "Repo eslintrc js is never executed",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 7.207,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_repo_json_config_parser_is_never_loaded",
+      "label": "Repo json config parser is never loaded",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 7.431,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_repo_config_extends_relative_js_is_never_loaded",
+      "label": "Repo config extends relative js is never loaded",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 7.49,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_server_secrets_are_not_visible_to_repo_controlled_code",
+      "label": "Server secrets are not visible to repo controlled code",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 6.938,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_dash_prefixed_filename_is_data_not_an_option",
+      "label": "Dash prefixed filename is data not an option",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 7.182,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_option_smuggling_via_path_cannot_load_a_parser",
+      "label": "Option smuggling via path cannot load a parser",
+      "group": "security_poc",
+      "status": "skipped",
+      "duration_seconds": 0.001,
+      "skip_reason": "Windows strips the trailing dot of the directory name `--parser=.`; POSIX-only PoC (exercised by CI on ubuntu-latest)."
+    },
+    {
+      "name": "test_poc_unsafe_paths_never_reach_the_filesystem[../escape.js]",
+      "label": "Unsafe paths never reach the filesystem (../escape.js)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.001,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_unsafe_paths_never_reach_the_filesystem[a/../../escape.js]",
+      "label": "Unsafe paths never reach the filesystem (a/../../escape.js)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.001,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_unsafe_paths_never_reach_the_filesystem[..\\\\escape.js]",
+      "label": "Unsafe paths never reach the filesystem (..\\\\escape.js)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.001,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_unsafe_paths_never_reach_the_filesystem[/abs/escape.js]",
+      "label": "Unsafe paths never reach the filesystem (/abs/escape.js)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.001,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_unsafe_paths_never_reach_the_filesystem[C:escape.js]",
+      "label": "Unsafe paths never reach the filesystem (C:escape.js)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.001,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_unsafe_paths_never_reach_the_filesystem[\\\\\\\\server\\\\share\\\\escape.js]",
+      "label": "Unsafe paths never reach the filesystem (\\\\\\\\server\\\\share\\\\escape.js)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.002,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_unsafe_paths_never_reach_the_filesystem[nul\\x00.js]",
+      "label": "Unsafe paths never reach the filesystem (nul\\x00.js)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.002,
+      "skip_reason": null
+    },
+    {
+      "name": "test_unsafe_paths_are_skipped_and_reported_by_the_pipeline_not_analyzed",
+      "label": "Unsafe paths are skipped and reported by the pipeline not analyzed",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 7.14,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_absolute_path_cannot_write_outside_workspace[/]",
+      "label": "Absolute path cannot write outside workspace (/)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.002,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_absolute_path_cannot_write_outside_workspace[\\\\]",
+      "label": "Absolute path cannot write outside workspace (\\\\)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.002,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_control_files_are_not_materialized[.eslintrc]",
+      "label": "Control files are not materialized (.eslintrc)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.003,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_control_files_are_not_materialized[.eslintrc.js]",
+      "label": "Control files are not materialized (.eslintrc.js)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.003,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_control_files_are_not_materialized[.eslintrc.cjs]",
+      "label": "Control files are not materialized (.eslintrc.cjs)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.003,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_control_files_are_not_materialized[.eslintrc.json]",
+      "label": "Control files are not materialized (.eslintrc.json)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.003,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_control_files_are_not_materialized[.eslintrc.yml]",
+      "label": "Control files are not materialized (.eslintrc.yml)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.003,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_control_files_are_not_materialized[.eslintignore]",
+      "label": "Control files are not materialized (.eslintignore)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.003,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_control_files_are_not_materialized[.semgrepignore]",
+      "label": "Control files are not materialized (.semgrepignore)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.003,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_control_files_are_not_materialized[.semgrep.yml]",
+      "label": "Control files are not materialized (.semgrep.yml)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.003,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_control_files_are_not_materialized[eslint.config.js]",
+      "label": "Control files are not materialized (eslint.config.js)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.003,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_control_files_are_not_materialized[package.json]",
+      "label": "Control files are not materialized (package.json)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.003,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_control_files_are_not_materialized[tsconfig.json]",
+      "label": "Control files are not materialized (tsconfig.json)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.003,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_control_files_are_not_materialized[sub/dir/.eslintrc.js]",
+      "label": "Control files are not materialized (sub/dir/.eslintrc.js)",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 0.003,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_eslintignore_cannot_hide_findings",
+      "label": "Eslintignore cannot hide findings",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 7.08,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_semgrepignore_cannot_hide_findings",
+      "label": "Semgrepignore cannot hide findings",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 7.254,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_inline_eslint_disable_cannot_hide_findings",
+      "label": "Inline eslint disable cannot hide findings",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 6.902,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_inline_nosemgrep_cannot_hide_findings",
+      "label": "Inline nosemgrep cannot hide findings",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 7.036,
+      "skip_reason": null
+    },
+    {
+      "name": "test_poc_repo_config_cannot_disable_baseline_rules",
+      "label": "Repo config cannot disable baseline rules",
+      "group": "security_poc",
+      "status": "passed",
+      "duration_seconds": 6.785,
+      "skip_reason": null
+    },
+    {
+      "name": "test_no_ai_provider_sdk_is_imported_anywhere_in_production_code",
+      "label": "No ai provider sdk is imported anywhere in production code",
+      "group": "scope_guards",
+      "status": "passed",
+      "duration_seconds": 0.139,
+      "skip_reason": null
+    },
+    {
+      "name": "test_no_ai_sdk_is_a_declared_dependency",
+      "label": "No ai sdk is a declared dependency",
+      "group": "scope_guards",
+      "status": "passed",
+      "duration_seconds": 0.001,
+      "skip_reason": null
+    },
+    {
+      "name": "test_no_llm_endpoint_or_prompt_machinery_exists_in_production_code",
+      "label": "No llm endpoint or prompt machinery exists in production code",
+      "group": "scope_guards",
+      "status": "passed",
+      "duration_seconds": 0.078,
+      "skip_reason": null
+    },
+    {
+      "name": "test_the_claude_key_setting_is_declared_but_never_read_by_any_module",
+      "label": "The claude key setting is declared but never read by any module",
+      "group": "scope_guards",
+      "status": "passed",
+      "duration_seconds": 0.071,
+      "skip_reason": null
+    },
+    {
+      "name": "test_no_finding_can_be_produced_with_source_ai_by_the_pipeline",
+      "label": "No finding can be produced with source ai by the pipeline",
+      "group": "scope_guards",
+      "status": "passed",
+      "duration_seconds": 0.084,
+      "skip_reason": null
+    },
+    {
+      "name": "test_production_code_never_imports_the_evaluation_package",
+      "label": "Production code never imports the evaluation package",
+      "group": "scope_guards",
+      "status": "passed",
+      "duration_seconds": 0.156,
+      "skip_reason": null
+    },
+    {
+      "name": "test_evaluation_harness_depends_on_the_analysis_layer_only",
+      "label": "Evaluation harness depends on the analysis layer only",
+      "group": "scope_guards",
+      "status": "passed",
+      "duration_seconds": 0.373,
+      "skip_reason": null
+    },
+    {
+      "name": "test_github_write_surface_is_limited_to_minting_the_installation_token",
+      "label": "Github write surface is limited to minting the installation token",
+      "group": "scope_guards",
+      "status": "passed",
+      "duration_seconds": 0.143,
+      "skip_reason": null
+    },
+    {
+      "name": "test_no_approve_merge_or_review_submission_strings_in_production_code",
+      "label": "No approve merge or review submission strings in production code",
+      "group": "scope_guards",
+      "status": "passed",
+      "duration_seconds": 0.079,
+      "skip_reason": null
+    },
+    {
+      "name": "test_no_unrelated_products_have_crept_into_the_repository",
+      "label": "No unrelated products have crept into the repository",
+      "group": "scope_guards",
+      "status": "passed",
+      "duration_seconds": 0.802,
+      "skip_reason": null
+    }
+  ]
+}

@@ -1,0 +1,731 @@
+{
+  "adjudication": {
+    "note": "They need two independent human labelers (evaluation/labeling/protocol.md); that step is open.",
+    "status": "not_done"
+  },
+  "arm": "A",
+  "arm_label": "ESLint + Codentry baseline ruleset (6 rules) run with Semgrep 1.177.0",
+  "default_tolerance": 2,
+  "identity_stability": {
+    "files_examined": 107,
+    "files_used": [
+      "bug-eslint-212/lib/rules/indent.js",
+      "bug-express-15/lib/response.js",
+      "bug-express-16/lib/response.js",
+      "bug-express-24/lib/router/index.js",
+      "bug-express-26/lib/router/index.js",
+      "bug-express-4/lib/request.js",
+      "bug-express-5/lib/utils.js",
+      "bug-hessian.js-4/lib/v1/encoder.js",
+      "bug-hessian.js-9/lib/v1/decoder.js",
+      "bug-hexo-12/lib/hexo/post.js",
+      "bug-hexo-7/lib/plugins/helper/toc.js",
+      "bug-karma-9/lib/watcher.js",
+      "pr-axios-11082/tests/module/cjs/tests/helpers/cjs-added-types.ts",
+      "pr-axios-11082/tests/module/esm/tests/helpers/esm-added-types.ts",
+      "pr-axios-11249/docs/.vitepress/theme/index.ts",
+      "pr-fastify-6875/test/types/logger.tst.ts",
+      "pr-fastify-6901/test/types/fastify.tst.ts",
+      "pr-fastify-6940/fastify.js",
+      "pr-fastify-6940/test/close.test.js",
+      "pr-fastify-6949/test/internals/reply.test.js",
+      "pr-fastify-6963/test/types/route.tst.ts",
+      "pr-fastify-6965/test/404s.test.js",
+      "pr-fastify-6975/test/types/route.tst.ts",
+      "pr-fastify-7012/test/content-type-parser-async-context.test.js",
+      "pr-fastify-7018/lib/validation.js",
+      "pr-fastify-7018/test/internals/validation.test.js",
+      "pr-fastify-7039/lib/request.js",
+      "pr-fastify-7049/test/content-parser.test.js",
+      "pr-zod-6520/packages/zod/src/v4/core/api.ts",
+      "pr-zod-6520/packages/zod/src/v4/core/util.ts",
+      "pr-zod-6533/packages/zod/src/v4/classic/tests/assignability.test.ts",
+      "pr-zod-6533/packages/zod/src/v4/core/util.ts",
+      "pr-zod-6539/packages/zod/src/v4/classic/tests/assignability.test.ts",
+      "pr-zod-6539/packages/zod/src/v4/core/util.ts",
+      "pr-zod-6541/packages/zod/src/v4/core/json-schema-generator.ts",
+      "pr-zod-6541/packages/zod/src/v4/core/json-schema-processors.ts",
+      "pr-zod-6541/packages/zod/src/v4/core/to-json-schema.ts",
+      "pr-zod-6543/packages/zod/src/v4/classic/tests/error.test.ts",
+      "pr-zod-6543/packages/zod/src/v4/core/parse.ts",
+      "pr-zod-6548/packages/zod/src/v4/classic/tests/error.test.ts",
+      "pr-zod-6551/packages/zod/src/v4/classic/tests/validate.test.ts",
+      "pr-zod-6572/packages/zod/src/v4/classic/tests/cyclic-data.test.ts",
+      "pr-zod-6572/packages/zod/src/v4/core/memoizer.ts"
+    ],
+    "files_with_findings": 43,
+    "findings_before": 877,
+    "schema": "codentry.eval.identity_stability/1",
+    "shift_lines": 3,
+    "tools": {
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "eslint_version": "8.57.1",
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_version": "1.177.0"
+    },
+    "transforms": {
+      "line_shift": {
+        "after": 877,
+        "appeared": 0,
+        "appeared_by_rule": {},
+        "before": 877,
+        "stable": 877,
+        "stable_fraction": 1.0,
+        "vanished": 0,
+        "vanished_by_rule": {}
+      },
+      "trailing_whitespace": {
+        "after": 877,
+        "appeared": 0,
+        "appeared_by_rule": {},
+        "before": 877,
+        "stable": 877,
+        "stable_fraction": 1.0,
+        "vanished": 0,
+        "vanished_by_rule": {}
+      }
+    }
+  },
+  "limitations": [
+    "**Arm A is a small hand-written ruleset.** It is ESLint with Codentry's baseline config plus six Semgrep rules; results say nothing about Semgrep's registry rules or about static analysis in general.",
+    "**Location-only matching.** A finding \"hits\" a defect if it overlaps the defect's lines (widened by k). It cannot tell whether the finding describes the defect, so a hit can be a coincidence, and a finding that points at the defect from elsewhere is scored unmatched. Recall is shown for k = 0, 2 and 5; read the k = 0 row too.",
+    "**Mutants are a proxy for real faults.** Equivalence is unchecked, so some mutants may not change behavior; mutation logic edits are mostly not the kind of defect a lint rule can see.",
+    "**The rule-aligned stratum is favorable to Arm A by construction:** each injected line is a pattern one of Arm A's six rules targets. It is reported apart and must never be pooled with the others.",
+    "**Real-defect cases are reversed fixes, not natural pull requests,** taken from a public benchmark; some have no recorded failing test and rest on the dataset's manual validation alone (evaluation/datasets/bugsjs.json says which).",
+    "**Contamination.** Every source is a public project a language model may have seen; this affects only future AI arms, but it constrains what these cases can show.",
+    "**Small, clustered samples.** Cases from the same file or project are not independent, so the Wilson intervals (which assume independent trials) are narrower than the true uncertainty.",
+    "**Noise pull requests are selected mechanically** from repository history (squash-merge commits), including trivial ones; they measure volume, not correctness.",
+    "**No adjudication has been done.** Precision and false positives per pull request need two independent human labelers; that step is open and is not estimated here.",
+    "**Tool timeouts are recorded, not hidden.** A case whose analysis did not complete is excluded from the metrics and listed; it is never scored as a clean run."
+  ],
+  "provenance": {
+    "case_count": 237,
+    "case_manifest_sha256": "b16cd386b05049afb5d3249987cefa83def6889a6ffd78f60d791748f0857e5e",
+    "git": {
+      "commit": "7a500eae69e7645af4d83c836213034535b31572",
+      "dirty": true
+    },
+    "latency_measured": true,
+    "results_sha256": "157afe6b1fbf0f1ec266c5e2527eabb5c5c7eda56b76e794ffeb41251cab6ac0",
+    "status_counts": {
+      "completed": 236,
+      "partial": 1
+    },
+    "tools": {
+      "baseline_config_sha256": "0ef3935bce83147411551554e091d39cb83a9d076501628fbdff415b40ed13f1",
+      "eslint_version": "8.57.1",
+      "identity_version": 2,
+      "node_version": "v22.14.0",
+      "platform": "win32",
+      "python_version": "3.13.7",
+      "ruleset_sha256": "d248c1de44bd27b13bee21cea34b6936f2c2f15e0c8684bea1cedeff2c81aaaf",
+      "semgrep_version": "1.177.0"
+    }
+  },
+  "reported_policy": "change_status == 'new'",
+  "schema": "codentry.eval.report/1",
+  "strata": {
+    "fixture:clean-change": {
+      "case_ids": [
+        "fx-002-renamed-shifted-preexisting-eval"
+      ],
+      "cases": 1,
+      "completed": 1,
+      "excluded_incomplete": [],
+      "kind": "fixture"
+    },
+    "fixture:new-and-existing": {
+      "case_ids": [
+        "fx-001-new-eval-with-existing-noise"
+      ],
+      "cases": 1,
+      "completed": 1,
+      "excluded_incomplete": [],
+      "kind": "fixture"
+    },
+    "mutant:logic": {
+      "case_ids": [
+        "mut-minimist-index-l01",
+        "mut-minimist-index-l02",
+        "mut-minimist-index-l03",
+        "mut-minimist-index-l04",
+        "mut-minimist-index-l05",
+        "mut-minimist-index-l06",
+        "mut-minimist-index-l07",
+        "mut-minimist-index-l08",
+        "mut-minimist-index-l09",
+        "mut-minimist-index-l10",
+        "mut-ms-index-l01",
+        "mut-ms-index-l02",
+        "mut-ms-index-l03",
+        "mut-ms-index-l04",
+        "mut-ms-index-l05",
+        "mut-ms-index-l06",
+        "mut-ms-index-l07",
+        "mut-ms-index-l08",
+        "mut-ms-index-l09",
+        "mut-ms-index-l10",
+        "mut-plimit-index-l01",
+        "mut-plimit-index-l02",
+        "mut-plimit-index-l03",
+        "mut-plimit-index-l04",
+        "mut-plimit-index-l05",
+        "mut-plimit-index-l06",
+        "mut-plimit-index-l07",
+        "mut-plimit-index-l08",
+        "mut-plimit-index-l09",
+        "mut-plimit-index-l10",
+        "mut-pretry-index-l01",
+        "mut-pretry-index-l02",
+        "mut-pretry-index-l03",
+        "mut-pretry-index-l04",
+        "mut-pretry-index-l05",
+        "mut-pretry-index-l06",
+        "mut-pretry-index-l07",
+        "mut-pretry-index-l08",
+        "mut-pretry-index-l09",
+        "mut-pretry-index-l10",
+        "mut-semver-coerce-l01",
+        "mut-semver-coerce-l02",
+        "mut-semver-coerce-l03",
+        "mut-semver-coerce-l04",
+        "mut-semver-coerce-l05",
+        "mut-semver-coerce-l06",
+        "mut-semver-coerce-l07",
+        "mut-semver-coerce-l08",
+        "mut-semver-coerce-l09",
+        "mut-semver-coerce-l10",
+        "mut-semver-comparator-l01",
+        "mut-semver-comparator-l02",
+        "mut-semver-comparator-l03",
+        "mut-semver-comparator-l04",
+        "mut-semver-comparator-l05",
+        "mut-semver-comparator-l06",
+        "mut-semver-comparator-l07",
+        "mut-semver-comparator-l08",
+        "mut-semver-comparator-l09",
+        "mut-semver-comparator-l10",
+        "mut-semver-outside-l01",
+        "mut-semver-outside-l02",
+        "mut-semver-outside-l03",
+        "mut-semver-outside-l04",
+        "mut-semver-outside-l05",
+        "mut-semver-outside-l06",
+        "mut-semver-outside-l07",
+        "mut-semver-outside-l08",
+        "mut-semver-outside-l09",
+        "mut-semver-outside-l10",
+        "mut-uuid-v35-l01",
+        "mut-uuid-v35-l02",
+        "mut-uuid-v35-l03",
+        "mut-uuid-v35-l04",
+        "mut-uuid-v35-l05",
+        "mut-uuid-v35-l06",
+        "mut-uuid-v35-l07",
+        "mut-uuid-v35-l08",
+        "mut-uuid-v35-l09",
+        "mut-uuid-v35-l10",
+        "mut-uuid-v7-l01",
+        "mut-uuid-v7-l02",
+        "mut-uuid-v7-l03",
+        "mut-uuid-v7-l04",
+        "mut-uuid-v7-l05",
+        "mut-uuid-v7-l06",
+        "mut-uuid-v7-l07",
+        "mut-uuid-v7-l08",
+        "mut-uuid-v7-l09",
+        "mut-uuid-v7-l10",
+        "mut-validator-isdate-l01",
+        "mut-validator-isdate-l02",
+        "mut-validator-isdate-l03",
+        "mut-validator-isdate-l04",
+        "mut-validator-isdate-l05",
+        "mut-validator-isdate-l06",
+        "mut-validator-isdate-l07",
+        "mut-validator-isdate-l08",
+        "mut-validator-isdate-l09",
+        "mut-validator-isdate-l10",
+        "mut-validator-isean-l01",
+        "mut-validator-isean-l02",
+        "mut-validator-isean-l03",
+        "mut-validator-isean-l04",
+        "mut-validator-isean-l05",
+        "mut-validator-isean-l06",
+        "mut-validator-isean-l07",
+        "mut-validator-isean-l08",
+        "mut-validator-isean-l09",
+        "mut-validator-isean-l10",
+        "mut-validator-isfqdn-l01",
+        "mut-validator-isfqdn-l02",
+        "mut-validator-isfqdn-l03",
+        "mut-validator-isfqdn-l04",
+        "mut-validator-isfqdn-l05",
+        "mut-validator-isfqdn-l06",
+        "mut-validator-isfqdn-l07",
+        "mut-validator-isfqdn-l08",
+        "mut-validator-isfqdn-l09",
+        "mut-validator-isfqdn-l10",
+        "mut-validator-isstrongpassword-l01",
+        "mut-validator-isstrongpassword-l02",
+        "mut-validator-isstrongpassword-l03",
+        "mut-validator-isstrongpassword-l04",
+        "mut-validator-isstrongpassword-l05",
+        "mut-validator-isstrongpassword-l06",
+        "mut-validator-isstrongpassword-l07",
+        "mut-validator-isstrongpassword-l08",
+        "mut-validator-isstrongpassword-l09",
+        "mut-validator-isstrongpassword-l10"
+      ],
+      "cases": 130,
+      "cases_with_a_detected_defect": {
+        "n": 129,
+        "successes": 2,
+        "value": 0.015503875968992248,
+        "wilson95": [
+          0.004262070389691609,
+          0.054766631118911335
+        ]
+      },
+      "completed": 129,
+      "duplicates": {
+        "n": 5,
+        "successes": 0,
+        "value": 0.0,
+        "wilson95": [
+          0.0,
+          0.43448246478317465
+        ]
+      },
+      "excluded_incomplete": [
+        "mut-plimit-index-l10"
+      ],
+      "existing_share": {
+        "n": 94,
+        "successes": 89,
+        "value": 0.9468085106382979,
+        "wilson95": [
+          0.8814635102974011,
+          0.97706825131441
+        ]
+      },
+      "findings": {
+        "existing": 89,
+        "fixed": 0,
+        "new": 5,
+        "unclassified": 0
+      },
+      "kind": "labeled",
+      "latency_seconds": {
+        "max": 46.971249099995475,
+        "median": 15.704455599974608,
+        "n": 129,
+        "p90": 23.938489399995888
+      },
+      "location_accuracy": {
+        "n": 2,
+        "successes": 1,
+        "value": 0.5,
+        "wilson95": [
+          0.09453120573423074,
+          0.9054687942657693
+        ]
+      },
+      "matched_findings": 2,
+      "recall": {
+        "0": {
+          "n": 129,
+          "successes": 1,
+          "value": 0.007751937984496124,
+          "wilson95": [
+            0.0013697205909803736,
+            0.042603440141760214
+          ]
+        },
+        "2": {
+          "n": 129,
+          "successes": 2,
+          "value": 0.015503875968992248,
+          "wilson95": [
+            0.004262070389691609,
+            0.054766631118911335
+          ]
+        },
+        "5": {
+          "n": 129,
+          "successes": 2,
+          "value": 0.015503875968992248,
+          "wilson95": [
+            0.004262070389691609,
+            0.054766631118911335
+          ]
+        }
+      },
+      "reported": {
+        "changed_lines": 110,
+        "max_per_case": 2,
+        "mean_per_case": 0.03875968992248062,
+        "mean_per_case_bootstrap95": [
+          0.007751937984496124,
+          0.08527131782945736
+        ],
+        "median_per_case": 0,
+        "per_100_changed_lines": 4.545454545454546,
+        "total": 5
+      },
+      "unmatched_findings": 3
+    },
+    "mutant:rule-aligned": {
+      "case_ids": [
+        "mut-minimist-index-r01",
+        "mut-minimist-index-r02",
+        "mut-minimist-index-r03",
+        "mut-ms-index-r01",
+        "mut-ms-index-r02",
+        "mut-ms-index-r03",
+        "mut-plimit-index-r01",
+        "mut-plimit-index-r02",
+        "mut-plimit-index-r03",
+        "mut-pretry-index-r01",
+        "mut-pretry-index-r02",
+        "mut-pretry-index-r03",
+        "mut-semver-coerce-r01",
+        "mut-semver-coerce-r02",
+        "mut-semver-coerce-r03",
+        "mut-semver-comparator-r01",
+        "mut-semver-comparator-r02",
+        "mut-semver-comparator-r03",
+        "mut-semver-outside-r01",
+        "mut-semver-outside-r02",
+        "mut-semver-outside-r03",
+        "mut-uuid-v35-r01",
+        "mut-uuid-v35-r02",
+        "mut-uuid-v35-r03",
+        "mut-uuid-v7-r01",
+        "mut-uuid-v7-r02",
+        "mut-uuid-v7-r03",
+        "mut-validator-isdate-r01",
+        "mut-validator-isdate-r02",
+        "mut-validator-isdate-r03",
+        "mut-validator-isean-r01",
+        "mut-validator-isean-r02",
+        "mut-validator-isean-r03",
+        "mut-validator-isfqdn-r01",
+        "mut-validator-isfqdn-r02",
+        "mut-validator-isfqdn-r03",
+        "mut-validator-isstrongpassword-r01",
+        "mut-validator-isstrongpassword-r02",
+        "mut-validator-isstrongpassword-r03"
+      ],
+      "cases": 39,
+      "cases_with_a_detected_defect": {
+        "n": 39,
+        "successes": 39,
+        "value": 1.0,
+        "wilson95": [
+          0.9103331462924287,
+          1.0
+        ]
+      },
+      "completed": 39,
+      "duplicates": {
+        "n": 39,
+        "successes": 0,
+        "value": 0.0,
+        "wilson95": [
+          0.0,
+          0.08966685370757138
+        ]
+      },
+      "excluded_incomplete": [],
+      "existing_share": {
+        "n": 66,
+        "successes": 27,
+        "value": 0.4090909090909091,
+        "wilson95": [
+          0.2986741800934038,
+          0.5295081029999675
+        ]
+      },
+      "findings": {
+        "existing": 27,
+        "fixed": 0,
+        "new": 39,
+        "unclassified": 0
+      },
+      "kind": "labeled",
+      "latency_seconds": {
+        "max": 20.947740200004773,
+        "median": 15.57671950000804,
+        "n": 39,
+        "p90": 19.084233700006735
+      },
+      "location_accuracy": {
+        "n": 39,
+        "successes": 39,
+        "value": 1.0,
+        "wilson95": [
+          0.9103331462924287,
+          1.0
+        ]
+      },
+      "matched_findings": 39,
+      "recall": {
+        "0": {
+          "n": 39,
+          "successes": 39,
+          "value": 1.0,
+          "wilson95": [
+            0.9103331462924287,
+            1.0
+          ]
+        },
+        "2": {
+          "n": 39,
+          "successes": 39,
+          "value": 1.0,
+          "wilson95": [
+            0.9103331462924287,
+            1.0
+          ]
+        },
+        "5": {
+          "n": 39,
+          "successes": 39,
+          "value": 1.0,
+          "wilson95": [
+            0.9103331462924287,
+            1.0
+          ]
+        }
+      },
+      "reported": {
+        "changed_lines": 39,
+        "max_per_case": 1,
+        "mean_per_case": 1.0,
+        "mean_per_case_bootstrap95": [
+          1.0,
+          1.0
+        ],
+        "median_per_case": 1,
+        "per_100_changed_lines": 100.0,
+        "total": 39
+      },
+      "unmatched_findings": 0
+    },
+    "noise:pr": {
+      "case_ids": [
+        "pr-axios-11082",
+        "pr-axios-11087",
+        "pr-axios-11094",
+        "pr-axios-11095",
+        "pr-axios-11097",
+        "pr-axios-11109",
+        "pr-axios-11118",
+        "pr-axios-11125",
+        "pr-axios-11136",
+        "pr-axios-11152",
+        "pr-axios-11222",
+        "pr-axios-11249",
+        "pr-fastify-6719",
+        "pr-fastify-6875",
+        "pr-fastify-6901",
+        "pr-fastify-6940",
+        "pr-fastify-6949",
+        "pr-fastify-6963",
+        "pr-fastify-6965",
+        "pr-fastify-6975",
+        "pr-fastify-7012",
+        "pr-fastify-7018",
+        "pr-fastify-7039",
+        "pr-fastify-7049",
+        "pr-zod-5946",
+        "pr-zod-6520",
+        "pr-zod-6533",
+        "pr-zod-6539",
+        "pr-zod-6541",
+        "pr-zod-6543",
+        "pr-zod-6548",
+        "pr-zod-6551",
+        "pr-zod-6572",
+        "pr-zod-6576",
+        "pr-zod-6579",
+        "pr-zod-6620"
+      ],
+      "cases": 36,
+      "completed": 36,
+      "duplicates": {
+        "n": 37,
+        "successes": 11,
+        "value": 0.2972972972972973,
+        "wilson95": [
+          0.17489478649832013,
+          0.45783135911135653
+        ]
+      },
+      "excluded_incomplete": [],
+      "existing_share": {
+        "n": 852,
+        "successes": 815,
+        "value": 0.9565727699530516,
+        "wilson95": [
+          0.940715516504151,
+          0.9683313542469392
+        ]
+      },
+      "findings": {
+        "existing": 815,
+        "fixed": 25,
+        "new": 37,
+        "unclassified": 0
+      },
+      "kind": "unlabeled",
+      "latency_seconds": {
+        "max": 49.49171000000206,
+        "median": 22.22064970000065,
+        "n": 36,
+        "p90": 43.866336299979594
+      },
+      "reported": {
+        "changed_lines": 1653,
+        "max_per_case": 24,
+        "mean_per_case": 1.0277777777777777,
+        "mean_per_case_bootstrap95": [
+          0.1388888888888889,
+          2.5
+        ],
+        "median_per_case": 0,
+        "per_100_changed_lines": 2.2383545069570476,
+        "total": 37
+      }
+    },
+    "real:bugsjs": {
+      "case_ids": [
+        "bug-bower-2",
+        "bug-bower-3",
+        "bug-eslint-212",
+        "bug-eslint-290",
+        "bug-eslint-3",
+        "bug-eslint-311",
+        "bug-eslint-39",
+        "bug-eslint-67",
+        "bug-express-15",
+        "bug-express-16",
+        "bug-express-17",
+        "bug-express-24",
+        "bug-express-26",
+        "bug-express-4",
+        "bug-express-5",
+        "bug-express-9",
+        "bug-hessian.js-4",
+        "bug-hessian.js-9",
+        "bug-hexo-1",
+        "bug-hexo-12",
+        "bug-hexo-4",
+        "bug-hexo-7",
+        "bug-hexo-8",
+        "bug-karma-14",
+        "bug-karma-20",
+        "bug-karma-21",
+        "bug-karma-4",
+        "bug-karma-6",
+        "bug-karma-9",
+        "bug-shields-1"
+      ],
+      "cases": 30,
+      "cases_with_a_detected_defect": {
+        "n": 30,
+        "successes": 1,
+        "value": 0.03333333333333333,
+        "wilson95": [
+          0.005908590381612455,
+          0.1667039099140917
+        ]
+      },
+      "completed": 30,
+      "duplicates": {
+        "n": 3,
+        "successes": 0,
+        "value": 0.0,
+        "wilson95": [
+          0.0,
+          0.5614970317550454
+        ]
+      },
+      "excluded_incomplete": [],
+      "existing_share": {
+        "n": 25,
+        "successes": 22,
+        "value": 0.88,
+        "wilson95": [
+          0.7004420607907269,
+          0.9583318284955964
+        ]
+      },
+      "findings": {
+        "existing": 22,
+        "fixed": 6,
+        "new": 3,
+        "unclassified": 0
+      },
+      "kind": "labeled",
+      "latency_seconds": {
+        "max": 21.74919430000591,
+        "median": 15.977540399995632,
+        "n": 30,
+        "p90": 17.999498599994695
+      },
+      "location_accuracy": {
+        "n": 3,
+        "successes": 3,
+        "value": 1.0,
+        "wilson95": [
+          0.4385029682449546,
+          1.0
+        ]
+      },
+      "matched_findings": 3,
+      "recall": {
+        "0": {
+          "n": 30,
+          "successes": 1,
+          "value": 0.03333333333333333,
+          "wilson95": [
+            0.005908590381612455,
+            0.1667039099140917
+          ]
+        },
+        "2": {
+          "n": 30,
+          "successes": 1,
+          "value": 0.03333333333333333,
+          "wilson95": [
+            0.005908590381612455,
+            0.1667039099140917
+          ]
+        },
+        "5": {
+          "n": 30,
+          "successes": 1,
+          "value": 0.03333333333333333,
+          "wilson95": [
+            0.005908590381612455,
+            0.1667039099140917
+          ]
+        }
+      },
+      "reported": {
+        "changed_lines": 49,
+        "max_per_case": 3,
+        "mean_per_case": 0.1,
+        "mean_per_case_bootstrap95": [
+          0.0,
+          0.3
+        ],
+        "median_per_case": 0,
+        "per_100_changed_lines": 6.122448979591836,
+        "total": 3
+      },
+      "unmatched_findings": 0
+    }
+  }
+}
