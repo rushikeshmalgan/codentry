@@ -314,6 +314,11 @@ main.page {
   border-color: var(--border);
 }
 
+.badge.source.ai {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+}
+
 .pill {
   display: inline-flex;
   align-items: center;

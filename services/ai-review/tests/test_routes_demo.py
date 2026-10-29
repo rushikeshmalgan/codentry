@@ -13,7 +13,13 @@ def test_demo_fixtures_returns_the_real_fixture_source(client):
     assert resp.status_code == 200
     body = resp.json()
     ids = {f["id"] for f in body["fixtures"]}
-    assert ids == {"eslint_sample", "semgrep_sample", "clean_sample"}
+    assert ids == {
+        "eslint_sample",
+        "semgrep_sample",
+        "clean_sample",
+        "logic_sample",
+        "calc_pr_sample",
+    }
     for fixture in body["fixtures"]:
         assert fixture["source"]  # real file content, never empty
 

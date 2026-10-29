@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FindingCard, type Finding } from "./FindingCard";
+import { AiReviewPanel } from "./AiReviewPanel";
 
 type AnalyzeResult = {
   fixture: string;
@@ -22,6 +23,8 @@ const FIXTURE_OPTIONS = [
   { id: "eslint", label: "ESLint Sample" },
   { id: "semgrep", label: "Semgrep Sample" },
   { id: "clean", label: "Clean Sample" },
+  { id: "logic", label: "Logic Sample (semantic bugs, for the AI arm)" },
+  { id: "calc", label: "Calculator PR Sample" },
 ];
 
 type Phase = "idle" | "running" | "done" | "error";
@@ -140,6 +143,8 @@ export function AnalyzeDemo() {
               ))}
             </div>
           )}
+
+          <AiReviewPanel fixture={result.fixture} files={result.files} />
         </div>
       ) : null}
     </div>

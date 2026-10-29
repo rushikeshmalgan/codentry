@@ -29,24 +29,31 @@ router = APIRouter(prefix="/demo", tags=["demo"])
 
 FIXTURES_DIR = Path(__file__).resolve().parent.parent / "analysis" / "fixtures"
 
-FixtureId = Literal["all", "eslint", "semgrep", "clean"]
+FixtureId = Literal["all", "eslint", "semgrep", "clean", "logic", "calc"]
 
+# "logic" holds semantic bugs that ESLint/Semgrep are not expected to flag, and
+# "calc" is a small calculator pull request. Both are kept out of "all" so the
+# static-analysis "all" run stays the same three files.
 _FIXTURE_FILES: dict[str, list[str]] = {
     "all": ["eslint_sample.js", "semgrep_sample.js", "clean_sample.js"],
     "eslint": ["eslint_sample.js"],
     "semgrep": ["semgrep_sample.js"],
     "clean": ["clean_sample.js"],
+    "logic": ["logic_sample.js"],
+    "calc": ["calc_pr_sample.js"],
 }
 _FIXTURE_LABELS: dict[str, str] = {
     "eslint_sample.js": "ESLint Sample",
     "semgrep_sample.js": "Semgrep Sample",
     "clean_sample.js": "Clean Sample",
+    "logic_sample.js": "Logic Sample",
+    "calc_pr_sample.js": "Calculator PR Sample",
 }
 
 
 @router.get("/fixtures")
 async def list_fixtures() -> dict:
-    """The selectable fixtures, with their real source text (for the code viewer)."""
+    """Every fixture file, with its real source text (for the code viewer)."""
     return {
         "fixtures": [
             {
@@ -55,7 +62,7 @@ async def list_fixtures() -> dict:
                 "label": _FIXTURE_LABELS[name],
                 "source": (FIXTURES_DIR / name).read_text(encoding="utf-8"),
             }
-            for name in _FIXTURE_FILES["all"]
+            for name in _FIXTURE_LABELS
         ]
     }
 

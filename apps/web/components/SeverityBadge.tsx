@@ -6,5 +6,5 @@ export function SeverityBadge({ severity }: { severity: string }) {
 }
 
 export function SourceBadge({ source }: { source: string }) {
-  return <span className="badge source">{source}</span>;
+  return <span className={`badge source${source === "AI" ? " ai" : ""}`}>{source}</span>;
 }

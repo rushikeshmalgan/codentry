@@ -5,7 +5,7 @@ export type Finding = {
   source: string;
   category: string;
   severity: string;
-  confidence: number;
+  confidence?: number; // static findings have one; the AI arm reports none
   title: string;
   description: string;
   file_path: string;
