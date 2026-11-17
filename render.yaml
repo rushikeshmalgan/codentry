@@ -6,17 +6,15 @@
 services:
   - type: web
     name: codentry-ai-review
-    runtime: python
-    rootDir: services/ai-review
+    # Docker runtime: one image carrying Python (service + Semgrep) AND Node (ESLint).
+    # Render's native Python runtime was never confirmed to ship `node`, so the earlier
+    # buildCommand (`pip install ... && npm install`) was a guess; the image removes it.
+    # The Dockerfile's last stage is the production image. It is built and run locally
+    # (docs/PROJECT_STATUS.md), but NOT VERIFIED ON RENDER ITSELF.
+    runtime: docker
+    dockerfilePath: ./services/ai-review/Dockerfile
+    dockerContext: ./services/ai-review
     plan: free
-    # NOTE (Phase 3, unverified against a real Render deploy): ESLint needs
-    # Node.js. Render's Python native runtime is not confirmed here to have
-    # `node` preinstalled — if the build fails on the npm install step,
-    # either switch this service to Render's Node runtime and shell out to
-    # `python3` instead, or use a Dockerfile that installs both runtimes.
-    # Semgrep alone (pip-installed, no Node needed) still works either way.
-    buildCommand: pip install -r requirements.txt && cd analysis/eslint-baseline && npm install
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
       - key: ENVIRONMENT
@@ -26,7 +24,7 @@ services:
       # Secrets (GITHUB_APP_ID, GITHUB_PRIVATE_KEY, CODENTRY_INTERNAL_WEBHOOK_SECRET,
       # SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY) are set manually in the Render
       # dashboard, never committed here.
-      # Phase 0: with ENVIRONMENT=production the service REFUSES TO START unless
+      # With ENVIRONMENT=production the service REFUSES TO START unless
       # SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY and CODENTRY_INTERNAL_WEBHOOK_SECRET
       # are set (no in-memory fallback). Apply supabase/migrations/0001-0004 first.
       # There is no AI review, so no CLAUDE_API_KEY is needed.

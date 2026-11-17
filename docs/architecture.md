@@ -182,8 +182,11 @@ anticipates it; nothing constructs one (`tests/test_scope_guards.py`).
    flags, and are killed on timeout — but there is no container, seccomp, or
    network namespace. A tool vulnerability that escapes ESLint/Semgrep parsing
    could still touch the host filesystem and network. Mitigation is
-   defense-in-depth, not isolation. Run under an unprivileged user in a
-   throwaway container in any real deployment.
+   defense-in-depth, not isolation. `services/ai-review/Dockerfile` now runs the
+   service as an unprivileged user (uid 10001) with a read-only application
+   tree, and the CLI has been run in it with `--network none --read-only`
+   (VERIFIED LOCALLY); it is still not seccomp- or namespace-isolated, and it has
+   not been built on Render.
 3. **`SupabaseReviewStore` has never run against a live Postgres.** Claim and
    finalize race-safety are by construction (conditional updates); they are
    proven only for the in-memory store. `finalize` is four PostgREST calls, not
@@ -199,7 +202,10 @@ anticipates it; nothing constructs one (`tests/test_scope_guards.py`).
 6. **Secret redaction is pattern-based** and will miss bespoke token formats.
 7. **A single worker thread** processes one PR at a time; a large PR delays
    others. On a host that sleeps when idle the worker sleeps too.
-8. **Free-tier CPU/memory/cold-start behavior is unmeasured.**
+8. **Free-tier CPU/memory/cold-start behavior is unmeasured on Render.** A local
+   Docker proxy shows the cost: the same analysis CLI run is `completed` at
+   0.25 CPU (34 s) and `partial_failure` at 0.1 CPU (67 s, Semgrep over its 30 s
+   timeout). Treat Render free-tier runs as likely `partial` until measured.
 9. **POSIX-only PoC** (`--parser=./evil.js` smuggled through a directory named
    `--parser=.`) cannot run on Windows; it is exercised by CI on Ubuntu, which
    has not run yet.

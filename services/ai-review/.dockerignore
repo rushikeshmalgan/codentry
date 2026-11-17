@@ -1,0 +1,14 @@
+# Keep the build context small and keep secrets out of it.
+.venv/
+venv/
+**/node_modules/
+**/__pycache__/
+**/*.pyc
+.pytest_cache/
+.ruff_cache/
+.git/
+# Never send environment files into a build context.
+.env
+.env.*
+**/.env
+**/.env.*

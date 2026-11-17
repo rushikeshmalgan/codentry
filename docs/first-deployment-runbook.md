@@ -60,10 +60,13 @@ Full detail: `supabase/README.md`.
      doesn't exist yet.
 4. Wait for the deploy to finish. Note the service's public URL, e.g.
    `https://codentry-ai-review.onrender.com`.
-5. **Verify #1 (Node available):** check the build logs for the
-   `npm install` step (inside `analysis/eslint-baseline`) — confirm it
-   completed without error. This is the check you asked for; if it fails
-   here, see the fallback note in `docs/deployment.md`.
+5. **Verify #1 (Node available):** the service now builds from
+   `services/ai-review/Dockerfile`, which carries its own Node binary and the
+   pinned ESLint baseline, so there is no Node-on-Render question left. Check
+   that the build log shows the `npm ci` stage and the final image export
+   without error. (The image has been built and run locally; it has **never
+   been built on Render**.) Note the build and first-start durations for
+   `docs/deployment.md`.
 6. **Verify (health check):**
    `curl https://<your-render-url>/health` → should return
    `{"status":"ok",...}`.
@@ -128,7 +131,7 @@ request on the test repository you installed the App on, then work through
 
 | Your check | Where to look |
 |---|---|
-| Node/ESLint/Semgrep work on Render | Render build logs (Step 2.5) + the review run's final status not being `failed` with an eslint/semgrep error |
+| Node/ESLint/Semgrep work on Render | Render build logs (Step 2.5) + the review run's final status not being `failed` or `partial` with an eslint/semgrep error. A `partial` with a Semgrep timeout reason means the free-tier CPU is too slow for the 30 s Semgrep limit (see `docs/deployment.md`, "Free-tier CPU risk"). |
 | 30s timeout behavior | Only observable if a file is large/slow enough to trigger it — not expected on a normal PR; safe to skip unless you want to construct a pathological test file |
 | Real PR reaches the backend | GitHub App → Advanced → Recent Deliveries shows a 202 |
 | Changed files fetched via installation token | Render logs show `review_run_started` followed by `review_run_completed`/`failed` with a specific reason if auth failed |

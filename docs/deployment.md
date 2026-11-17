@@ -26,21 +26,47 @@ Two options:
 
 - **Blueprint**: use Render's "New Blueprint Instance", pointed at this
   repo's `render.yaml`. Render will create the `codentry-ai-review` web
-  service with the build/start commands already filled in.
-- **Manual**: create a new Web Service, root directory `services/ai-review`,
-  runtime Python 3, build command
-  `pip install -r requirements.txt && cd analysis/eslint-baseline && npm install`,
-  start command `uvicorn app.main:app --host 0.0.0.0 --port $PORT`, health
-  check path `/health`.
+  service on the **Docker runtime** (`services/ai-review/Dockerfile`, build
+  context `services/ai-review`).
+- **Manual**: create a new Web Service with runtime **Docker**, Dockerfile path
+  `./services/ai-review/Dockerfile`, Docker build context directory
+  `./services/ai-review`, health check path `/health`. No build or start command
+  is needed; the image's last stage starts `uvicorn` on `$PORT`.
 
-**Unverified (Phase 3):** ESLint needs Node.js, and this environment has no
-Render account to confirm `node` is preinstalled on Render's Python native
-runtime. If the build fails on the `npm install` step, the fallback is
-either a Dockerfile installing both runtimes, or Render's Node runtime
-shelling out to `python3` instead. Semgrep alone (pure pip install) works
-regardless — a repo without Node available would still get Semgrep findings,
-just no ESLint ones, which `analysis/static_analysis.py` already handles as
-a `partial` review run (tool failed), not a crash.
+**Why Docker.** ESLint needs Node.js and Semgrep needs Python, and Render's
+native Python runtime was never confirmed to ship `node`. The image contains
+both (Python 3.13 + the `node` binary + the pinned ESLint baseline installed
+with `npm ci`), runs as a non-root user (uid 10001), and keeps the application
+tree read-only for that user.
+
+**Status of the image (see `docs/PROJECT_STATUS.md`):** IMPLEMENTED, VERIFIED
+LOCALLY on Docker Desktop (Linux engine): the production image builds; the
+analysis CLI runs inside it with `--network none --read-only` and reports
+`completed` with 5 findings; the service test suite passes inside the `test`
+target (401 passed, 1 deselected — see the comment in the Dockerfile for why);
+a production-mode start without secrets refuses to start. **NOT VERIFIED ON
+RENDER**: no Render build has ever run, so the build time, image pull and
+cold-start numbers on Render are unknown.
+
+**Free-tier CPU risk (local proxy, not a Render measurement).** The same CLI
+run, repeated with Docker CPU limits, was `completed` down to 0.25 CPU (34 s)
+but `partial_failure` at 0.1 CPU (67 s): Semgrep exceeded the service's 30 s
+Semgrep timeout, so 2 of 5 findings were produced. Render's free instances get
+a small fraction of a CPU, so expect `partial` runs there until measured; the
+first real deploy should record the actual Semgrep duration.
+
+Local commands (run from `services/ai-review`):
+
+```
+docker build -t codentry-ai-review .                      # production image
+docker build --target test -t codentry-ai-review:test .   # image that can run pytest
+docker run --rm codentry-ai-review:test                   # service test suite
+docker run --rm --network none --read-only --tmpfs /tmp \
+  codentry-ai-review python -m analysis.run analysis/fixtures eslint_sample.js semgrep_sample.js
+```
+
+If either tool is unavailable at run time the review is recorded as `partial`
+(`analysis/static_analysis.py`), not a crash.
 
 Environment variables to set in the Render dashboard (not in `render.yaml`,
 so they're never committed):

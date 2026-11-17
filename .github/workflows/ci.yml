@@ -56,3 +56,28 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}/services/ai-review
         run: python -m pytest evaluation/tests -v
+
+  # The deployable artifact: the same Dockerfile Render builds. Builds the production
+  # image, runs the service tests inside the `test` target, and runs the analysis CLI
+  # in the production image with no network and a read-only root filesystem.
+  ai-review-image:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/ai-review
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build production image
+        run: docker build -t codentry-ai-review .
+      - name: Build test image
+        run: docker build --target test -t codentry-ai-review:test .
+      - name: Service tests inside the container
+        run: docker run --rm codentry-ai-review:test
+      - name: Analysis CLI in the production image (no network, read-only)
+        run: |
+          docker run --rm --network none --read-only --tmpfs /tmp \
+            codentry-ai-review python -m analysis.run analysis/fixtures eslint_sample.js semgrep_sample.js \
+            > "$RUNNER_TEMP/cli.json"
+          cat "$RUNNER_TEMP/cli.json"
+          grep -q '"overall_status": "completed"' "$RUNNER_TEMP/cli.json"
+          grep -q '"finding_count": 5' "$RUNNER_TEMP/cli.json"
