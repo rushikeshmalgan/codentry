@@ -86,14 +86,22 @@ def main() -> None:
             }
         )
 
+    total = int(suite.get("tests"))
+    failures = int(suite.get("failures"))
+    errors = int(suite.get("errors"))
+    skipped = int(suite.get("skipped"))
+
     report = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "source": "tests/test_security_poc.py + tests/test_scope_guards.py (run via scripts/generate_security_report.py)",
+        "source": (
+            "tests/test_security_poc.py + tests/test_scope_guards.py "
+            "(run via scripts/generate_security_report.py)"
+        ),
         "counts": {
-            "total": int(suite.get("tests")),
-            "passed": int(suite.get("tests")) - int(suite.get("failures")) - int(suite.get("errors")) - int(suite.get("skipped")),
-            "failed": int(suite.get("failures")) + int(suite.get("errors")),
-            "skipped": int(suite.get("skipped")),
+            "total": total,
+            "passed": total - failures - errors - skipped,
+            "failed": failures + errors,
+            "skipped": skipped,
         },
         "duration_seconds": round(float(suite.get("time", 0)), 2),
         "scenarios": scenarios,

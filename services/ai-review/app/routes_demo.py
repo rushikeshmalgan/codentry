@@ -74,7 +74,9 @@ async def analyze(fixture: FixtureId = "all") -> dict:
     sources = {name: (FIXTURES_DIR / name).read_text(encoding="utf-8") for name in filenames}
     findings = [f.model_dump(mode="json") for f in result.findings]
     severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
-    findings.sort(key=lambda f: (severity_order.get(f["severity"], 9), f["file_path"], f["start_line"]))
+    findings.sort(
+        key=lambda f: (severity_order.get(f["severity"], 9), f["file_path"], f["start_line"])
+    )
 
     return {
         "fixture": fixture,
