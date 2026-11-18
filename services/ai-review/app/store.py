@@ -1146,6 +1146,8 @@ class SupabaseReviewStore(ReviewStore):
         return {**result.data[0], "stale_event": False}
 
     def get_pull_request(self, pull_request_id: str) -> dict[str, Any] | None:
+        if not _is_row_id(pull_request_id):
+            return None
         result = (
             self._client.table("pull_requests")
             .select("*")
@@ -1412,6 +1414,8 @@ class SupabaseReviewStore(ReviewStore):
     def retry_review_run(
         self, review_run_id: str, now: datetime | None = None
     ) -> dict[str, Any] | None:
+        if not _is_row_id(review_run_id):
+            return None
         now = now or _now()
         result = (
             self._client.table("review_runs")
@@ -1438,6 +1442,8 @@ class SupabaseReviewStore(ReviewStore):
         return result.data[0] if result.data else None
 
     def get_review_run(self, review_run_id: str) -> dict[str, Any] | None:
+        if not _is_row_id(review_run_id):
+            return None
         result = (
             self._client.table("review_runs")
             .select("*")
@@ -1448,6 +1454,8 @@ class SupabaseReviewStore(ReviewStore):
         return result.data if result else None
 
     def list_review_runs_for_pull_request(self, pull_request_id: str) -> list[dict[str, Any]]:
+        if not _is_row_id(pull_request_id):
+            return []
         return (
             self._client.table("review_runs")
             .select("*")
@@ -1512,6 +1520,8 @@ class SupabaseReviewStore(ReviewStore):
         return result.data
 
     def get_findings_for_review_run(self, review_run_id: str) -> list[dict[str, Any]]:
+        if not _is_row_id(review_run_id):
+            return []
         result = (
             self._client.table("findings")
             .select("*")
@@ -1519,6 +1529,20 @@ class SupabaseReviewStore(ReviewStore):
             .execute()
         )
         return result.data
+
+
+def _is_row_id(value: str) -> bool:
+    """True if `value` can be a primary key of a Codentry table (all are uuid columns).
+
+    Ids reach the store from URLs (/internal/review-runs/{id}). Postgres rejects a
+    non-UUID in a uuid column (SQLSTATE 22P02), which postgrest-py raises as APIError;
+    a lookup must instead answer "not found", as InMemoryReviewStore does. Found by the
+    first run of the contract tests against a real database."""
+    try:
+        uuid.UUID(str(value))
+    except ValueError:
+        return False
+    return True
 
 
 def _is_unique_violation(exc: Exception) -> bool:

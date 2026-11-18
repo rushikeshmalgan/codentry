@@ -393,3 +393,18 @@ def test_job_context_joins_run_pull_request_repository_and_installation(store):
     assert ctx.installation["github_installation_id"] == 111
     assert ctx.pull_request["github_pr_number"] == 1
     assert store.get_job_context("no-such-run") is None
+
+
+@pytest.mark.parametrize("bad_id", ["no-such-run", "", "1; drop table review_runs", "%00"])
+def test_lookups_by_an_id_that_cannot_exist_report_not_found(store, bad_id):
+    """Ids reach the store from URLs (/internal/review-runs/{id}), so they can be any
+    string. Postgres rejects a non-UUID in a uuid column (SQLSTATE 22P02); found by the
+    first run against a real database. Every backend must answer "not found", which the
+    routes turn into a 404 instead of a 500."""
+    enqueue(store)  # a non-empty store, so "not found" is not trivially true
+    assert store.get_review_run(bad_id) is None
+    assert store.get_pull_request(bad_id) is None
+    assert store.get_job_context(bad_id) is None
+    assert store.get_findings_for_review_run(bad_id) == []
+    assert store.list_review_runs_for_pull_request(bad_id) == []
+    assert store.retry_review_run(bad_id) is None
