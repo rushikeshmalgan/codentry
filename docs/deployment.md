@@ -43,7 +43,9 @@ tree read-only for that user.
 LOCALLY on Docker Desktop (Linux engine): the production image builds; the
 analysis CLI runs inside it with `--network none --read-only` and reports
 `completed` with 5 findings; the service test suite passes inside the `test`
-target (401 passed, 1 deselected — see the comment in the Dockerfile for why);
+target (423 passed, 46 skipped, 1 deselected on 18 Nov 2026: the skips are the
+Supabase-backed contract tests, which need the local stack; the deselect is explained in
+the Dockerfile);
 a production-mode start without secrets refuses to start. **NOT VERIFIED ON
 RENDER**: no Render build has ever run, so the build time, image pull and
 cold-start numbers on Render are unknown.

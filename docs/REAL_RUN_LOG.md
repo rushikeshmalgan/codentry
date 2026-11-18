@@ -31,9 +31,15 @@ Render, or Vercel work together, and are not a substitute for Track G.
 
 ## How to run it (follow `docs/first-deployment-runbook.md` in order)
 
+The checks in the table below are scripted: follow `docs/track-g-checklist.md`, which runs
+`services/ai-review/scripts/track_g_check.py` and appends its tables to this file
+(`--markdown`). The steps here remain the context.
+
 1. **Supabase.** Create a project; apply migrations `0001`–`0004` in order via the SQL
-   Editor. Record any error **verbatim** (migration `0004` has never been run against a
-   live database before this).
+   Editor. Record any error **verbatim** (migration `0004` has been applied only to a
+   local Supabase stack so far, never to a hosted project). Then apply the Data API
+   lockdown once it has been reviewed (`docs/architecture.md` gap #10): until then the
+   project's anon key can read and change every table.
 2. **GitHub App.** Register it on a disposable test repository (not a real project).
 3. **Render.** Deploy `services/ai-review`; warm it (a cold start can exceed GitHub's
    10-second webhook timeout — hit `/api/status` once before opening the PR).

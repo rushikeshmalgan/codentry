@@ -129,7 +129,10 @@ Full detail: `docs/deployment.md`.
 
 ## Step 5 — Run the actual end-to-end verification
 
-This is where your original 8 checks get answered for real. Open a pull
+This is where your original 8 checks get answered for real. **Most of them are
+scripted:** follow `docs/track-g-checklist.md` (cold start, delivery, job,
+findings, redelivery dedup, Data API exposure), which appends its results to
+`docs/REAL_RUN_LOG.md`. For the rest, open a pull
 request on the test repository you installed the App on, then work through
 `docs/staging-test-phase2.md` section A ("End-to-end staging test") and
 `docs/static-analysis.md`'s failure-behavior section if anything comes back

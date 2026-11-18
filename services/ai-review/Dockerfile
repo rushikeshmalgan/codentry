@@ -64,6 +64,9 @@ USER root
 COPY requirements-dev.txt pyproject.toml ./
 RUN pip install -r requirements-dev.txt
 COPY tests ./tests
+# Operator scripts (e.g. scripts/track_g_check.py) have unit tests too; they are not
+# part of the production image.
+COPY scripts ./scripts
 USER codentry
 # -p no:cacheprovider: /app is not writable by the service user.
 # One test is deselected on purpose: test_scope_guards.py::test_evaluation_harness_depends_on_
