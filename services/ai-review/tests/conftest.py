@@ -26,6 +26,19 @@ def store():
     return InMemoryReviewStore()
 
 
+@pytest.fixture(params=["memory", "supabase"])
+def contract_store(request):
+    """The store contract, once per backend. A test module opts in by defining
+    `store` as this fixture (see test_store_state_machines.py). The `supabase` variant
+    runs only against a local stack and is reported as skipped otherwise."""
+    from tests.store_backends import SKIP_REASON, make_store
+
+    store = make_store(request.param)
+    if store is None:
+        pytest.skip(SKIP_REASON)
+    return store
+
+
 @pytest.fixture()
 def client(store):
     app.dependency_overrides[get_store] = lambda: store

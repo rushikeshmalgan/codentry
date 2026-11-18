@@ -1,8 +1,9 @@
 """The two durable state machines, against the store contract.
 
-These run against InMemoryReviewStore. SupabaseReviewStore implements the same
-contract with conditional updates, but has NOT been run against a live
-Postgres here — see docs/architecture.md "Not verified".
+Every test that takes `store` runs twice: against InMemoryReviewStore, and against
+SupabaseReviewStore over a real Postgres + PostgREST with supabase/migrations/0001-0004
+applied. The Supabase variant needs a local stack and is reported as skipped without
+one (docs/store-contract-tests.md); it never runs against a non-local database.
 """
 
 import threading
@@ -18,6 +19,12 @@ from tests.github_payloads import pull_request_payload
 from tests.job_helpers import claim, enqueue, now
 
 PAYLOAD = {"any": "payload"}
+
+
+@pytest.fixture()
+def store(contract_store):
+    """Run this module's tests against every store backend (tests/conftest.py)."""
+    return contract_store
 
 
 # =========================== webhook_deliveries ===============================
@@ -66,8 +73,7 @@ def test_a_stale_processing_delivery_is_reclaimed_after_the_lease(store):
     assert again.state == "reclaimed" and again.attempts == 2
 
 
-def test_concurrent_claims_of_one_delivery_produce_exactly_one_owner():
-    store = InMemoryReviewStore()
+def test_concurrent_claims_of_one_delivery_produce_exactly_one_owner(store):
     results = []
     barrier = threading.Barrier(8)
 
@@ -125,7 +131,12 @@ def test_sweeper_leaves_a_healthy_in_flight_delivery_alone(store):
 def test_sweeper_gives_up_after_max_attempts(store):
     payload = pull_request_payload()
     store.claim_delivery("d1", "pull_request", payload)
-    store._deliveries["d1"]["attempts"] = MAX_DELIVERY_ATTEMPTS
+    # Drive the attempt count up through the public API: each redelivery of a
+    # retryable delivery reclaims it with attempts + 1.
+    for _ in range(MAX_DELIVERY_ATTEMPTS - 1):
+        store.mark_delivery("d1", "retryable", "still broken")
+        assert store.claim_delivery("d1", "pull_request", payload).state == "reclaimed"
+    assert store.get_delivery("d1")["attempts"] == MAX_DELIVERY_ATTEMPTS
     store.mark_delivery("d1", "retryable", "still broken")
 
     counts = sweep_deliveries(store)
@@ -246,8 +257,7 @@ def test_no_job_is_ever_left_running_forever_by_a_dead_worker(store):
     assert stored["status"] == "failed" and stored["attempts"] == 3  # bounded, and terminal
 
 
-def test_concurrent_claims_give_a_job_to_exactly_one_worker():
-    store = InMemoryReviewStore()
+def test_concurrent_claims_give_a_job_to_exactly_one_worker(store):
     handle_pull_request_event(store, pull_request_payload(head_sha="h1"))
     winners = []
     barrier = threading.Barrier(8)

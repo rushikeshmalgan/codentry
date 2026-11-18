@@ -32,7 +32,18 @@ step with no credentials this repository can assume exist.
   merge-base SHA, attempts, lease/not-before `available_at`, `analysis_meta`,
   `error_code`, `partial`/`superseded` statuses, unique `(pull_request_id,
   head_sha)`), `pull_requests.github_updated_at`, and the finding identity /
-  differential columns. **Not yet run against a live Supabase project.**
+  differential columns. Applies cleanly to Postgres 17 in the local stack below;
+  **not yet run against a hosted Supabase project.**
+
+All four leave **row level security off**, so the anon key can read and change every
+table (`docs/architecture.md` gap #10). A fix is proposed, not applied.
+
+## Local stack (`config.toml`)
+
+`config.toml` defines a small local Supabase stack (Postgres 17, PostgREST, the API
+gateway, auth for the keys) used only by the store contract tests:
+`npx --yes supabase@2.122.1 start` applies these migrations to it. See
+`docs/store-contract-tests.md`. It is not a deployment configuration.
 
 ## What's intentionally not here yet
 

@@ -187,11 +187,12 @@ anticipates it; nothing constructs one (`tests/test_scope_guards.py`).
    tree, and the CLI has been run in it with `--network none --read-only`
    (VERIFIED LOCALLY); it is still not seccomp- or namespace-isolated, and it has
    not been built on Render.
-3. **`SupabaseReviewStore` has never run against a live Postgres.** Claim and
-   finalize race-safety are by construction (conditional updates); they are
-   proven only for the in-memory store. `finalize` is four PostgREST calls, not
-   one transaction; a lease expiring mid-finalize is handled (the newer attempt
-   replaces the findings) but is not proven against a live database.
+3. **`SupabaseReviewStore` has run only against a local Supabase stack**
+   (Postgres 17 + PostgREST, migrations 0001–0004; `docs/store-contract-tests.md`).
+   The full state-machine suite passes on it, and the claim races pass 5/5 repeated
+   rounds there: evidence, not proof, and not a hosted project. `finalize` is four
+   PostgREST calls, not one transaction; a lease expiring mid-finalize is handled
+   (the newer attempt replaces the findings) but that interleaving is not tested.
 4. **Real GitHub end-to-end has not been run.** No GitHub App, Supabase project,
    Render service, or Vercel deployment exists in this environment. The
    verification here is a local, mocked-GitHub run with real ESLint/Semgrep
@@ -207,5 +208,16 @@ anticipates it; nothing constructs one (`tests/test_scope_guards.py`).
    0.25 CPU (34 s) and `partial_failure` at 0.1 CPU (67 s, Semgrep over its 30 s
    timeout). Treat Render free-tier runs as likely `partial` until measured.
 9. **POSIX-only PoC** (`--parser=./evil.js` smuggled through a directory named
-   `--parser=.`) cannot run on Windows; it is exercised by CI on Ubuntu, which
-   has not run yet.
+   `--parser=.`) cannot run on Windows; it ran and passed in the Linux container
+   (VERIFIED LOCALLY); Ubuntu CI has not run it on the current branch yet.
+10. **The Supabase Data API is open to the anon key.** Migrations 0001–0004 leave row
+    level security off on all six tables and the `anon` role keeps the default table
+    privileges. Measured on the local stack: with only the anon key (which Supabase
+    treats as public) a caller can read webhook payloads, installations and review
+    runs, and insert, update and delete rows, including a `webhook_deliveries` row in
+    `retryable` state that the sweeper would process, bypassing the HMAC check and the
+    internal secret. `tests/test_data_api_exposure.py` documents it (strict xfail).
+    A proposed migration (enable RLS on every table, revoke anon/authenticated) was
+    measured locally: every anon request became 401 and the service-role store still
+    passed every contract test. It is **not applied**; it needs a team decision, and
+    it must land before any real deployment.

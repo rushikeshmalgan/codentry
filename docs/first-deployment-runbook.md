@@ -27,11 +27,17 @@ Total cost: $0 — every service used has a free tier sufficient for this.
    - `supabase/migrations/0002_github_app_bookkeeping.sql`
    - `supabase/migrations/0003_findings.sql`
    - `supabase/migrations/0004_durable_events_and_jobs.sql` (Phase 0: durable
-     webhook events + job queue; **not yet run against a live database** —
-     report any SQL error verbatim)
+     webhook events + job queue; applies cleanly to Postgres 17 in a **local**
+     Supabase stack, never yet to a hosted project — report any SQL error verbatim)
 5. Confirm in Table Editor that `installations`, `repositories`,
    `pull_requests`, `review_runs`, `webhook_deliveries`, and `findings` all
    exist (empty is fine — they just need to exist).
+6. **Stop before going further if the Data API lockdown is not merged.**
+   Migrations 0001–0004 leave row level security off, so the project's anon key
+   can read and change every Codentry table (`docs/architecture.md` gap #10; the
+   dashboard's security advisor may also flag it). Do not
+   connect a GitHub App to this project until a migration that closes the gap
+   has been reviewed and applied.
 
 Full detail: `supabase/README.md`.
 

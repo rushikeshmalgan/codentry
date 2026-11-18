@@ -81,3 +81,27 @@ jobs:
           cat "$RUNNER_TEMP/cli.json"
           grep -q '"overall_status": "completed"' "$RUNNER_TEMP/cli.json"
           grep -q '"finding_count": 5' "$RUNNER_TEMP/cli.json"
+
+  # The store contract against a REAL Postgres: a local Supabase stack (Postgres 17 +
+  # PostgREST, supabase/migrations applied by `supabase start`, see supabase/config.toml)
+  # and the state-machine suite run against both stores. docs/store-contract-tests.md.
+  store-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.122.1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "pip"
+          cache-dependency-path: services/ai-review/requirements-dev.txt
+      - run: pip install -r services/ai-review/requirements-dev.txt
+      - name: Start the local Supabase stack (applies migrations 0001-0004)
+        run: supabase start
+      - name: Store contract tests (in-memory + Supabase) and Data API exposure check
+        env:
+          SUPABASE_CLI: supabase
+          PYTHON: python
+        run: bash services/ai-review/scripts/run_store_contract_tests.sh -v

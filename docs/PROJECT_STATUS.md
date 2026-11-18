@@ -136,7 +136,7 @@ Two durable state machines (details and diagrams: [architecture.md](architecture
 - **Delivery** (`webhook_deliveries`): `processing → succeeded | failed | retryable`. Only `succeeded` is a duplicate. Payload stored; a sweeper reprocesses stuck deliveries; 5 attempts maximum.
 - **Review job** (`review_runs`): `pending → running → completed | partial | failed`, plus `superseded`; `running → pending` on lease expiry or a transient error; `failed → pending` only by manual retry. Unique per `(pull_request, head_sha)`. `attempts` is a fencing token. 3 attempts maximum.
 
-Proven for the **in-memory** store (`tests/test_store_state_machines.py`, 36 tests). The Supabase implementation uses conditional updates for the same contract and has **never run against a live Postgres**.
+`tests/test_store_state_machines.py` runs against **both** stores: the in-memory store and `SupabaseReviewStore` over a **local** Supabase stack (Postgres 17 + PostgREST, migrations 0001–0004 applied); see [store-contract-tests.md](store-contract-tests.md). VERIFIED LOCALLY on both backends (79 passed, 18 Nov 2026), including the 8-thread race tests repeated 5 times on real Postgres; NOT VERIFIED on a hosted Supabase project.
 
 ## 13. Review lifecycle (what happens to one pull request)
 
@@ -178,7 +178,7 @@ Events survive failures (reclaimed from stored payloads); jobs survive restarts 
 
 ## 21. Database architecture
 
-Migrations `0001`–`0004` in [supabase/migrations/](../supabase/migrations/). They parse with `sqlglot` (dialect `postgres`) but have **not been executed** against Postgres.
+Migrations `0001`–`0004` in [supabase/migrations/](../supabase/migrations/). They apply cleanly to a fresh Postgres 17 in a local Supabase stack (VERIFIED LOCALLY, [store-contract-tests.md](store-contract-tests.md)); they have never been applied to a hosted project. **They leave row level security off** and the `anon` role with table privileges (measured; gap #6 in §29).
 
 | Table | Purpose |
 |---|---|
@@ -249,9 +249,10 @@ AI/LLM review of any kind; posting comments or reviews to GitHub; approve/merge 
 
 1. **No Vercel-side webhook inbox.** Durability starts when the event reaches the backend. If Render is asleep or down, `apps/web` returns 502 and the event is stored nowhere Codentry controls; GitHub does not retry automatically; recovery is a manual "Redeliver".
 2. **Not a sandbox.** Scrubbed env + resource flags + process-tree kill, but no container/seccomp/network namespace.
-3. **`SupabaseReviewStore` and migration `0004` unexercised** against live Postgres; `finalize` is four PostgREST calls, not one transaction.
+3. **`SupabaseReviewStore` and migration `0004` exercised only against a local Supabase stack**, not a hosted project; `finalize` is four PostgREST calls, not one transaction.
 4. **No real end-to-end run** on any real service.
 5. **Basic auth** for the internal debug page is adequate for a team view only.
+6. **The Supabase Data API is open to the anon key** (see [architecture.md](architecture.md) gap #10): RLS is off on every table and `anon` holds table privileges, so the project's anon key can read webhook payloads and insert/update/delete rows, including deliveries the sweeper would process. Measured on the local stack; fix proposed, not applied.
 
 ## 30. Current deployment status
 
@@ -284,10 +285,11 @@ The **offline harness has produced its first real result.** Days 1–3 built the
 | Area | Status | Evidence | Notes |
 |---|---|---|---|
 | Webhook receiver (HMAC, allowlist, rate limit, honest 502) | IMPLEMENTED, VERIFIED LOCALLY | [webhook.test.ts](../apps/web/tests/webhook.test.ts), [github-webhook.test.ts](../apps/web/tests/github-webhook.test.ts) | Never received a real GitHub delivery. NOT VERIFIED IN PRODUCTION. |
-| Durable delivery state machine + sweeper | IMPLEMENTED, VERIFIED LOCALLY | [test_store_state_machines.py](../services/ai-review/tests/test_store_state_machines.py), [test_webhook_endpoint.py](../services/ai-review/tests/test_webhook_endpoint.py) | In-memory store only. |
-| Durable job queue (lease, fencing, backoff, supersede) | IMPLEMENTED, VERIFIED LOCALLY | [test_store_state_machines.py](../services/ai-review/tests/test_store_state_machines.py), [test_worker.py](../services/ai-review/tests/test_worker.py) | Supabase implementation unexercised. NOT VERIFIED IN PRODUCTION. |
-| `SupabaseReviewStore` | PARTIALLY IMPLEMENTED | [store.py](../services/ai-review/app/store.py) | Implemented to the same contract; never run against Postgres. |
-| Migrations 0001–0004 | PARTIALLY IMPLEMENTED | [supabase/migrations/](../supabase/migrations/) | Parse with sqlglot; not executed. |
+| Durable delivery state machine + sweeper | IMPLEMENTED, VERIFIED LOCALLY (in-memory and local Supabase stack) | [test_store_state_machines.py](../services/ai-review/tests/test_store_state_machines.py), [test_webhook_endpoint.py](../services/ai-review/tests/test_webhook_endpoint.py) | Endpoint tests still in-memory only. NOT VERIFIED IN PRODUCTION. |
+| Durable job queue (lease, fencing, backoff, supersede) | IMPLEMENTED, VERIFIED LOCALLY (in-memory and local Supabase stack) | [test_store_state_machines.py](../services/ai-review/tests/test_store_state_machines.py), [test_worker.py](../services/ai-review/tests/test_worker.py) | Race tests pass 5/5 rounds on local Postgres (evidence, not proof). Worker tests in-memory only. NOT VERIFIED IN PRODUCTION. |
+| `SupabaseReviewStore` | IMPLEMENTED, VERIFIED LOCALLY against a local Supabase stack | [store.py](../services/ai-review/app/store.py), [store-contract-tests.md](store-contract-tests.md) | First real-DB run found one defect (non-UUID ids raised instead of "not found"), fixed. Never run against a hosted project. NOT VERIFIED IN PRODUCTION. |
+| Migrations 0001–0004 | IMPLEMENTED, VERIFIED LOCALLY (apply cleanly to Postgres 17, local Supabase stack) | [supabase/migrations/](../supabase/migrations/) | Never applied to a hosted project. Leave RLS off (next row). |
+| Data API access control (RLS / anon privileges) | NOT IMPLEMENTED: open gap, measured | [test_data_api_exposure.py](../services/ai-review/tests/test_data_api_exposure.py) (strict xfail), [architecture.md](architecture.md) gap #10 | The anon key can read, insert, update and delete every Codentry table on the local stack. Proposed fix (enable RLS + revoke anon/authenticated) measured locally, **not applied**; needs a team decision before any deployment. |
 | Pinned, paginated GitHub snapshot | IMPLEMENTED, VERIFIED LOCALLY | [test_analysis_changed_files.py](../services/ai-review/tests/test_analysis_changed_files.py) | Mocked HTTP only; not real GitHub. |
 | Trusted-config policy (no PR config) | IMPLEMENTED, VERIFIED LOCALLY | [test_security_poc.py](../services/ai-review/tests/test_security_poc.py), [test_trusted_config.py](../services/ai-review/tests/test_trusted_config.py) | Executed proofs-of-concept on Windows; Ubuntu-only PoC not yet run. |
 | Subprocess isolation (env scrub, argv/path hardening) | IMPLEMENTED, VERIFIED LOCALLY | [test_subprocess_env.py](../services/ai-review/tests/test_subprocess_env.py), [test_security_poc.py](../services/ai-review/tests/test_security_poc.py) | NOT a sandbox. |

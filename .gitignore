@@ -39,3 +39,7 @@ venv/
 *.log
 .vscode/*
 !.vscode/extensions.json
+
+# Supabase CLI local state (store contract tests)
+supabase/.temp/
+supabase/.branches/

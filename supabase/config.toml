@@ -1,0 +1,58 @@
+# Local Supabase stack used ONLY for the store contract tests: a real Postgres with
+# supabase/migrations/0001-0004 applied, PostgREST, and the API gateway in front of it,
+# so services/ai-review's SupabaseReviewStore runs against the same kind of endpoint it
+# uses in production. See docs/store-contract-tests.md.
+#
+# Started with a pinned CLI version:  npx --yes supabase@2.122.1 start
+# Everything not needed by the store (storage, realtime, studio, mail, edge functions,
+# analytics) is disabled to keep the stack small: db + PostgREST + gateway + auth (keys).
+
+project_id = "codentry-store-contract"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+# `auto_expose_new_tables` is deliberately left unset: the CLI then matches the hosted
+# default (new public tables are reachable by the anon/authenticated/service_role API
+# roles without explicit GRANTs), which is what the anon-exposure check measures.
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 17
+
+[db.pooler]
+enabled = false
+
+[db.migrations]
+enabled = true
+
+[db.seed]
+enabled = false
+
+[realtime]
+enabled = false
+
+[studio]
+enabled = false
+
+[local_smtp]
+enabled = false
+
+[storage]
+enabled = false
+
+# Auth stays ON although Codentry has no users: without it the CLI issues no anon /
+# service_role keys and the API gateway stops checking keys at all, which would not match
+# a hosted project.
+[auth]
+enabled = true
+
+[edge_runtime]
+enabled = false
+
+[analytics]
+enabled = false
