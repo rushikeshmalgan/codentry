@@ -1,7 +1,7 @@
 """The two durable state machines, against the store contract.
 
 Every test that takes `store` runs twice: against InMemoryReviewStore, and against
-SupabaseReviewStore over a real Postgres + PostgREST with supabase/migrations/0001-0004
+SupabaseReviewStore over a real Postgres + PostgREST with supabase/migrations/0001-0005
 applied. The Supabase variant needs a local stack and is reported as skipped without
 one (docs/store-contract-tests.md); it never runs against a non-local database.
 """

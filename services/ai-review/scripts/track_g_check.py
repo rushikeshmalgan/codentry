@@ -11,7 +11,7 @@ docs/track-g-checklist.md). It answers, with observed values:
   - did exactly one review run per head commit happen, and how did it end?
   - which findings were stored, by change status?
   - after a GitHub "Redeliver": was the redelivery deduplicated (no second job)?
-  - is the Supabase Data API closed to the anon key (docs/architecture.md gap #10)?
+  - is the Supabase Data API closed to the anon key (migration 0005; architecture.md gap #10)?
 
 Read-only: it only sends GET requests. Credentials come from environment variables and
 are never printed or written: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, and optionally
@@ -406,7 +406,7 @@ class TrackG:
             "anon_data_api_closed",
             PASS if closed else FAIL,
             f"anon GET webhook_deliveries -> HTTP {response.status}",
-            "HTTP 401/403 (gap #10 closed on this project)",
+            "HTTP 401/403 (migration 0005 applied on this project)",
         )
 
 

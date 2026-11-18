@@ -26,5 +26,5 @@ services:
       # dashboard, never committed here.
       # With ENVIRONMENT=production the service REFUSES TO START unless
       # SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY and CODENTRY_INTERNAL_WEBHOOK_SECRET
-      # are set (no in-memory fallback). Apply supabase/migrations/0001-0004 first.
+      # are set (no in-memory fallback). Apply supabase/migrations/0001-0005 first (0005 closes the Data API to the anon key).
       # There is no AI review, so no CLAUDE_API_KEY is needed.

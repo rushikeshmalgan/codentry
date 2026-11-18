@@ -210,14 +210,16 @@ anticipates it; nothing constructs one (`tests/test_scope_guards.py`).
 9. **POSIX-only PoC** (`--parser=./evil.js` smuggled through a directory named
    `--parser=.`) cannot run on Windows; it ran and passed in the Linux container
    (VERIFIED LOCALLY); Ubuntu CI has not run it on the current branch yet.
-10. **The Supabase Data API is open to the anon key.** Migrations 0001–0004 leave row
-    level security off on all six tables and the `anon` role keeps the default table
-    privileges. Measured on the local stack: with only the anon key (which Supabase
-    treats as public) a caller can read webhook payloads, installations and review
-    runs, and insert, update and delete rows, including a `webhook_deliveries` row in
-    `retryable` state that the sweeper would process, bypassing the HMAC check and the
-    internal secret. `tests/test_data_api_exposure.py` documents it (strict xfail).
-    A proposed migration (enable RLS on every table, revoke anon/authenticated) was
-    measured locally: every anon request became 401 and the service-role store still
-    passed every contract test. It is **not applied**; it needs a team decision, and
-    it must land before any real deployment.
+10. **The Supabase Data API was open to the anon key; closed by migration 0005,
+    verified only locally.** Migrations 0001–0004 left row level security off on all
+    six tables with the `anon` role holding the default table privileges. Measured on
+    the local stack: with only the anon key (which Supabase treats as public) a caller
+    could read webhook payloads, installations and review runs, and insert, update and
+    delete rows, including a `webhook_deliveries` row in `retryable` state that the
+    sweeper would process, bypassing the HMAC check and the internal secret.
+    `0005_lock_down_data_api.sql` enables RLS on every table and revokes the anon /
+    authenticated privileges; on the local stack every anon read and write now gets
+    401 and the service-role store passes every contract test
+    (`tests/test_data_api_exposure.py`). `tests/test_migrations_rls.py` fails if a
+    future migration creates a table without enabling RLS. **NOT VERIFIED on a hosted
+    project:** confirm with `track_g_check.py`'s `anon_data_api_closed` check.

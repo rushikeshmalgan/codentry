@@ -1,15 +1,15 @@
-"""Can the project's anon key reach Codentry's tables through the Supabase Data API?
+"""The Supabase Data API stays closed to the project's anon key.
 
-Measured on the local Supabase stack (docs/store-contract-tests.md), with migrations
-0001-0004 applied: YES. Row level security is off on every Codentry table and the anon
-role holds table privileges, so anyone with the anon key (public by Supabase's design)
-can read webhook payloads, and insert, update or delete rows, including a
-`webhook_deliveries` row that the backend sweeper would then process without any HMAC
-or internal-secret check. See docs/architecture.md, known gap #10.
+Before migration 0005 it was open (measured on the local Supabase stack, see
+docs/store-contract-tests.md): row level security was off on every Codentry table and the
+anon role held table privileges, so anyone with the anon key (public by Supabase's
+design) could read webhook payloads and insert, update or delete rows, including a
+`retryable` webhook_deliveries row that the backend sweeper would then process without
+any HMAC or internal-secret check. Migration 0005 enables RLS and revokes the anon /
+authenticated privileges; these tests pin that, for reads and for every kind of write.
 
-These tests assert the SAFE behavior and are marked xfail(strict=True): today they
-document the gap; the day a migration closes it they fail loudly, so the marker must be
-removed in the same change. They need the local stack and skip without it.
+They need the local stack (services/ai-review/scripts/run_store_contract_tests.sh) and
+skip without it.
 """
 
 from __future__ import annotations
@@ -31,13 +31,11 @@ TABLES = (
     "webhook_deliveries",
     "findings",
 )
-KNOWN_GAP = (
-    "known gap: RLS is off and anon holds table privileges in migrations 0001-0004 "
-    "(docs/architecture.md gap #10); remove this marker when a migration closes it"
-)
+DENIED = (401, 403)
 
 
-def _clients() -> tuple[httpx.Client, httpx.Client]:
+@pytest.fixture()
+def clients():
     """(anon, service_role) clients for the local stack's Data API."""
     settings = supabase_test_settings()
     anon_key = os.environ.get(ANON_ENV, "").strip()
@@ -52,29 +50,73 @@ def _clients() -> tuple[httpx.Client, httpx.Client]:
             timeout=10,
         )
 
-    return client(anon_key), client(service_key)
+    with client(anon_key) as anon, client(service_key) as service:
+        yield anon, service
 
 
-@pytest.mark.xfail(strict=True, reason=KNOWN_GAP)
+@pytest.fixture()
+def delivery(clients):
+    """A real webhook_deliveries row, written by the service role, removed afterwards."""
+    _, service = clients
+    delivery_id = f"exposure-probe-{uuid.uuid4()}"
+    created = service.post(
+        "/webhook_deliveries",
+        json={"delivery_id": delivery_id, "event_type": "probe", "status": "succeeded"},
+    )
+    assert created.status_code == 201, created.text
+    yield delivery_id
+    service.delete("/webhook_deliveries", params={"delivery_id": f"eq.{delivery_id}"})
+
+
+def _event_type(service: httpx.Client, delivery_id: str) -> list[dict]:
+    response = service.get(
+        "/webhook_deliveries",
+        params={"delivery_id": f"eq.{delivery_id}", "select": "event_type"},
+    )
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
 @pytest.mark.parametrize("table", TABLES)
-def test_the_anon_key_cannot_read_a_codentry_table(table):
-    anon, service = _clients()
-    with anon, service:
-        response = anon.get(f"/{table}", params={"select": "id", "limit": "1"})
-    assert response.status_code in (401, 403), response.status_code
+def test_the_anon_key_cannot_read_a_codentry_table(clients, table):
+    anon, _ = clients
+    response = anon.get(f"/{table}", params={"select": "id", "limit": "1"})
+    assert response.status_code in DENIED, response.status_code
 
 
-@pytest.mark.xfail(strict=True, reason=KNOWN_GAP)
-def test_the_anon_key_cannot_insert_a_webhook_delivery():
+def test_the_service_role_still_reads_what_the_anon_key_cannot(clients, delivery):
+    """The lockdown must not lock out the backend (it uses the service_role key)."""
+    _, service = clients
+    assert _event_type(service, delivery) == [{"event_type": "probe"}]
+
+
+def test_the_anon_key_cannot_insert_a_webhook_delivery(clients):
+    anon, service = clients
     delivery_id = f"anon-insert-probe-{uuid.uuid4()}"
-    anon, service = _clients()
-    with anon, service:
-        try:
-            response = anon.post(
-                "/webhook_deliveries",
-                json={"delivery_id": delivery_id, "event_type": "probe", "status": "retryable"},
-            )
-        finally:
-            # Never leave a probe row behind for the sweeper, whatever the outcome.
-            service.delete("/webhook_deliveries", params={"delivery_id": f"eq.{delivery_id}"})
-    assert response.status_code in (401, 403), response.status_code
+    try:
+        response = anon.post(
+            "/webhook_deliveries",
+            json={"delivery_id": delivery_id, "event_type": "probe", "status": "retryable"},
+        )
+    finally:
+        # Never leave a probe row behind for the sweeper, whatever the outcome.
+        service.delete("/webhook_deliveries", params={"delivery_id": f"eq.{delivery_id}"})
+    assert response.status_code in DENIED, response.status_code
+
+
+def test_the_anon_key_cannot_update_a_row(clients, delivery):
+    anon, service = clients
+    response = anon.patch(
+        "/webhook_deliveries",
+        params={"delivery_id": f"eq.{delivery}"},
+        json={"event_type": "tampered"},
+    )
+    assert response.status_code in DENIED, response.status_code
+    assert _event_type(service, delivery) == [{"event_type": "probe"}]
+
+
+def test_the_anon_key_cannot_delete_a_row(clients, delivery):
+    anon, service = clients
+    response = anon.delete("/webhook_deliveries", params={"delivery_id": f"eq.{delivery}"})
+    assert response.status_code in DENIED, response.status_code
+    assert _event_type(service, delivery) == [{"event_type": "probe"}]

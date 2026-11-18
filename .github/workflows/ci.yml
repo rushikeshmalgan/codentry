@@ -98,7 +98,7 @@ jobs:
           cache: "pip"
           cache-dependency-path: services/ai-review/requirements-dev.txt
       - run: pip install -r services/ai-review/requirements-dev.txt
-      - name: Start the local Supabase stack (applies migrations 0001-0004)
+      - name: Start the local Supabase stack (applies migrations 0001-0005)
         run: supabase start
       - name: Store contract tests (in-memory + Supabase) and Data API exposure check
         env:

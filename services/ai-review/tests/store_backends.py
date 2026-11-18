@@ -2,7 +2,7 @@
 
 The same state-machine tests run against `InMemoryReviewStore` and, when a local Supabase
 stack is available, against `SupabaseReviewStore` over a real Postgres + PostgREST with
-supabase/migrations/0001-0004 applied (docs/store-contract-tests.md).
+supabase/migrations/0001-0005 applied (docs/store-contract-tests.md).
 
 Safety: the Supabase backend DELETES every row of the Codentry tables before each test,
 so it only ever runs against a local stack:

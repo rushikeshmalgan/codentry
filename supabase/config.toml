@@ -1,5 +1,5 @@
 # Local Supabase stack used ONLY for the store contract tests: a real Postgres with
-# supabase/migrations/0001-0004 applied, PostgREST, and the API gateway in front of it,
+# supabase/migrations/0001-0005 applied, PostgREST, and the API gateway in front of it,
 # so services/ai-review's SupabaseReviewStore runs against the same kind of endpoint it
 # uses in production. See docs/store-contract-tests.md.
 #

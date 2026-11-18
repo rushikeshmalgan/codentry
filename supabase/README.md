@@ -35,8 +35,14 @@ step with no credentials this repository can assume exist.
   differential columns. Applies cleanly to Postgres 17 in the local stack below;
   **not yet run against a hosted Supabase project.**
 
-All four leave **row level security off**, so the anon key can read and change every
-table (`docs/architecture.md` gap #10). A fix is proposed, not applied.
+- `0005_lock_down_data_api.sql` — enables row level security on every table and
+  revokes the anon/authenticated privileges. 0001–0004 had left RLS off, so the
+  project's anon key could read and change every table (`docs/architecture.md`
+  gap #10). The service-role key the backend uses is unaffected. Applies cleanly in
+  the local stack below; **not yet run against a hosted Supabase project.**
+
+**Rule for new tables:** enable RLS in the migration that creates the table;
+`services/ai-review/tests/test_migrations_rls.py` fails otherwise.
 
 ## Local stack (`config.toml`)
 

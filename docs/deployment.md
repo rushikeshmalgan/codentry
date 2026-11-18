@@ -109,12 +109,15 @@ worked around here.
 ## Supabase
 
 See `supabase/README.md` — project creation and migration application are
-manual steps, not part of this deployment doc. Four migrations exist so
+manual steps, not part of this deployment doc. Five migrations exist so
 far: `0001_enable_pgvector.sql`, `0002_github_app_bookkeeping.sql`,
-`0003_findings.sql`, and `0004_durable_events_and_jobs.sql`; apply all four, in
-order. **`0004` is required by the Phase 0 code** — without it the durable
-delivery/job columns do not exist and the store will error. It has not been
-run against a live database here.
+`0003_findings.sql`, `0004_durable_events_and_jobs.sql`, and
+`0005_lock_down_data_api.sql`; apply all five, in order. **`0004` is required by
+the Phase 0 code** — without it the durable delivery/job columns do not exist and
+the store will error. **`0005` is required before anything connects** — without it
+the project's anon key can read and change every table (`docs/architecture.md`
+gap #10). All five apply cleanly to a local Supabase stack
+(`docs/store-contract-tests.md`); none has been run against a hosted project.
 
 ## GitHub App
 

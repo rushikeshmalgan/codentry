@@ -21,23 +21,26 @@ Total cost: $0 — every service used has a free tier sufficient for this.
 3. In Project Settings → API, copy:
    - **Project URL** → this is `SUPABASE_URL`
    - **service_role key** (not the `anon` key) → this is `SUPABASE_SERVICE_ROLE_KEY`
-4. Apply the four migrations, in order, via the SQL Editor (paste each
-   file's contents and run it):
+4. Apply the five migrations, in order, via the SQL Editor (paste each
+   file's contents and run it). All five apply cleanly to Postgres 17 in a
+   **local** Supabase stack; none has been applied to a hosted project yet, so
+   report any SQL error verbatim:
    - `supabase/migrations/0001_enable_pgvector.sql`
    - `supabase/migrations/0002_github_app_bookkeeping.sql`
    - `supabase/migrations/0003_findings.sql`
    - `supabase/migrations/0004_durable_events_and_jobs.sql` (Phase 0: durable
-     webhook events + job queue; applies cleanly to Postgres 17 in a **local**
-     Supabase stack, never yet to a hosted project — report any SQL error verbatim)
+     webhook events + job queue)
+   - `supabase/migrations/0005_lock_down_data_api.sql` (**required before
+     anything connects:** enables row level security on every table and revokes
+     the anon/authenticated privileges; without it the project's anon key can
+     read and change every Codentry table, `docs/architecture.md` gap #10)
 5. Confirm in Table Editor that `installations`, `repositories`,
    `pull_requests`, `review_runs`, `webhook_deliveries`, and `findings` all
-   exist (empty is fine — they just need to exist).
-6. **Stop before going further if the Data API lockdown is not merged.**
-   Migrations 0001–0004 leave row level security off, so the project's anon key
-   can read and change every Codentry table (`docs/architecture.md` gap #10; the
-   dashboard's security advisor may also flag it). Do not
-   connect a GitHub App to this project until a migration that closes the gap
-   has been reviewed and applied.
+   exist (empty is fine — they just need to exist). Then confirm row level
+   security in the SQL Editor; every row must say `true`:
+   `select relname, relrowsecurity from pg_class where relnamespace = 'public'::regnamespace and relkind = 'r';`
+6. Once Render is up (Step 2), `track_g_check.py`'s `anon_data_api_closed` check
+   (`docs/track-g-checklist.md`) confirms the anon key is refused on this project.
 
 Full detail: `supabase/README.md`.
 

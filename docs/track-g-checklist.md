@@ -4,10 +4,10 @@
 (Supabase, Render, Vercel, GitHub App). The assistant creates no accounts and holds no
 credentials; everything below runs on your machine with your keys.
 
-**Blocked until a decision:** the runbook's Step 1.6 says not to connect a GitHub App to a
-Supabase project whose Data API is still open to the anon key (`docs/architecture.md`
-gap #10). Apply the reviewed lockdown migration first; the `anon_data_api_closed` check
-below confirms it on the real project.
+**Prerequisite:** the Supabase project has all five migrations, including
+`0005_lock_down_data_api.sql` (without it the anon key can read and change every table,
+`docs/architecture.md` gap #10). The `anon_data_api_closed` check below confirms it on
+the real project.
 
 The checks are scripted: `services/ai-review/scripts/track_g_check.py` (standard library
 only, read-only GET requests, credentials from environment variables, never printed).
@@ -90,6 +90,7 @@ the raw tables as they are; a failed check is recorded as failed, not summarized
 VERIFIED LOCALLY, not against real services: unit tests with a scripted fake of all three
 services (`tests/test_track_g_check.py`, including "no secret ever appears in the output");
 the database checks run against the local Supabase stack seeded through the service's own
-code path (all PASS; `anon_data_api_closed` FAIL, correctly, because gap #10 is open
-there); the Render checks run against the production image started locally. The Vercel
-checks have only run against the fake.
+code path (all PASS); `anon_data_api_closed` was FAIL on that stack with migrations
+0001–0004 (the gap was open, as measured) and PASS (HTTP 401) once 0005 was applied, so
+the check sees both states; the Render checks run against the production image started
+locally. The Vercel checks have only run against the fake.
